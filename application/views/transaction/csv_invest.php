@@ -17,13 +17,12 @@
                   <div class="table-responsive">
                     <table id="order-listing" class="table">
                       <thead>
-                        <tr><th>Sl No</th>
-                            <th>Ardb ID</th>
-                            <th>Return DT</th>                       
-                            <th>from fin yr</th>
-                            <th>to fin yr</th>
-                            <th>prv frm fin yr</th>
-                            <th>prv to fin yr</th>
+                        <tr>
+                            <th>Sl No</th>
+                            <th>year</th>
+                            <th>month</th>
+                            <th>return date</th>
+                            <th>Download</th>
                             <th>Option</th>
                         </tr>
                       </thead>
@@ -35,16 +34,22 @@
                                 ?>
                                 <tr>
                                     <td><?php echo ++$count; ?></td>
-                                    <td><?php echo $export->ardb_id; ?></td>
-                                    <td><?php echo date('d/m/Y',strtotime($export->return_dt)); ?></td>
+                                 
+                                    <td><?php echo date('Y',strtotime($export->return_dt)); ?></td>
+                                    <td><?php echo date('m',strtotime($export->return_dt)); ?></td>
+                                    <td><?php echo date('d',strtotime($export->return_dt)); ?></td>
                               
-                                    <td><?php echo $export->from_fin_yr; ?></td>
-                                    <td><?php echo $export->to_fin_yr; ?></td>
-                                    <td><?php echo $export->prv_frm_fin_yr; ?></td>
-                                    <td><?php echo $export->prv_to_fin_yr; ?></td>
-                                                                  <td><a href="<?php echo base_url()?>index.php/Csv_import/invest_delete/<?=$export->ardb_id;?>/<?=$export->return_dt;?>" title="Download">
-                                <i class="fa fa-trash" style="font-size:24px;"></i></a>
-                                    </td>  
+                             <td>
+
+                                   <a href="<?php echo base_url()?>index.php/Export/export_invest" title="Download">
+                                   <i class="fa fa-cloud-download" style="font-size:24px;"></i></a>
+                                   
+                                </td>
+                                <td><a href="<?php echo base_url()?>index.php/Csv_import/invest_delete/<?=$export->ardb_id;?>/<?=$export->return_dt;?>" title="Delete">
+                                <i class="fa fa-trash" style="font-size:24px;color:green"></i></a>
+                                    </td> 
+
+
                            
                               </tr>
                                 <?php

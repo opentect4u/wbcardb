@@ -19,11 +19,10 @@
                       <thead>
                         <tr><th>Sl No</th>
                            
-                            <th>Return DT</th>                       
-                            <th>Sc</th>
-                            <th>St</th>
-                            <th>Obc</th>
-                            <th>General</th>
+                            <th>year</th>
+                            <th>month</th>
+                            <th>return date</th>
+                            <th>Download</th>
                             <th>Option</th>
                         </tr>
                       </thead>
@@ -36,14 +35,17 @@
                                 <tr>
                                     <td><?php echo ++$count; ?></td>
                                    
-                                    <td><?php echo date('d/m/Y',strtotime($export->return_dt)); ?></td>
-                                    <td><?php echo $export->sc; ?></td>
-                                    <td><?php echo $export->st; ?></td>
-                                    <td><?php echo $export->obc; ?></td>
-                                    <td><?php echo $export->gen; ?></td>
+                                    <td><?php echo date('Y',strtotime($export->return_dt)); ?></td>
+                                     <td><?php echo date('m',strtotime($export->return_dt)); ?></td>
+                                      <td><?php echo date('d',strtotime($export->return_dt)); ?></td>
+                                  
+                                      <td>
+                                   <a href="<?php echo base_url()?>index.php/Export/export_invest" title="Download">
+                                   <i class="fa fa-cloud-download" style="font-size:24px;"></i></a>
                                    
+                                </td> 
                                <td><a href="<?php echo base_url()?>index.php/Csv_import/borrower_delete/<?=$export->ardb_id;?>/<?=$export->return_dt;?>" title="Download">
-                                <i class="fa fa-trash" style="font-size:24px;"></i></a>
+                                <i class="fa fa-trash" style="font-size:24px;color:green"></i></a>
                                     </td>
                               </tr>
                                 <?php

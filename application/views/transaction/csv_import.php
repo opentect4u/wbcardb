@@ -19,15 +19,11 @@
                       <thead>
                         <tr>
                           <th>Sr. No</th>
-              <th>ARDB_ID</th>
-              <th>Returned Dt</th>
-          <th>RD</th>
-          <th>FD</th>
-          <th>FLEXI</th>
-          <th>MIS</th>
-          <th>Option</th>
-
-         
+                          <th>year</th>
+                          <th>month</th>
+                          <th>return date</th>
+                          <th>Download</th>
+                          <th>Option</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -38,16 +34,24 @@
                                 ?>
                                 <tr>
                                     <td><?php echo ++$count; ?></td>
-                                    <td><?php echo $export->ardb_id; ?></td>
-                                    <td><?php echo date('d/m/Y',strtotime($export->week_dt)); ?></td>
-                                    <td><?php echo $export->rd; ?></td>
-                                    <td><?php echo $export->fd; ?></td>
-                                    <td><?php echo $export->flexi_sb; ?></td>
-                                    <td><?php echo $export->mis; ?></td>
+                                  <!--   <td><?php echo $export->ardb_id; ?></td> -->
+                                    <td><?php echo date('Y',strtotime($export->week_dt)); ?></td>
+                                 <td><?php echo date('m',strtotime($export->week_dt)); ?></td>
+                                 <td><?php echo date('d',strtotime($export->week_dt)); ?></td>
+                                  
+                                    <td>
+
+                                   <a href="<?php echo base_url()?>index.php/Export/export_csv" title="Download">
+                                   <i class="fa fa-cloud-download" style="font-size:24px;"></i></a>
                                    
-                                 <td><a href="<?php echo base_url()?>index.php/Csv_import/friday_delete/<?=$export->ardb_id;?>/<?=$export->week_dt;?>" title="Download">
-                                <i class="fa fa-trash" style="font-size:24px;"></i></a>
-                                    </td>
+                                </td> 
+                                 <td>
+
+                                  <a href="<?php echo base_url()?>index.php/Csv_import/friday_delete/<?=$export->ardb_id;?>/<?=$export->week_dt;?>" title="Delete">
+                                <i class="fa fa-trash" style="font-size:24px;color:green"></i></a>
+
+                                  </td>
+                              
                               </tr>
                                 <?php
                             }
