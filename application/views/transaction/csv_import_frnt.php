@@ -17,9 +17,8 @@
                   <div class="table-responsive">
                     <table id="order-listing" class="table">
                       <thead>
-                        <tr><th>Sl No</th>
-                           
-                            <th>Return DT</th>  
+                        <tr><th>Sl.No.</th>
+                            <th>Return DaTe</th>  
                              <th>Report Type</th>                       
                             <th>dmd frm fin yr</th>
                             <th>dmd to fin yr</th>

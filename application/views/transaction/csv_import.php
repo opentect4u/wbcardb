@@ -18,12 +18,12 @@
                     <table id="order-listing" class="table">
                       <thead>
                         <tr>
-                          <th>Sr. No</th>
-                          <th>year</th>
-                          <th>month</th>
+                          <th>Sl.No.</th>
+                          <!--<th>year</th>
+                          <th>month</th>-->
                           <th>return date</th>
                           <th>Download</th>
-                          <th>Option</th>
+                          <th>Delete</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -34,10 +34,10 @@
                                 ?>
                                 <tr>
                                     <td><?php echo ++$count; ?></td>
-                                  <!--   <td><?php echo $export->ardb_id; ?></td> -->
-                                    <td><?php echo date('Y',strtotime($export->week_dt)); ?></td>
-                                 <td><?php echo date('m',strtotime($export->week_dt)); ?></td>
-                                 <td><?php echo date('d',strtotime($export->week_dt)); ?></td>
+                                   
+                                    <!--<td><?php //echo date('Y',strtotime($export->week_dt)); ?></td>
+                                 <td><?php //echo date('m',strtotime($export->week_dt)); ?></td>-->
+                                 <td><?php echo date('d/m/Y',strtotime($export->week_dt)); ?></td>
                                   
                                     <td>
 

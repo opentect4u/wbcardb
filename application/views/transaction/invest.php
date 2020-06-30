@@ -13,7 +13,7 @@
                   <div class="row">
                     <div class="col-md-6">
                     <div class="form-group">
-                      <label for="exampleInputName1">Returned Date</label>
+                      <label for="exampleInputName1">Return Date</label>
                      <input type="date" name="week_dt" id="" value="" required/>
                     </div>
                    </div>

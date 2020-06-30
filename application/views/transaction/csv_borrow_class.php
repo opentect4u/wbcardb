@@ -17,13 +17,12 @@
                   <div class="table-responsive">
                     <table id="order-listing" class="table">
                       <thead>
-                        <tr><th>Sl No</th>
-                           
-                            <th>year</th>
-                            <th>month</th>
+                        <tr><th>Sl.No.</th>
+                            <!--<th>year</th>
+                            <th>month</th>-->
                             <th>return date</th>
                             <th>Download</th>
-                            <th>Option</th>
+                            <th>Delete</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -35,9 +34,9 @@
                                 <tr>
                                     <td><?php echo ++$count; ?></td>
                                    
-                                    <td><?php echo date('Y',strtotime($export->return_dt)); ?></td>
-                                     <td><?php echo date('m',strtotime($export->return_dt)); ?></td>
-                                      <td><?php echo date('d',strtotime($export->return_dt)); ?></td>
+                                    <!--<td><?php //echo date('Y',strtotime($export->return_dt)); ?></td>
+                                     <td><?php //echo date('m',strtotime($export->return_dt)); ?></td>-->
+                                      <td><?php echo date('d/m/Y',strtotime($export->return_dt)); ?></td>
                                   
                                       <td>
                                    <a href="<?php echo base_url()?>index.php/Export/export_invest" title="Download">
