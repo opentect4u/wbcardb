@@ -44,6 +44,18 @@
      
     }
 
+    function get_report_name($id){
+
+            $ci =& get_instance();
+            $ci->load->database();
+            $sql="SELECT * FROM md_report_type WHERE sl_no ='".$id."' ";
+            
+            $comp  =   $ci->db->query($sql)->row();
+        
+            return  $comp->report_type;
+     
+    }
+
 
 
 ?>

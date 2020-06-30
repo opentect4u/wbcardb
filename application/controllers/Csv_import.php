@@ -115,7 +115,7 @@ class Csv_import extends CI_Controller {
 		echo $output;
 	}
 
- function import(){
+ public function import(){
 
 	if($_SERVER['REQUEST_METHOD'] == "POST") {
           
@@ -149,7 +149,7 @@ class Csv_import extends CI_Controller {
 				  'fd'			             =>	$line[3],
 				  'flexi_sb'			     =>	$line[4],
 				  'mis'			             =>	$line[5],
-				   'other_dep'			     =>	$line[6],
+				  'other_dep'			     =>	$line[6],
 				  'ibsd'			         =>	$line[7],
 				  'total_dep_mob'	         =>	$line[8],
 				  'cash_in_hand'		     =>	$line[9],
@@ -159,7 +159,8 @@ class Csv_import extends CI_Controller {
 				  'wbcardb_remit_slr'	     =>	$line[13],
 				  'wbcardb_remit_slr_excess' =>	$line[14],
 				  'total_fund_deploy' 	     =>	$line[15],
-				  'uploaded_by'              => $this->session->userdata['login']->user_id,
+				  'ibsd_as'                  => $line[16],
+				  'uploded_by'               => $this->session->userdata['login']->user_id,
 				  'uploaded_dt'              => date("Y-m-d H:i:s")
                         
 		              	);

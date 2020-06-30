@@ -33,16 +33,13 @@
                                 ?>
                                 <tr>
                                     <td><?php echo ++$count; ?></td>
-                                   
-                                    <!--<td><?php //echo date('Y',strtotime($export->return_dt)); ?></td>
-                                     <td><?php //echo date('m',strtotime($export->return_dt)); ?></td>-->
-                                      <td><?php echo date('d/m/Y',strtotime($export->return_dt)); ?></td>
+                                    <td><?php echo date('d/m/Y',strtotime($export->return_dt)); ?></td>
                                   
-                                      <td>
-                                   <a href="<?php echo base_url()?>index.php/Export/export_invest" title="Download">
+                                    <td>
+                                   <a href="<?php echo base_url()?>index.php/Export/export_borrow" title="Download">
                                    <i class="fa fa-cloud-download" style="font-size:24px;"></i></a>
+                                   </td> 
                                    
-                                </td> 
                                <td><a href="<?php echo base_url()?>index.php/Csv_import/borrower_delete/<?=$export->ardb_id;?>/<?=$export->return_dt;?>" title="Download">
                                 <i class="fa fa-trash" style="font-size:24px;color:green"></i></a>
                                     </td>

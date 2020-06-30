@@ -71,7 +71,8 @@
             </a>
           </li>         
           
-           <li class="nav-item">
+           <li class="nav-item <?php if($this->uri->segment(1) == "csv_import" OR "csv_import_frnt") {
+                                        echo "active";}?>">
             <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
               <i class="mdi mdi-layers menu-icon"></i>
               <span class="menu-title">Upload</span>
@@ -80,10 +81,17 @@
             <div class="collapse" id="ui-advanced">
               <ul class="nav flex-column sub-menu">
                 
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('csv_import');?>">Friday Return </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('csv_import/frt_invest');?>">Fortnightly Investment </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('csv_import/frt_borrow_clas');?>">Borrower's Classification </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('csv_import_frnt');?>">Fortnightly Return </a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('csv_import');?>">Friday Return </a></li>
+                <li class="nav-item" style="display:none"><a class="nav-link" href="<?php echo site_url('csv_import/friday_upload');?>">Friday Return </a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('csv_import/frt_invest');?>">Fortnightly Investment </a></li>
+
+                <li class="nav-item" style="display:none"><a class="nav-link" href="<?php echo site_url('csv_import/upload_invest');?>">Friday Return </a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('csv_import/frt_borrow_clas');?>">Borrower's Classification </a></li>
+
+                <li class="nav-item" style="display:none"><a class="nav-link" href="<?php echo site_url('csv_import/friday_borrow');?>">Friday Return </a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('csv_import_frnt');?>">Fortnightly Return </a></li>
+
+                  <li class="nav-item" style="display:none"><a class="nav-link" href="<?php echo site_url('csv_import_frnt/forthnightly_upload');?>">Friday Return </a></li>
               </ul>
             </div>
           </li>

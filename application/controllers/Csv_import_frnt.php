@@ -7,7 +7,8 @@ class Csv_import_frnt extends CI_Controller {
 		parent::__construct();
 		$this->load->model('csv_import_model');
 		$this->load->model('Master');
-	   $this->load->library('csvimport');
+	    $this->load->library('csvimport');
+	    $this->load->helper('wbcardb');
 
 	    if(!isset($this->session->userdata['login']->user_id)){
             

@@ -1,0 +1,7 @@
+ARDB_Id,Return Dt ,From fin yr,To fin yr,Prv frm fin yr,Prv to fin yr,No acc closed,Prog brro memb,Farm sec case no,Farm sec amt,Non farm sec case no,Non farm sec amt,Housing sec case no,Housing sec amt,Other sec case no,Non sch inv case no,Non sch inv amt,Tot inv case no,Tot inv amt,Tot inv case no prv yr,Tot inv amt prv yr
+5,22/06/2020,2020,2021,2019,2020,50,100,20,12.22,1000,5263.25,50,523689.25,10,80,5269874,25,2545.21,50,5214569.25
+5,23/06/2020,2020,2021,2019,2020,2020,50,100,20,12,1000,5263,50,523689,4512,80,5269874,25,2545,50
+,,,,,,,,,,,,,,,,,,,,
+,Before Uploading File Header Must Be Deleted,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,

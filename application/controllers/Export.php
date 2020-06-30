@@ -9,6 +9,8 @@ class Export extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('export_m');
+        $this->load->helper('wbcardb');
+        $this->load->model('Master');
     }
 
 
@@ -23,7 +25,7 @@ class Export extends CI_Controller {
     public function export_csv() {
         $this->load->helper('csv');
         $export_arr = array();
-        $export_details = $this->export_m->get("td_fridy_rtn");
+        $export_details = $this->export_m->get("td_fridy_rtn",$this->session->userdata['login']->br_id);
         $title = array("ARDB_Id","Return Dt ", "RD", "FD", "FLEXI","MIS","OTH_DEP","IBSD","TOT_DEP_MOBILISD","CASH_IN_HND","OTH_BNK","IBSD_LOAN","DEP_LOAN","REMMIT_WBSCARDB","REMMIT_WBSCARDB_EXCESS","TOT_DEPLOY_FUND","IBSD");
         array_push($export_arr, $title);
         if (!empty($export_details)) {
@@ -32,13 +34,13 @@ class Export extends CI_Controller {
                 array_push($export_arr, array($export->ardb_id, $export->week_dt,$export->rd, $export->fd, $export->flexi_sb, $export->mis,$export->other_dep,$export->ibsd,$export->total_dep_mob,$export->cash_in_hand,$export->other_bank,$export->ibsd_loan,$export->dep_loan,$export->wbcardb_remit_slr,$export->wbcardb_remit_slr_excess,$export->total_fund_deploy,$export->ibsd_as));
             }
         }
-        convert_to_csv($export_arr, 'friday_rtn' . date('F d Y') . '.csv', ',');
+        convert_to_csv($export_arr, 'Friday_rtn' . date('F d Y') . '.csv', ',');
     }
 
     public function export_invest() {
         $this->load->helper('csv');
         $export_arr = array();
-        $export_details = $this->export_m->get("td_investment");
+        $export_details = $this->export_m->get("td_investment",$this->session->userdata['login']->br_id);
         $title = array("ARDB_Id","Return Dt ", "From fin yr", "To fin yr", "Prv frm fin yr","Prv to fin yr","No acc closed","Prog brro memb","Farm sec case no","Farm sec amt","Non farm sec case no","Non farm sec amt","Housing sec case no","Housing sec amt","Other sec case no","Non sch inv case no","Non sch inv amt","Tot inv case no","Tot inv amt","Tot inv case no prv yr","Tot inv amt prv yr");
         array_push($export_arr, $title);
         if (!empty($export_details)) {
@@ -60,13 +62,13 @@ class Export extends CI_Controller {
              ));
             }
         }
-        convert_to_csv($export_arr, 'friday_Investment' . date('F d Y') . '.csv', ',');
+        convert_to_csv($export_arr, 'Friday_Investment' . date('F d Y') . '.csv', ',');
     }
 
     public function export_borrow() {
         $this->load->helper('csv');
         $export_arr = array();
-        $export_details = $this->export_m->get("td_borrower_classification");
+        $export_details = $this->export_m->get("td_borrower_classification",$this->session->userdata['login']->br_id);
         $title = array("ARDB_Id","Return Dt ", "sc", "st", "obc","gen","total_1","marginal","small","big","sal_earner","bussiness","total_2","male","female","total_3");
         array_push($export_arr, $title);
         if (!empty($export_details)) {
@@ -86,6 +88,40 @@ class Export extends CI_Controller {
             }
         }
         convert_to_csv($export_arr, 'Friday_Borrower_Classification' . date('F d Y') . '.csv', ',');
+    }
+
+    public function export_forthnight() {
+
+
+        $this->load->helper('csv');
+        $export_arr = array();
+        $export_details = $this->export_m->get("td_fortnight",$this->session->userdata['login']->br_id);
+        $title = array("ARDB_Id","Return Dt ", "Report type", "Dmd frm fin yr", "Dmd to fin yr","Dmd prn od","Dmd prn cr","
+            Dmd prn tot","Dmd int od","Dmd int cr","Dmd int tot","Dot dmd","Col prn od","Col prn cr","Col prn adv"
+            ,"Col prn tot","Col int od","Col int cr","Col int tot","Tot colc","Recov per","Prv yr dmd prn","Prv yr dmd int","Prv yr dmd tot","Prv yr col prn","Prv yr col int","Prv yr col tot","Col per","Tot no ac dmd","Tot no ac od dmd","Tot no ac curr dmd","Tot no ac col","Tot no ac od col","Tot no ac curr col","Tot no ac prog","Tot no ac od prog","Tot no ac curr prog");
+        array_push($export_arr, $title);
+        if (!empty($export_details)) {
+            foreach ($export_details as $export) {
+                // $status = $employee->status == "A" ? "Active" : "Inactive";
+                array_push($export_arr, array($export->ardb_id,
+                 $export->return_dt,get_report_name($export->report_type),$export->dmd_frm_fin_yr,$export->dmd_to_fin_yr,$export->dmd_prn_od,$export->dmd_prn_cr,
+                 $export->dmd_prn_tot,$export->dmd_int_od,$export->dmd_int_cr,
+                 $export->dmd_int_tot,
+                 $export->tot_dmd,
+                 $export->col_prn_od,$export->col_prn_cr,$export->col_prn_adv,$export->col_prn_tot,$export->col_int_od,
+                 $export->col_int_cr,
+                 $export->col_int_tot,$export->tot_colc,$export->recov_per,$export->prv_yr_dmd_prn,$export->prv_yr_dmd_int,
+                 $export->prv_yr_dmd_tot,$export->prv_yr_col_prn,$export->prv_yr_col_int,$export->prv_yr_col_tot,
+                 $export->col_per,$export->tot_no_ac_dmd,$export->tot_no_ac_od_dmd,$export->tot_no_ac_curr_dmd,
+                 $export->tot_no_ac_col,$export->tot_no_ac_od_col,$export->tot_no_ac_curr_col,$export->tot_no_ac_prog,
+                 $export->tot_no_ac_od_prog,
+                 $export->tot_no_ac_curr_prog
+
+                ));
+
+            }
+        }
+        convert_to_csv($export_arr, 'Friday_Forthnight_Return' . date('F d Y') . '.csv', ',');
     }
 
 }
