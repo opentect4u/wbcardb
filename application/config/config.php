@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 
-$config['base_url'] = 'http://localhost/wbcardb';
+$config['base_url'] = 'https://opentech4u.co.in/wbcardb/branch/';
 
 $config['index_page'] = 'index.php';
 

@@ -8,7 +8,7 @@
                 <div class="card-body">
                   <div class="row"><div class="col-md-6"><h3 style="color:#4CAF50">Forthnightly Investment</h3> </div>
 
-                <div class="col-md-6"> <a href="<?=base_url()?>sample_file/Friday_Investment_sample.csv" style="float:left;color:#405189">Download Sample File To Be uploaded</a></div>
+                <div class="col-md-6"> <a href="<?=base_url()?>sample_file/Fortnightly Return Investment Sample.xlsx" style="float:left;color:#405189">Download Sample File To Be uploaded</a></div>
                   </div>
                   <br>
                 

@@ -1,8 +1,0 @@
-ARDB_Id,Return Dt ,Report type,Dmd frm fin yr,Dmd to fin yr,Dmd prn od,Dmd prn cr,"
-            Dmd prn tot",Dmd int od,Dmd int cr,Dmd int tot,Dot dmd,Col prn od,Col prn cr,Col prn adv,Col prn tot,Col int od,Col int cr,Col int tot,Tot colc,Recov per,Prv yr dmd prn,Prv yr dmd int,Prv yr dmd tot,Prv yr col prn,Prv yr col int,Prv yr col tot,Col per,Tot no ac dmd,Tot no ac od dmd,Tot no ac curr dmd,Tot no ac col,Tot no ac od col,Tot no ac curr col,Tot no ac prog,Tot no ac od prog,Tot no ac curr prog
-5,22/06/2020,Nab Farm,1,2020,2012,451,256.25,4155.25,457841,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-5,26/06/2020,Consolidated,2020,2012,451,256.25,4155.25,457841,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,Before Uploading File Header Must Be Deleted,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
