@@ -12,7 +12,7 @@ class Transactions extends CI_Controller {
         parent::__construct();
 
         //For Individual Functions
-        $this->load->model('Admin');
+        $this->load->model('ho/Admin');
 
         if(!isset($this->session->userdata['login']->user_id)){
             

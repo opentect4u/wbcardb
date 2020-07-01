@@ -97,7 +97,7 @@ class Admins extends CI_Controller {
 
             $user['branch_dtls'] = $this->Admin->f_get_particulars("mm_ardb_ho", NULL,NULL, 0);   
             $this->load->view('common/header');
-            $this->load->view("user/add",$user);
+            $this->load->view("ho/user/add",$user);
             $this->load->view('common/footer');
         }
         
@@ -179,7 +179,7 @@ class Admins extends CI_Controller {
 
         $this->Admin->f_delete('md_ardb_users', $where);
 
-        redirect("admin/user");
+        redirect("ho/admin/user");
 
     }
 

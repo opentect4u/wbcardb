@@ -7,7 +7,7 @@
                 <div class="col-12">
               <form method="POST" 
             id="form"
-            action="<?php echo site_url("Admins/user_edit");?>" >
+            action="<?php echo site_url("ho/Admins/user_edit");?>" >
                   <div class="col-md-6 container form-wraper" style="margin-left: 0px;">
 
                 <div class="form-header">

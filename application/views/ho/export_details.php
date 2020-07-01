@@ -50,7 +50,7 @@
                                     <td><?php echo $export->fd; ?></td>
                                     <td><?php echo $export->flexi_sb; ?></td>
                                    
-                                 <td><a href="<?php echo base_url()?>index.php/Transactions/f_fridayrtn_Excel/<?=$export->ardb_id;?>" title="Download">
+                                 <td><a href="<?php echo base_url()?>index.php/ho/Transactions/f_fridayrtn_Excel/<?=$export->ardb_id;?>" title="Download">
                                 <i class="fa fa-cloud-download" style="font-size:36px;"></i></a>
                                     </td>
                               </tr>

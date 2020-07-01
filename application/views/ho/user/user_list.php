@@ -2,7 +2,7 @@
         <div class="content-wrapper">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">   <small><a href="<?php echo site_url("Admins/f_user_add");?>" class="btn btn-primary" style="width: 100px;">Add</a></small>
+              <h4 class="card-title">   <small><a href="<?php echo site_url("ho/Admins/f_user_add");?>" class="btn btn-primary" style="width: 100px;">Add</a></small>
                 <span class="confirm-div" style="float:right; color:green;"></span></h4>
               <div class="row">
                 <div class="col-12">
