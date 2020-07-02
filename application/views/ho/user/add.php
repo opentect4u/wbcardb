@@ -16,22 +16,6 @@
                 
                 </div>
 
-               <!--  <div class="form-group row">
-
-         <label for="name" class="col-sm-3 col-form-label">User Type:</label>
-
-      <div class="col-sm-9">
-
-        <select class="form-control" id="user_type" name="user_type" required>
-             <option value="">Select</option>
-         <option value="U">Branch</option>
-         <option value="M">HO</option>
-         <option value="A">Administator</option>
-        </select>
-    
-         </div>
-
-         </div>  -->
 
           <div class="form-group row" id="br_cd" >
 

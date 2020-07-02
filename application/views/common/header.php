@@ -112,7 +112,7 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>         
-          
+        <!--   
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
               <i class="mdi mdi-layers menu-icon"></i>
@@ -122,23 +122,23 @@
             <div class="collapse" id="ui-advanced">
               <ul class="nav flex-column sub-menu">
                 <?php if( $_SESSION['user_type'] =="A"){?>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/export');?>">Friday Return</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/export_frnt_rtn');?>">Fortnightly Return</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/export');?>">Friday Return</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/export_frnt_rtn');?>">Fortnightly Return</a></li>
                 <?php } ?>
               </ul>
             </div>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-reports" aria-expanded="false" aria-controls="ui-reports">
               <i class="mdi mdi-layers menu-icon"></i>
-              <span class="menu-title">Friday Reports</span>
+              <span class="menu-title">Friday Return</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-reports">
               <ul class="nav flex-column sub-menu">
             
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/friday_ho');?>">Friday Ho</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/friday_ardb');?>">Friday Ardb</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/friday_ho');?>">Ho</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/friday_ardb');?>">Branch</a></li>
               
                </ul>
             </div>
@@ -152,8 +152,8 @@
             </a>
             <div class="collapse" id="ui-Borrower">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/borrower_ho');?>">Borrower consolidated</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/borrower_ardb');?>">Borrower ARDB</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/borrower_ho');?>">Ho</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/borrower_ardb');?>">Branch</a></li>
               </ul>
             </div>
           </li>
@@ -165,8 +165,8 @@
             </a>
             <div class="collapse" id="ui-Investment">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/investment_ho');?>">Investment consolidated</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/Investment_ardb');?>">Investment ARDB</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/investment_ho');?>">Ho</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/Investment_ardb');?>">Branch</a></li>
               </ul>
             </div>
           </li>
@@ -178,8 +178,8 @@
             </a>
             <div class="collapse" id="ui-fortnightly">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/fortnightly_ho');?>">Fortnightly consolidated</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/fortnightly_ardb');?>">Fortnightly ARDB</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/fortnightly_ho');?>">Ho</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/fortnightly_ardb');?>">Branch</a></li>
               </ul>
             </div>
           </li>

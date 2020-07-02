@@ -108,28 +108,32 @@ class Admins extends CI_Controller {
 
         if($_SERVER['REQUEST_METHOD'] == "POST") {
 
+
                 $data_array = array(
 
-                    "br_id"     =>  $this->input->post('br_id'),
+                     "password"     =>  password_hash($this->input->post('pass'),PASSWORD_DEFAULT),
 
-                    "user_name"   =>  $this->input->post('user_name'),
-
-                    "modified_by"   =>  $this->session->userdata['loggedin']['user_name'],
+                    "modified_by"   =>  $this->session->userdata['login']->user_id,
 
                     "modified_dt"   =>  date('Y-m-d h:i:s')
 
                 );
 
+              
             $where  =   array(
 
                 "user_id"     =>  $this->input->post('user_id')
             );
 
+
+
             $this->Admin->f_edit('md_users', $data_array, $where);
+
+           
 
             $this->session->set_flashdata('msg', 'Successfully edited!');
 
-            redirect('ho/admin/user');
+            redirect('ho/admins');
 
 
         }

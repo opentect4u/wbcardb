@@ -62,7 +62,7 @@
             </a>
           </li>         
           
-          <li class="nav-item">
+        <!--   <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
               <i class="mdi mdi-layers menu-icon"></i>
               <span class="menu-title">Download</span>
@@ -71,12 +71,12 @@
             <div class="collapse" id="ui-advanced">
               <ul class="nav flex-column sub-menu">
                 <?php if( $_SESSION['user_type'] =="A"){?>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('export');?>">Friday Return</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('export_frnt_rtn');?>">Fortnightly Return</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('export');?>">Friday Return</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('export_frnt_rtn');?>">Fortnightly Return</a></li>
                 <?php } ?>
               </ul>
             </div>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-reports" aria-expanded="false" aria-controls="ui-reports">
               <i class="mdi mdi-layers menu-icon"></i>

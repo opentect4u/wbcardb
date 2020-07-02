@@ -5,14 +5,12 @@
               <h4 class="card-title"> </h4>
               <div class="row">
                 <div class="col-12">
-              <form method="POST" 
-            id="form"
-            action="<?php echo site_url("ho/Admins/user_edit");?>" >
+              <form method="POST" id="form" action="<?php echo site_url("ho/admins/user_edit");?>" >
                   <div class="col-md-6 container form-wraper" style="margin-left: 0px;">
 
                 <div class="form-header">
                 
-                    <h4>User Update</h4>
+                    <h4>User Update  dfsff</h4>
                 </div>
 
             <input type="hidden" name="user_id" value="<?php echo $user_dtls->user_id; ?>">
@@ -22,7 +20,7 @@
 
       <div class="col-sm-9">
 
-        <select class="form-control" id="br_id" name="br_id" required >
+        <select class="form-control" id="br_id" name="br_id" required  disabled>
              <option value="">Select</option>
              <?php 
              foreach($branch_dtls as $branch){ ?> 
@@ -42,12 +40,29 @@
                     <div class="col-sm-9">
                     <input type="text"
                                 class="form-control required"
-                                name="user_name"
+                                name="user_name" readonly
                                 id="user_name" value="<?php echo $user_dtls->user_name; ?>"
                             />                        
                     </div>
 
                 </div> 
+
+                   <div class="form-group row">
+
+                    <label for="pass" class="col-sm-3 col-form-label">Password:</label>
+
+                    <div class="col-sm-9">
+
+                        <input  type="text"
+                                class="form-control"
+                                name="pass"
+                                id="pass"
+                                value="<?php //echo $user_dtls->password; ?>"
+                            >
+
+                    </div>
+
+                </div>
              
                 <div class="form-group row">
 
@@ -61,6 +76,7 @@
 
             </div>
                   
+                  </form>
                 </div>
               </div>
             </div>
