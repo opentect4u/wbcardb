@@ -8,6 +8,7 @@ class Main extends CI_Controller {
         parent:: __construct();
         
         $this->load->model('Process');
+        $this->load->model('Master');
 	}
 
 	public function index(){
@@ -64,8 +65,42 @@ class Main extends CI_Controller {
     public function login(){
 
 		if($this->session->userdata('login')){
+
+             $select     =   array("ifnull(count(ardb_id), 0) ardb_id");
+
+             $where = array("date_format(td_fridy_rtn.`week_dt`,'%Y-%m')" => date('Y-m'));
+
+             $wherei = array("date_format(td_investment.`return_dt`,'%Y-%m')" => date('Y-m'));
+             $nabfarm = array(
+                "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
+                 "report_type" => "2");
+             $nonanbfarm = array(
+                "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
+                 "report_type" => "3");
+             $sgh = array(
+                "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
+                 "report_type" => "4");
+             $nhb = array(
+                "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
+                 "report_type" => "5");
+             $nab = array(
+                "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
+                 "report_type" => "6");
+             $consolidated = array(
+                "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
+                 "report_type" => "1");
+
+            $data["firday"]       = $this->Master->get_particulars("td_fridy_rtn",$select,$where,1);
+            $data["invest"]       = $this->Master->get_particulars("td_investment",$select,$wherei,1);
+            $data["nabfarm"]      = $this->Master->get_particulars("td_fortnight",$select,$nabfarm,1);
+            $data["nonanbfarm"]   = $this->Master->get_particulars("td_fortnight",$select,$nonanbfarm,1);
+            $data["sgh"]          = $this->Master->get_particulars("td_fortnight",$select,$sgh,1);
+            $data["nhb"]          = $this->Master->get_particulars("td_fortnight",$select,$nhb,1);
+            $data["nab"]          = $this->Master->get_particulars("td_fortnight",$select,$nab,1);
+            $data["consolidated"] = $this->Master->get_particulars("td_fortnight",$select,$consolidated,1);
+
             $this->load->view('common/header');
-            $this->load->view('ho/dashboard/dashboard');
+            $this->load->view('ho/dashboard/dashboard',$data);
             $this->load->view('common/footer');
 
 		}else{
