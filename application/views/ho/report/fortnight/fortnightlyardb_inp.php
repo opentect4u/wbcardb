@@ -8,7 +8,7 @@
              <div class="row">
                 <div class="col-12">
               
-              <form method="POST" id="form" action="<?php echo site_url("ho/Report/borrower_ardb");?>" >
+              <form method="POST" id="form" action="<?php echo site_url("ho/Report/fortnightly_ardb");?>" >
 
                     <div class="form-group row">
                         <label for="from_dt" class="col-sm-2 col-form-label">From:</label>
@@ -24,6 +24,18 @@
                          <div class="col-sm-4">
                               <input type="date" class="form-control" id="to_dt" name="to_dt" value="<?php echo date('Y-m-d');?>" required/>
                          </div>
+                    </div>
+                  
+                    <div class="form-group row">
+                        <label for="to_dt" class="col-sm-2 col-form-label">Report Type </label>
+                                                 <div class="col-sm-4">
+                  <select name="report_type" class="form-control" required>
+                 <option value="">Select</option>
+             <?php foreach($reports as $report){?>
+                <option value="<?=$report->sl_no?>"><?=$report->report_type?></option>
+                <?php } ?>
+             </select>
+              </div>
                     </div>
 
                     <div class="form-group row">

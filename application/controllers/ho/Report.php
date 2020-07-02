@@ -187,6 +187,37 @@ class Report extends CI_Controller{
             $this->load->view('common/footer');
         }
     }
+    //  public function fortnightly_ho(){ 
+    //                    /**Opening Stock report for every year */
+    //     if($_SERVER['REQUEST_METHOD']=='POST'){
+
+    //         $frmDt    =  $this->input->post('from_dt');
+
+    //         $toDt     =  $this->input->post('to_dt');
+
+    //         $report_type     =  $this->input->post('report_type');
+            
+           
+    //         $data['reports'] = $this->Reports->f_get_forthnight($report_type,$frmDt,$toDt);
+
+    //         $this->load->view('common/header');
+
+    //         $this->load->view('ho/report/fortnight/fortnightly_out.php',$data);
+
+    //         $this->load->view('common/footer');
+            
+    //     }else{
+
+    //         $data["reports"]  = $this->Master->get_particulars("md_report_type",NULL,NULL,0);
+
+    //         $this->load->view('common/header');
+
+    //         $this->load->view('ho/report/fortnight/fortnightly_inp.php',$data);
+
+    //         $this->load->view('common/footer');
+    //     }
+    // }
+
      public function fortnightly_ho(){ 
                        /**Opening Stock report for every year */
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -198,7 +229,8 @@ class Report extends CI_Controller{
             $report_type     =  $this->input->post('report_type');
             
            
-            $data['reports'] = $this->Reports->f_get_investment($report_type,$frmDt,$toDt);
+            $data['reports'] = $this->Reports->f_get_forthnight($frmDt,$toDt,$report_type);
+
 
             $this->load->view('common/header');
 
@@ -225,10 +257,12 @@ class Report extends CI_Controller{
             $frmDt    =  $this->input->post('from_dt');
 
             $toDt     =  $this->input->post('to_dt');
+
+            $report_type     =  $this->input->post('report_type');
             
             $ardb_id  =  $this->input->post('ardb_id');
 
-            $data['reports'] = $this->Reports->f_get_investmentardb($frmDt,$toDt,$ardb_id);
+            $data['reports'] = $this->Reports->f_get_forthnightardb($frmDt,$toDt,$report_type,$ardb_id);
 
             $this->load->view('common/header');
 
@@ -237,6 +271,8 @@ class Report extends CI_Controller{
             $this->load->view('common/footer');
             
         }else{
+
+            $data["reports"]  = $this->Master->get_particulars("md_report_type",NULL,NULL,0);
 
             $data['branch'] = $this->Master->get_particulars("mm_ardb_ho",NULL,NULL,0);
 

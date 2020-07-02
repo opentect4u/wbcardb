@@ -72,12 +72,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		public function f_get_investment($frmDt,$toDt){
 
-            $query = $this->db->query("SELECT ardb_id,from_fin_yr,to_fin_yr,prv_frm_fin_yr,prv_to_fin_yr, ifnull(sum(no_acc_closed),0) no_acc_closed, ifnull(sum(prog_brro_memb),0) prog_brro_memb, ifnull(sum(farm_sec_case_no),0) farm_sec_case_no, ifnull(sum(farm_sec_amt),0) farm_sec_amt, ifnull(sum(non_farm_sec_case_no),0) non_farm_sec_case_no, ifnull(sum(non_farm_sec_amt),0) non_farm_sec_amt, ifnull(sum(housing_sec_case_no),0) housing_sec_case_no, 
+            $query = $this->db->query("SELECT ardb_id,return_dt,from_fin_yr,to_fin_yr,prv_frm_fin_yr,prv_to_fin_yr, ifnull(sum(no_acc_closed),0) no_acc_closed, ifnull(sum(prog_brro_memb),0) prog_brro_memb, ifnull(sum(farm_sec_case_no),0) farm_sec_case_no, ifnull(sum(farm_sec_amt),0) farm_sec_amt, ifnull(sum(non_farm_sec_case_no),0) non_farm_sec_case_no, ifnull(sum(non_farm_sec_amt),0) non_farm_sec_amt, ifnull(sum(housing_sec_case_no),0) housing_sec_case_no, 
             	ifnull(sum(housing_sec_amt),0)  housing_sec_amt, ifnull(sum(other_sec_case_no),0) other_sec_case_no, ifnull(sum(other_sec_amt),0) other_sec_amt, ifnull(sum(non_sch_inv_case_no),0) non_sch_inv_case_no,ifnull(sum(non_sch_inv_amt),0) non_sch_inv_amt,ifnull(sum(tot_inv_case_no),0) tot_inv_case_no,ifnull(sum(tot_inv_amt),0) tot_inv_amt,    
                    ifnull(sum(tot_inv_case_no_prv_yr),0) tot_inv_case_no_prv_yr,ifnull(sum(tot_inv_amt_prv_yr),0) tot_inv_amt_prv_yr 
                                        FROM  td_investment
 									   where  return_dt between '$frmDt' and '$toDt'	   
-									   group by ardb_id,from_fin_yr,to_fin_yr,prv_frm_fin_yr,prv_to_fin_yr
+									   group by ardb_id,return_dt,from_fin_yr,to_fin_yr,prv_frm_fin_yr,prv_to_fin_yr
 									   order by ardb_id;");
 
 			return $query->result();
@@ -86,97 +86,101 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		public function f_get_investmentardb($frmDt,$toDt,$ardb_id){
 
-            $query = $this->db->query("SELECT ardb_id, ifnull(sum(no_acc_closed),0) no_acc_closed, ifnull(sum(prog_brro_memb),0) prog_brro_memb, ifnull(sum(farm_sec_case_no),0) farm_sec_case_no, ifnull(sum(farm_sec_amt),0) farm_sec_amt, ifnull(sum(non_farm_sec_case_no),0) non_farm_sec_case_no, ifnull(sum(non_farm_sec_amt),0) non_farm_sec_amt, ifnull(sum(housing_sec_case_no),0) housing_sec_case_no, 
+            $query = $this->db->query("SELECT ardb_id,return_dt, ifnull(sum(no_acc_closed),0) no_acc_closed, ifnull(sum(prog_brro_memb),0) prog_brro_memb, ifnull(sum(farm_sec_case_no),0) farm_sec_case_no, ifnull(sum(farm_sec_amt),0) farm_sec_amt, ifnull(sum(non_farm_sec_case_no),0) non_farm_sec_case_no, ifnull(sum(non_farm_sec_amt),0) non_farm_sec_amt, ifnull(sum(housing_sec_case_no),0) housing_sec_case_no, 
             	ifnull(sum(housing_sec_amt),0)  housing_sec_amt, ifnull(sum(other_sec_case_no),0) other_sec_case_no, ifnull(sum(other_sec_amt),0) other_sec_amt, ifnull(sum(non_sch_inv_case_no),0) non_sch_inv_case_no,ifnull(sum(non_sch_inv_amt),0) non_sch_inv_amt,ifnull(sum(tot_inv_case_no),0) tot_inv_case_no,ifnull(sum(tot_inv_amt),0) tot_inv_amt,    
                    ifnull(sum(tot_inv_case_no_prv_yr),0) tot_inv_case_no_prv_yr,ifnull(sum(tot_inv_amt_prv_yr),0) tot_inv_amt_prv_yr 
                                        FROM  td_investment
 									   where  return_dt between '$frmDt' and '$toDt'	   
-									   and    ardb_id  ='$ardb_id';");
+									   and    ardb_id  ='$ardb_id'
+									   group by ardb_id,return_dt
+									   ");
 
 			return $query->result();
 
 		}
 	
+public function f_get_forthnight($frmDt,$toDt,$report_type){
 
-/**Total */
-		public function f_get_tot_qty($prodId,$frmDt,$toDt){
-
-			$data = $this->db->query("Select Batch,Sum((qty + tot_pur) - tot_sale) as tot_qty
-									  from (
-											select Batch,ifnull(qty,0)qty,0 tot_pur,0 tot_sale
-											from opening_stock_log
-											where Prod_ID 	= $prodId
-											and   stk_Date	= '$frmDt'
-											UNION
-											select Batch,0 qty,ifnull(sum(qty),0)tot_pur,0 tot_sale
-											from Purchase_Items
-											where Pro_ID 	= $prodId
-											and   bill_dt		between '$frmDt' and '$toDt'
-											group by Batch
-											UNION
-											select Batch,0 qty,0 tot_pur,ifnull(sum(qty),0)tot_sale
-											from Sales_Items
-											where Prod_ID 	= $prodId
-											and   trans_dt	between '$frmDt' and '$toDt'
-											group by Batch)a
-									  group by Batch");
-
-			if($data->num_rows() > 0 ){
-				$row = $data->result();
-			}else{
-				$row = 0;
-			}
-			return $row;
-		}
-
-
-/*****Friday return********************* */
-		public function f_fridayrtn($frmDt,$toDt){
-	
-			$data = $this->db->query("select SUBMIT_DT,
-									  sum(FD)FD,
-									  sum(RD)RD,
-									  sum(FLEXI)FLEXI,
-									  sum( MIS)MIS,
-									  sum(OTH_DEP)OTH_DEP,
-									  sum(IBSD)IBSD,
-									  sum(TOT_DEP_MOBILISD)TOT_DEP_MOBILISD,
-									  sum(CASH_IN_HND)CASH_IN_HND,
-									  sum(OTH_BNK)OTH_BNK,
-									  sum(IBSD_LOAN)IBSD_LOAN,
-									  sum(DEP_LOAN)DEP_LOAN,
-									  sum(REMMIT_WBSCARDB)REMMIT_WBSCARDB,
-									  sum(REMMIT_WBSCARDB_EXCESS)REMMIT_WBSCARDB_EXCESS,
-									  sum(TOT_DEPLOY_FUND)TOT_DEPLOY_FUND
-									  from td_fridy_rtn
-									  where SUBMIT_DT between '$frmDt' and '$toDt'	   
-									  group by SUBMIT_DT
-									  order by SUBMIT_DT
-									 ");
+			$data = $this->db->query("select ardb_id,return_dt,
+										sum(dmd_prn_od) dmd_prn_od,
+										sum(dmd_prn_cr)dmd_prn_cr,
+										sum(dmd_prn_tot)dmd_prn_tot,
+										sum(dmd_int_od)dmd_int_od,
+										sum(dmd_int_cr)dmd_int_cr,
+										sum(dmd_int_tot)dmd_int_tot,
+										sum(tot_dmd)tot_dmd,
+										sum(col_prn_od)col_prn_od,
+										sum(col_prn_cr)col_prn_cr,
+										sum(col_prn_adv)col_prn_adv,
+										sum(col_prn_tot)col_prn_tot,
+										sum(col_int_od)col_int_od,
+										sum(col_int_cr)col_int_cr,
+										sum(col_int_tot)col_int_tot,
+										sum(tot_colc)tot_colc,
+										sum(recov_per)recov_per,
+										sum(prv_yr_dmd_prn)prv_yr_dmd_prn,
+										sum(prv_yr_dmd_int)prv_yr_dmd_int,
+										sum(prv_yr_dmd_tot)prv_yr_dmd_tot,
+										sum(prv_yr_col_prn)prv_yr_col_prn,
+										sum(prv_yr_col_int)prv_yr_col_int,
+										sum(prv_yr_col_tot)prv_yr_col_tot,
+										sum(col_per)col_per,
+										sum(tot_no_ac_dmd)tot_no_ac_dmd,
+										sum(tot_no_ac_od_dmd)tot_no_ac_od_dmd,
+										sum(tot_no_ac_curr_dmd)tot_no_ac_curr_dmd,
+										sum(tot_no_ac_col)tot_no_ac_col,
+									    sum(tot_no_ac_od_col)tot_no_ac_od_col,
+										sum(tot_no_ac_curr_col)tot_no_ac_curr_col,
+										sum(tot_no_ac_prog)tot_no_ac_prog,
+										sum(tot_no_ac_od_prog)tot_no_ac_od_prog,
+										sum(tot_no_ac_curr_prog)tot_no_ac_curr_prog
+										from td_fortnight
+										where return_dt between '$frmDt' and '$toDt' 
+										and   report_type  ='$report_type'
+										group by ardb_id,return_dt");
 			return $data->result();
 		}
+		public function f_get_forthnightardb($frmDt,$toDt,$report_type,$ardb_id){
 
-/**********Friday rtn Total *******/
-		public function f_tot_fridayrtn($frmDt,$toDt){
-
-			$data = $this->db->query("select 
-										sum(FD)FD,
-										sum(RD)RD,
-										sum(FLEXI)FLEXI,
-										sum( MIS)MIS,
-										sum(OTH_DEP)OTH_DEP,
-										sum(IBSD)IBSD,
-										sum(TOT_DEP_MOBILISD)TOT_DEP_MOBILISD,
-										sum(CASH_IN_HND)CASH_IN_HND,
-										sum(OTH_BNK)OTH_BNK,
-										sum(IBSD_LOAN)IBSD_LOAN,
-										sum(DEP_LOAN)DEP_LOAN,
-										sum(REMMIT_WBSCARDB)REMMIT_WBSCARDB,
-										sum(REMMIT_WBSCARDB_EXCESS)REMMIT_WBSCARDB_EXCESS,
-										sum(TOT_DEPLOY_FUND)TOT_DEPLOY_FUND
-										from td_fridy_rtn
-										where SUBMIT_DT between '$frmDt' and '$toDt' ");
-			return $data->row();
+			$data = $this->db->query("select ardb_id,return_dt,
+										sum(dmd_prn_od) dmd_prn_od,
+										sum(dmd_prn_cr)dmd_prn_cr,
+										sum(dmd_prn_tot)dmd_prn_tot,
+										sum(dmd_int_od)dmd_int_od,
+										sum(dmd_int_cr)dmd_int_cr,
+										sum(dmd_int_tot)dmd_int_tot,
+										sum(tot_dmd)tot_dmd,
+										sum(col_prn_od)col_prn_od,
+										sum(col_prn_cr)col_prn_cr,
+										sum(col_prn_adv)col_prn_adv,
+										sum(col_prn_tot)col_prn_tot,
+										sum(col_int_od)col_int_od,
+										sum(col_int_cr)col_int_cr,
+										sum(col_int_tot)col_int_tot,
+										sum(tot_colc)tot_colc,
+										sum(recov_per)recov_per,
+										sum(prv_yr_dmd_prn)prv_yr_dmd_prn,
+										sum(prv_yr_dmd_int)prv_yr_dmd_int,
+										sum(prv_yr_dmd_tot)prv_yr_dmd_tot,
+										sum(prv_yr_col_prn)prv_yr_col_prn,
+										sum(prv_yr_col_int)prv_yr_col_int,
+										sum(prv_yr_col_tot)prv_yr_col_tot,
+										sum(col_per)col_per,
+										sum(tot_no_ac_dmd)tot_no_ac_dmd,
+										sum(tot_no_ac_od_dmd)tot_no_ac_od_dmd,
+										sum(tot_no_ac_curr_dmd)tot_no_ac_curr_dmd,
+										sum(tot_no_ac_col)tot_no_ac_col,
+									    sum(tot_no_ac_od_col)tot_no_ac_od_col,
+										sum(tot_no_ac_curr_col)tot_no_ac_curr_col,
+										sum(tot_no_ac_prog)tot_no_ac_prog,
+										sum(tot_no_ac_od_prog)tot_no_ac_od_prog,
+										sum(tot_no_ac_curr_prog)tot_no_ac_curr_prog
+										from td_fortnight
+										where return_dt between '$frmDt' and '$toDt' 
+										and   report_type  ='$report_type'
+										and   ardb_id      ='$ardb_id'
+										group by ardb_id,return_dt");
+			return $data->result();
 		}
 
 	}

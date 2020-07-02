@@ -18,6 +18,7 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="<?php echo base_url("/assets/images/favicon.png");?>" />
    <script src="<?=base_url();?>assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="<?=base_url();?>assets/js/table2excel.js"></script>
 </head>
 
 <body class="sidebar-dark" onload="startTime()">

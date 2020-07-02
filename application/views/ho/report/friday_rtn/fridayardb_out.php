@@ -94,7 +94,7 @@ tr:hover {background-color: #f5f5f5;}
 
                     <br>  
 
-                    <table style="width: 100%;">
+                    <table style="width: 100%;"  id="example">
 
                         <thead>
 
@@ -181,7 +181,7 @@ tr:hover {background-color: #f5f5f5;}
                 <div style="text-align: center;">
 
                    <br> <button class="btn btn-primary" type="button" onclick="printDiv();">Print</button>
-
+                            <button class="btn btn-primary" type="button" id="btnExport" >Excel</button>
                 </div>
                   
                 </div>
@@ -189,4 +189,14 @@ tr:hover {background-color: #f5f5f5;}
             </div>
           </div>
         </div>
+
+             <script type="text/javascript">
+        $(function () {
+            $("#btnExport").click(function () {
+                $("#example").table2excel({
+                    filename: "Friday Return of <?php echo get_ardb_name($dtl->ardb_id); ?> Between <?php echo date("d-m-Y", strtotime($this->input->post('from_dt'))).' To '.date("d-m-Y", strtotime($this->input->post('to_dt')));?>.xls"
+                });
+            });
+        });
+    </script>
         <!-- content-wrapper ends -->
