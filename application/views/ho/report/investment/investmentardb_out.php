@@ -74,8 +74,8 @@ tr:hover {background-color: #f5f5f5;}
     <?php   
 
      foreach($reports as $dtl);?>
-
-                  <div id="divToPrint" style="overflow-x:auto;">
+                    <div id="divToPrint">
+                  <div style="overflow-x:auto;">
 
                     <div style="text-align:center;">
                        <h4>THE <?php echo get_ardb_name($dtl->ardb_id); ?> PCARD LTD.</h4>                            
@@ -116,19 +116,16 @@ tr:hover {background-color: #f5f5f5;}
                               <th>Amount</th>
                               <th>No of Case</th>
                               <th>Amount</th>
-
                               <th>No of Case</th>
                               <th>Amount</th>
                               <th>No of Case</th>
                               <th>Amount</th>
                               <th>No of Case</th>
                               <th>Amount</th>
-
                               <th>No of Case</th>
                               <th>Amount</th>
-
                               <th>No of Case</th>
-                           <th>Amount</th>
+                              <th>Amount</th>
                              
                             </tr>
 
@@ -188,7 +185,114 @@ tr:hover {background-color: #f5f5f5;}
                     </table>
                  <br>  
 
+                </div>
+                        <br> 
+
+                  <div  style="overflow-x:auto;">
+
+                    <div style="text-align:center;">
+                                          
+                          Consolidated Borrowers Classification of the PCARDB( Progressive)               
+ From <?php echo date('d/m/Y',strtotime($_POST['from_dt']));?> To <?php echo date('d/m/Y',strtotime($_POST['to_dt']));?>                         
+
+                       
+                    </div>
+                    
+
+                    <br>  
+
+                    <table style="width: 100%;" id="example">
+
+                        <thead>
+
+                            <tr>
+                              <th ></th>
+                              <th colspan="5">CASTE</th>
+                           
+                              <th colspan="6">Farmers/ Professional Classification</th>
+                           
+                              <th colspan="3">Gender Classification</th>
+                            
+                            </tr>
+
+                            <tr>
+                              <th></th>
+                              <th>SC</th>
+                              <th>ST</th>
+                              <th>OBC</th>
+                              <th>GEN.</th>
+                              <th>TOTAL</th>
+
+                              <th>Marginal</th>
+                              <th>Small</th>
+                              <th>Big</th>
+                              <th>Salary earner</th>
+                              <th>Business</th>
+                              <th>Total</th>
+
+                              <th>Male</th>
+                              <th>Female</th>
+
+                              <th>Total</th>
+                           
+                             
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <?php
+
+                                if($report){ 
+
+                                    $i = 1;
+
+                                    foreach($report as $dtls){
+
+                            ?>
+                                <tr>
+                                   <!--   <td><?php //echo $i++; ?></td> -->
+                                      <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
+                                     <td><?php echo $dtls->sc;?></td>
+                                    <td><?php echo $dtls->st;?></td>
+                                    <td><?php echo $dtls->obc;?></td>
+                                    <td><?php echo $dtls->gen;?></td>
+                                    <td><?php echo $dtls->total_1;?></td>
+
+                                    <td><?php echo $dtls->marginal;?></td>
+                                    <td><?php echo $dtls->small;?></td>
+                                    <td><?php echo $dtls->big;?></td>
+                                    <td><?php echo $dtls->sal_earner;?></td>
+                                    <td><?php echo $dtls->bussiness;?></td>
+                                    <td><?php echo $dtls->total_2;?></td>
+
+                                    <td><?php echo $dtls->male;?></td>
+                                    <td><?php echo $dtls->female;?></td>
+                                    <td><?php echo $dtls->total_3;?></td>
+                                    
+                                </tr>
+                                <?php
+
+                                    }
+
+                                     }
+                                
+                                else{
+
+                                    echo "<tr><td colspan='16' style='text-align:center;'>No Data Found</td></tr>";
+
+                                }   
+
+                            ?>
+
+                        </tbody>
+
+                    </table>
+                 <br>  
+
                 </div>   
+                      </div>
 
                 <div style="text-align: center;">
 

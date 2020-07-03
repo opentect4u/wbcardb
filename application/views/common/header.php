@@ -113,22 +113,7 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>         
-        <!--   
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
-              <i class="mdi mdi-layers menu-icon"></i>
-              <span class="menu-title">Download</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-advanced">
-              <ul class="nav flex-column sub-menu">
-                <?php if( $_SESSION['user_type'] =="A"){?>
-                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/export');?>">Friday Return</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/export_frnt_rtn');?>">Fortnightly Return</a></li>
-                <?php } ?>
-              </ul>
-            </div>
-          </li> -->
+    
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-reports" aria-expanded="false" aria-controls="ui-reports">
               <i class="mdi mdi-layers menu-icon"></i>
@@ -145,7 +130,7 @@
             </div>
           </li>
 
-           <li class="nav-item">
+         <!--   <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-Borrower" aria-expanded="false" aria-controls="ui-Borrower">
               <i class="mdi mdi-layers menu-icon"></i>
               <span class="menu-title">Borrower Reports</span>
@@ -153,11 +138,11 @@
             </a>
             <div class="collapse" id="ui-Borrower">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/borrower_ho');?>">Ho</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/report/borrower_ardb');?>">Branch</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/report/borrower_ho');?>">Ho</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/report/borrower_ardb');?>">Branch</a></li>
               </ul>
             </div>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-Investment" aria-expanded="false" aria-controls="ui-Investment">
               <i class="mdi mdi-layers menu-icon"></i>

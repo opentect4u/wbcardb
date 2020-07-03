@@ -137,10 +137,11 @@ class Report extends CI_Controller{
 
             $frmDt    =  $this->input->post('from_dt');
 
-            $toDt     =  $this->input->post('to_dt');
-            
-           
+            $toDt     =  $this->input->post('to_dt');            
+
             $data['reports'] = $this->Reports->f_get_investment($frmDt,$toDt);
+
+            $data['report'] = $this->Reports->f_get_borrower($frmDt,$toDt);
 
             $this->load->view('common/header');
 
@@ -169,6 +170,8 @@ class Report extends CI_Controller{
             $ardb_id  =  $this->input->post('ardb_id');
 
             $data['reports'] = $this->Reports->f_get_investmentardb($frmDt,$toDt,$ardb_id);
+
+            $data['report'] = $this->Reports->f_get_borrowerardb($frmDt,$toDt,$ardb_id);
 
             $this->load->view('common/header');
 

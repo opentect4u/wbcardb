@@ -46,8 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		public function f_get_borrower($frmDt,$toDt){
 
-            $query = $this->db->query("SELECT ardb_id, ifnull(sum(sc),0) sc, ifnull(sum(st),0) st, ifnull(sum(obc),0) obc, ifnull(sum(gen),0) gen, ifnull(sum(total_1),0) total_1, ifnull(sum(marginal),0) marginal, ifnull(sum(small),0) small, 
-            	ifnull(sum(big),0)  big, ifnull(sum(sal_earner),0) sal_earner, ifnull(sum(bussiness),0) bussiness, ifnull(sum(total_2),0) total_2,ifnull(sum(male),0) male,ifnull(sum(female),0) female,ifnull(sum(total_3),0) total_3    
+            $query = $this->db->query("SELECT ardb_id, ifnull(round(sum(sc)/100000,2),0) sc, ifnull(round(sum(st)/100000,2),0) st, ifnull(round(sum(obc)/100000,2),0) obc, ifnull(round(sum(gen)/100000,2),0) gen, ifnull(round(sum(total_1)/100000,2),0) total_1, ifnull(round(sum(marginal)/100000,2),0) marginal, ifnull(round(sum(small)/100000,2),0) small, 
+            	ifnull(round(sum(big)/100000,2),0)  big, ifnull(round(sum(sal_earner)/100000,2),0) sal_earner, ifnull(round(sum(bussiness)/100000),0) bussiness, ifnull(round(sum(total_2)/100000,2),0) total_2,ifnull(round(sum(male)/100000,2),0) male,ifnull(round(sum(female)/100000,2),0) female,ifnull(round(sum(total_3)/100000,2),0) total_3    
               
                                        FROM  td_borrower_classification
 									   where  return_dt between '$frmDt' and '$toDt'	   
@@ -60,8 +60,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		public function f_get_borrowerardb($frmDt,$toDt,$ardb_id){
 
-            $query = $this->db->query("SELECT ardb_id, ifnull(sum(sc),0) sc, ifnull(sum(st),0) st, ifnull(sum(obc),0) obc, ifnull(sum(gen),0) gen, ifnull(sum(total_1),0) total_1, ifnull(sum(marginal),0) marginal, ifnull(sum(small),0) small, 
-            	ifnull(sum(big),0)  big, ifnull(sum(sal_earner),0) sal_earner, ifnull(sum(bussiness),0) bussiness, ifnull(sum(total_2),0) total_2,ifnull(sum(male),0) male,ifnull(sum(female),0) female,ifnull(sum(total_3),0) total_3    
+            $query = $this->db->query("SELECT ardb_id,ifnull(round(sum(sc)/100000,2),0) sc, ifnull(round(sum(st)/100000,2),0) st, ifnull(round(sum(obc)/100000,2),0) obc, ifnull(round(sum(gen)/100000,2),0) gen, ifnull(round(sum(total_1)/100000,2),0) total_1, ifnull(round(sum(marginal)/100000,2),0) marginal, ifnull(round(sum(small)/100000,2),0) small, 
+            	ifnull(round(sum(big)/100000,2),0)  big, ifnull(round(sum(sal_earner)/100000,2),0) sal_earner, ifnull(round(sum(bussiness)/100000),0) bussiness, ifnull(round(sum(total_2)/100000,2),0) total_2,ifnull(round(sum(male)/100000,2),0) male,ifnull(round(sum(female)/100000,2),0) female,ifnull(round(sum(total_3)/100000,2),0) total_3    
               
                                        FROM  td_borrower_classification
 									   where  return_dt between '$frmDt' and '$toDt'	   
@@ -72,9 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		public function f_get_investment($frmDt,$toDt){
 
-            $query = $this->db->query("SELECT ardb_id,return_dt,from_fin_yr,to_fin_yr,prv_frm_fin_yr,prv_to_fin_yr, ifnull(sum(no_acc_closed),0) no_acc_closed, ifnull(sum(prog_brro_memb),0) prog_brro_memb, ifnull(sum(farm_sec_case_no),0) farm_sec_case_no, ifnull(sum(farm_sec_amt),0) farm_sec_amt, ifnull(sum(non_farm_sec_case_no),0) non_farm_sec_case_no, ifnull(sum(non_farm_sec_amt),0) non_farm_sec_amt, ifnull(sum(housing_sec_case_no),0) housing_sec_case_no, 
-            	ifnull(sum(housing_sec_amt),0)  housing_sec_amt, ifnull(sum(other_sec_case_no),0) other_sec_case_no, ifnull(sum(other_sec_amt),0) other_sec_amt, ifnull(sum(non_sch_inv_case_no),0) non_sch_inv_case_no,ifnull(sum(non_sch_inv_amt),0) non_sch_inv_amt,ifnull(sum(tot_inv_case_no),0) tot_inv_case_no,ifnull(sum(tot_inv_amt),0) tot_inv_amt,    
-                   ifnull(sum(tot_inv_case_no_prv_yr),0) tot_inv_case_no_prv_yr,ifnull(sum(tot_inv_amt_prv_yr),0) tot_inv_amt_prv_yr 
+            $query = $this->db->query("SELECT ardb_id,return_dt,from_fin_yr,to_fin_yr,prv_frm_fin_yr,prv_to_fin_yr,ifnull(round(sum(no_acc_closed)/100000,2),0) no_acc_closed, ifnull(round(sum(prog_brro_memb)/100000,2),0) prog_brro_memb, ifnull(round(sum(farm_sec_case_no)/100000,2),0) farm_sec_case_no, ifnull(round(sum(farm_sec_amt)/100000,2),0) farm_sec_amt, ifnull(round(sum(non_farm_sec_case_no)/100000,2),0) non_farm_sec_case_no, ifnull(round(sum(non_farm_sec_amt)/100000,2),0) non_farm_sec_amt, ifnull(round(sum(housing_sec_case_no)/100000,2),0) housing_sec_case_no,ifnull(round(sum(housing_sec_amt)/100000,2),0)  housing_sec_amt, ifnull(round(sum(other_sec_case_no)/100000,2),0) other_sec_case_no, ifnull(round(sum(other_sec_amt)/100000,2),0) other_sec_amt, ifnull(round(sum(non_sch_inv_case_no)/100000,2),0) non_sch_inv_case_no,ifnull(round(sum(non_sch_inv_amt)/100000,2),0) non_sch_inv_amt,ifnull(round(sum(tot_inv_case_no)/100000,2),0) tot_inv_case_no,ifnull(round(sum(tot_inv_amt)/100000,2),0) tot_inv_amt,ifnull(round(sum(tot_inv_case_no_prv_yr)/100000,2),0) tot_inv_case_no_prv_yr,ifnull(round(sum(tot_inv_amt_prv_yr)/100000,2),0) tot_inv_amt_prv_yr 
                                        FROM  td_investment
 									   where  return_dt between '$frmDt' and '$toDt'	   
 									   group by ardb_id,return_dt,from_fin_yr,to_fin_yr,prv_frm_fin_yr,prv_to_fin_yr
@@ -86,9 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		public function f_get_investmentardb($frmDt,$toDt,$ardb_id){
 
-            $query = $this->db->query("SELECT ardb_id,return_dt, ifnull(sum(no_acc_closed),0) no_acc_closed, ifnull(sum(prog_brro_memb),0) prog_brro_memb, ifnull(sum(farm_sec_case_no),0) farm_sec_case_no, ifnull(sum(farm_sec_amt),0) farm_sec_amt, ifnull(sum(non_farm_sec_case_no),0) non_farm_sec_case_no, ifnull(sum(non_farm_sec_amt),0) non_farm_sec_amt, ifnull(sum(housing_sec_case_no),0) housing_sec_case_no, 
-            	ifnull(sum(housing_sec_amt),0)  housing_sec_amt, ifnull(sum(other_sec_case_no),0) other_sec_case_no, ifnull(sum(other_sec_amt),0) other_sec_amt, ifnull(sum(non_sch_inv_case_no),0) non_sch_inv_case_no,ifnull(sum(non_sch_inv_amt),0) non_sch_inv_amt,ifnull(sum(tot_inv_case_no),0) tot_inv_case_no,ifnull(sum(tot_inv_amt),0) tot_inv_amt,    
-                   ifnull(sum(tot_inv_case_no_prv_yr),0) tot_inv_case_no_prv_yr,ifnull(sum(tot_inv_amt_prv_yr),0) tot_inv_amt_prv_yr 
+            $query = $this->db->query("SELECT ardb_id,return_dt,ifnull(round(sum(no_acc_closed)/100000,2),0) no_acc_closed, ifnull(round(sum(prog_brro_memb)/100000,2),0) prog_brro_memb, ifnull(round(sum(farm_sec_case_no)/100000,2),0) farm_sec_case_no, ifnull(round(sum(farm_sec_amt)/100000,2),0) farm_sec_amt, ifnull(round(sum(non_farm_sec_case_no)/100000,2),0) non_farm_sec_case_no, ifnull(round(sum(non_farm_sec_amt)/100000,2),0) non_farm_sec_amt, ifnull(round(sum(housing_sec_case_no)/100000,2),0) housing_sec_case_no,ifnull(round(sum(housing_sec_amt)/100000,2),0)  housing_sec_amt, ifnull(round(sum(other_sec_case_no)/100000,2),0) other_sec_case_no, ifnull(round(sum(other_sec_amt)/100000,2),0) other_sec_amt, ifnull(round(sum(non_sch_inv_case_no)/100000,2),0) non_sch_inv_case_no,ifnull(round(sum(non_sch_inv_amt)/100000,2),0) non_sch_inv_amt,ifnull(round(sum(tot_inv_case_no)/100000,2),0) tot_inv_case_no,ifnull(round(sum(tot_inv_amt)/100000,2),0) tot_inv_amt,ifnull(round(sum(tot_inv_case_no_prv_yr)/100000,2),0) tot_inv_case_no_prv_yr,ifnull(round(sum(tot_inv_amt_prv_yr)/100000,2),0) tot_inv_amt_prv_yr 
                                        FROM  td_investment
 									   where  return_dt between '$frmDt' and '$toDt'	   
 									   and    ardb_id  ='$ardb_id'

@@ -80,7 +80,6 @@ tr:hover {background-color: #f5f5f5;}
                           Consolidated Borrowers Classification of the PCARDB( Progressive)               
  From <?php echo date('d/m/Y',strtotime($_POST['from_dt']));?> To <?php echo date('d/m/Y',strtotime($_POST['to_dt']));?>                         
 
-
                        
                     </div>
                     

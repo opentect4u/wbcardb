@@ -41,7 +41,7 @@
                     <input type="text"
                                 class="form-control required"
                                 name="user_name" readonly
-                                id="user_name" value="<?php echo $user_dtls->user_name; ?>"
+                                id="user_name" value="<?php echo $user_dtls->user_id; ?>"
                             />                        
                     </div>
 

@@ -134,27 +134,27 @@ tr:hover {background-color: #f5f5f5;}
                                 if($reports){ 
 
                                     $i = 1;
-
+                                 
                                     foreach($reports as $dtls){
 
                             ?>
                                 <tr>
-                                     <td><?php echo $i++; ?></td>
-                                      <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                     <td><?php echo $dtls->rd;?></td>
-                                    <td><?php echo $dtls->fd;?></td>
-                                    <td><?php echo $dtls->flexi_sb;?></td>
-                                    <td><?php echo $dtls->mis;?></td>
-                                    <td><?php echo $dtls->other_dep;?></td>
-                                    <td><?php echo $dtls->ibsd;?></td>
-                                    <td><?php echo $dtls->total_dep_mob;?></td>
-                                    <td><?php echo $dtls->cash_in_hand;?></td>
-                                    <td><?php echo $dtls->other_bank;?></td>
-                                    <td><?php echo $dtls->ibsd_loan;?></td>
-                                    <td><?php echo $dtls->dep_loan;?></td>
-                                    <td><?php echo $dtls->wbcardb_remit_slr;?></td>
-                                    <td><?php echo $dtls->wbcardb_remit_slr_excess;?></td>
-                                    <td><?php echo $dtls->total_fund_deploy;?></td>
+                                    <td><?php echo $i++; ?></td>
+                                    <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
+                                    <td><?php echo round($dtls->rd/100000,2);?></td>
+                                    <td><?php echo round($dtls->fd/100000,2);?></td>
+                                    <td><?php echo round($dtls->flexi_sb/100000,2);?></td>
+                                    <td><?php echo round($dtls->mis/100000,2);?></td>
+                                    <td><?php echo round($dtls->other_dep/100000,2);?></td>
+                                    <td><?php echo round($dtls->ibsd/100000,2);?></td>
+                                    <td><?php echo round($dtls->total_dep_mob/100000,2);?></td>
+                                    <td><?php echo round($dtls->cash_in_hand/100000,2);?></td>
+                                    <td><?php echo round($dtls->other_bank/100000,2);?></td>
+                                    <td><?php echo round($dtls->ibsd_loan/100000,2);?></td>
+                                    <td><?php echo round($dtls->dep_loan/100000,2);?></td>
+                                    <td><?php echo round($dtls->wbcardb_remit_slr/100000,2);?></td>
+                                    <td><?php echo round($dtls->wbcardb_remit_slr_excess/100000,2);?></td>
+                                    <td><?php echo round($dtls->total_fund_deploy/100000,2) ;?></td>
                                   
                                 </tr>
                                 <?php

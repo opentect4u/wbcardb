@@ -75,14 +75,11 @@ tr:hover {background-color: #f5f5f5;}
 
                   <div id="divToPrint" style="overflow-x:auto;">
 
-                    <div style="text-align:center;">
-                        <h4> THE West Bengal State Cooperative Agriculture & Rural Development Bank Ltd.</h4>                             
-                          CONSOLIDATED FRIDAY RETURN FOR THEWEEK ENDING…<?php echo date('d/m',strtotime($_POST['from_dt']));?>…/…<?php echo date('d/m',strtotime($_POST['to_dt']));?>…/  2020                             
-
-
-                        <h4>Friday Return Between : </h4>
-                    </div>
-                    
+                    <div class="com-md-12" style="text-align:center;">
+                        <h4> THE West Bengal State Cooperative Agriculture & Rural Development Bank Ltd.</h4>                        
+                          CONSOLIDATED FRIDAY RETURN FOR THE WEEK ENDING <?php echo date('d/m/y',strtotime($_POST['from_dt']));?>  to  <?php echo date('d/m/y',strtotime($_POST['to_dt']));?>
+                    </div> 
+                    <div class="com-md-1">Rs. In Lakh</div>
 
                     <br>  
 
@@ -99,7 +96,6 @@ tr:hover {background-color: #f5f5f5;}
                               <th rowspan="2">Total / Shortfall</th>
                             
                             </tr>
-
                             <tr>
                               <th>Sl No.</th>
                               <th>Name of ARDB.</th>
@@ -108,7 +104,9 @@ tr:hover {background-color: #f5f5f5;}
                               <th>Flexi</th>
                               <th>MIS</th>
                               <th>Other<br>Deposit</th>
-                              <th>IBSD</th>
+                              <th><?php echo $yearEnd = date('Y-m-d', strtotime('12/31')); if($_POST['to_dt'] <= $yearEnd ){
+                                    $year=date('Y', strtotime($_POST['to_dt']));
+                              }else{ $year=date('Y', strtotime($_POST['to_dt']))-1; }?>IBSD(after 31.03.<?=$year?>)</th>
                               <th>Total<br> Deposit<br>Mobilized</th>
                               <th>Cash <br>In <br>Hand</th>
                               <th>Other <br>Bank</th>
@@ -118,7 +116,7 @@ tr:hover {background-color: #f5f5f5;}
                               <th>Remmit <br>WBSCARDB <br>Excess</th>
                               <th>Total <r>Deploy <br>Fund</th>
                               <th>Required SLR <br>(1/3rd of <br>Total Deposit)</th>
-                              <th>IBSD as on 31.03.13(100%)</th>
+                              <th>IBSD as on 31.03.<?=$year?>(100%)</th>
                               <th>Total</th>
                              
                             </tr>
@@ -131,42 +129,142 @@ tr:hover {background-color: #f5f5f5;}
 
                                 if($reports){ 
 
-                                    $i = 1;
+                                    $i                          = 1;
+                                    $rd                         = 0;
+                                    $fd                         = 0;
+                                    $flexi_sb                   = 0;
+                                    $mis                        = 0;
+                                    $other_dep                  = 0;
+                                    $ibsd                       = 0;
+                                    $total_dep_mob              = 0;
+                                    $cash_in_hand               = 0;
+                                    $other_bank                 = 0;
+                                    $ibsd_loan                  = 0;
+                                    $dep_loan                   = 0;
+                                    $wbcardb_remit_slr          = 0;
+                                    $wbcardb_remit_slr_excess   = 0;
+                                    $total_fund_deploy          = 0;
+                                    $required_slr               = 0;
+                                    $ibsdas                     = 0;
+                                    $total                      = 0;
+                                    $totalshortfall             = 0;
 
                                     foreach($reports as $dtls){
 
                             ?>
                                 <tr>
-                                     <td><?php echo $i++; ?></td>
-                                      <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                     <td><?php echo $dtls->rd;?></td>
-                                    <td><?php echo $dtls->fd;?></td>
-                                    <td><?php echo $dtls->flexi_sb;?></td>
-                                    <td><?php echo $dtls->mis;?></td>
-                                    <td><?php echo $dtls->other_dep;?></td>
-                                    <td><?php echo $dtls->ibsd;?></td>
-                                    <td><?php echo $dtls->total_dep_mob;?></td>
-                                    <td><?php echo $dtls->cash_in_hand;?></td>
-                                    <td><?php echo $dtls->other_bank;?></td>
-                                    <td><?php echo $dtls->ibsd_loan;?></td>
-                                    <td><?php echo $dtls->dep_loan;?></td>
-                                    <td><?php echo $dtls->wbcardb_remit_slr;?></td>
-                                    <td><?php echo $dtls->wbcardb_remit_slr_excess;?></td>
-                                    <td><?php echo $dtls->total_fund_deploy;?></td>
-                                    <td><?php echo ($dtls->total_dep_mob-$dtls->ibsd)*1/3;?></td>
-                                    <td><?php //echo $dtls->total_fund_deploy;?></td>
-                                    <td><?php //echo $dtls->total_fund_deploy;?></td>
-                                    <td><?php //echo $dtls->total_fund_deploy;?></td>
+                                    <td><?php echo $i++; ?></td>
+                                    <td><?php echo get_ardb_name($dtls->ardb_id);?></td>
+                                    <td><?php echo round(($dtls->rd)/100000,2);
+
+                                          $rd += round(($dtls->rd)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->fd)/100000,2);
+
+                                          $fd += round(($dtls->fd)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->flexi_sb)/100000,2);
+
+                                          $flexi_sb += round(($dtls->flexi_sb)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->mis)/100000,2);
+
+                                          $mis += round(($dtls->mis)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->other_dep)/100000,2);
+
+                                         $other_dep += round(($dtls->other_dep)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->ibsd)/100000,2);
+
+                                    $ibsd += round(($dtls->ibsd)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->total_dep_mob)/100000,2);
+
+                                       $total_dep_mob += round(($dtls->total_dep_mob)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->cash_in_hand)/100000,2);
+
+                                      $cash_in_hand += round(($dtls->cash_in_hand)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->other_bank)/100000,2);
+
+                                       $other_bank += round(($dtls->other_bank)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->ibsd_loan)/100000,2);
+
+                                       $ibsd_loan += round(($dtls->ibsd_loan)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->dep_loan)/100000,2);
+
+                                       $dep_loan += round(($dtls->dep_loan)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->wbcardb_remit_slr)/100000,2);
+
+                                    $wbcardb_remit_slr += round(($dtls->wbcardb_remit_slr)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->wbcardb_remit_slr_excess)/100000,2);
+
+                                    $wbcardb_remit_slr_excess += round(($dtls->wbcardb_remit_slr_excess)/100000,2);
+                                    ?></td>
+                                    <td><?php echo round(($dtls->total_fund_deploy)/100000,2);
+
+                                    $total_fund_deploy += round(($dtls->total_fund_deploy)/100000,2);
+
+                                    ?></td>
+                                    <td><?php echo round((($dtls->total_dep_mob-$dtls->ibsd)*1/3)/100000,2);
+
+                                    $required_slr += round((($dtls->total_dep_mob-$dtls->ibsd)*1/3)/100000,2);
+
+                                    ?></td>
+                                    <td><?php echo round(($dtls->ibsd)/100000,2);  
+
+                                    $ibsdas  += round(($dtls->ibsd)/100000,2); 
+
+                                    ?></td>
+                                    <td><?php echo round(((($dtls->total_dep_mob-$dtls->ibsd)*1/3)+$dtls->ibsd)/100000,2);
+
+                                      $total  += round(((($dtls->total_dep_mob-$dtls->ibsd)*1/3)+$dtls->ibsd)/100000,2);
+
+                                    ?></td>
+                                    <td><?php echo round((((($dtls->total_dep_mob-$dtls->ibsd)*1/3)+$dtls->ibsd)-$dtls->wbcardb_remit_slr)/100000,2);
+
+                                   $totalshortfall  += round((((($dtls->total_dep_mob-$dtls->ibsd)*1/3)+$dtls->ibsd)-$dtls->wbcardb_remit_slr)/100000,2);
+
+                                    ?></td>
                                 </tr>
                                 <?php
 
-                                    }
+                                    }   ?>
 
-                                     }
+                                 <tr>
+                                    <td colspan="2">Total</td>
+                                    <td><?=$rd?></td>
+                                    <td><?=$fd?></td>
+                                    <td><?=$flexi_sb?></td>
+                                    <td><?=$mis?></td>
+                                    <td><?=$other_dep?></td>
+                                    <td><?=$ibsd?></td>
+                                    <td><?=$total_dep_mob?></td>
+                                    <td><?=$cash_in_hand?></td>
+                                    <td><?=$other_bank?></td>
+                                    <td><?=$ibsd_loan?></td>
+                                    <td><?=$dep_loan?></td>
+                                    <td><?=$wbcardb_remit_slr?></td>
+                                    <td><?=$wbcardb_remit_slr_excess?></td>
+                                    <td><?=$total_fund_deploy?></td>
+                                    <td><?=$required_slr?></td>
+                                    <td><?=$ibsdas?></td>
+                                     <td><?=$total?></td>
+                                    <td><?=$totalshortfall?></td>
+
+                                 </tr>
+
+                              <?php      }
                                 
                                 else{
 
-                                    echo "<tr><td colspan='16' style='text-align:center;'>No Data Found</td></tr>";
+                                    echo "<tr><td colspan='20' style='text-align:center;'>No Data Found</td></tr>";
 
                                 }   
 
