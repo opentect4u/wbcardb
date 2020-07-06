@@ -71,7 +71,44 @@ tr:hover {background-color: #f5f5f5;}
             <div class="card-body">
               <div class="row">
                 <div class="col-12">
-       <?php  if($_POST['report_type']=='1'){ ?>
+       <?php  
+                                    $dmd_prn_od = 0;
+                                    $dmd_prn_cr = 0;
+                                    $dmd_prn_tot = 0;
+                                    $dmd_int_od = 0;
+                                    $dmd_int_cr = 0;
+                                    $dmd_int_tot = 0;
+                                    $tot_dmd = 0;
+                                    $col_prn_od = 0;
+                                    $col_prn_cr = 0;
+                                    $col_prn_adv = 0;
+                                    $col_prn_tot = 0;
+                                    $col_int_od = 0;
+                                    $col_int_cr = 0;
+                                    $col_int_tot = 0;
+                                    $tot_colc = 0;
+                                    $recov_per = 0;
+                                    $prv_yr_dmd_prn = 0;
+                                    $prv_yr_dmd_int = 0;
+                                    $prv_yr_dmd_tot = 0;
+                                    $prv_yr_col_prn = 0;
+                                    $prv_yr_col_int = 0;
+                                    $prv_yr_col_tot = 0;
+                                    $col_per = 0;
+
+                                    $tot_no_ac_dmd = 0;
+                                    $tot_no_ac_od_dmd = 0;
+                                    $tot_no_ac_curr_dmd = 0;
+                                    $tot_no_ac_col = 0;
+                                    $tot_no_ac_od_col = 0;
+                                    $tot_no_ac_curr_col = 0;
+                                    $tot_no_ac_prog = 0;
+                                    $tot_no_ac_od_prog = 0;
+                                    $tot_no_ac_curr_prog = 0;
+
+
+
+       if($_POST['report_type']=='1'){ ?>
 
               <div id="divToPrint" style="overflow-x:auto;">
 
@@ -89,8 +126,8 @@ tr:hover {background-color: #f5f5f5;}
                         <thead>
 
                             <tr>
-                              <th ></th>
-                              <th ></th>
+                              <th></th>
+                              <th></th>
                               <th colspan="7">Demand for the year 20..-20…</th>
                               <th colspan="8">Collection Upto Return Date</th>
                               <th rowspan="3">% of Recovery(20..-20..)</th>
@@ -147,47 +184,127 @@ tr:hover {background-color: #f5f5f5;}
                                 if($reports){ 
 
                                     $i = 1;
-
+                                    
+                                
                                     foreach($reports as $dtls){
 
                             ?>
                                 <tr>
                                    <!--   <td><?php //echo $i++; ?></td> -->
-                                      <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
-                                     <td><?php echo $dtls->dmd_prn_od;?></td>
-                                    <td><?php echo $dtls->dmd_prn_cr;?></td>
-                                    <td><?php echo $dtls->dmd_prn_tot;?></td>
-                                    <td><?php echo $dtls->dmd_int_od;?></td>
-                                    <td><?php echo $dtls->dmd_int_cr;?></td>
+                                    <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
+                                    <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
+                                    <td><?php echo $dtls->dmd_prn_od;
+                                                   $dmd_prn_od += $dtls->dmd_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_cr;
+                                                    $dmd_prn_cr += $dtls->dmd_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_tot;
+                                                    $dmd_prn_tot += $dtls->dmd_prn_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_od;
+                                                      $dmd_int_od += $dtls->dmd_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_cr;
+                                                  $dmd_int_cr += $dtls->dmd_int_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_tot;
+                                        $dmd_int_tot += $dtls->dmd_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_dmd;
+                                    $tot_dmd += $dtls->tot_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_od;
+                                    $col_prn_od += $dtls->col_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_cr;
 
-                                    <td><?php echo $dtls->dmd_int_tot;?></td>
-                                    <td><?php echo $dtls->tot_dmd;?></td>
-                                    <td><?php echo $dtls->col_prn_od;?></td>
-                                    <td><?php echo $dtls->col_prn_cr;?></td>
-                                    <td><?php echo $dtls->col_prn_adv;?></td>
-                                    <td><?php echo $dtls->col_prn_tot;?></td>
+                                    $col_prn_cr += $dtls->col_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_adv;
+                                    $col_prn_adv += $dtls->col_prn_adv;
 
-                                     <td><?php echo $dtls->col_int_od;?></td>
-                                    <td><?php echo $dtls->col_int_cr;?></td>
-                                    <td><?php echo $dtls->col_int_tot;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_tot;
+                                    $col_prn_tot += $dtls->col_prn_tot;
 
-                                    <td><?php echo $dtls->tot_colc;?></td>
-                                   <td><?php echo $dtls->recov_per;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_od;
 
-                                      <td><?php echo $dtls->prv_yr_dmd_prn;?></td>
-                                        <td><?php echo $dtls->prv_yr_dmd_int;?></td>
-                                          <td><?php echo $dtls->prv_yr_dmd_tot;?></td>
-                                            <td><?php echo $dtls->prv_yr_col_prn;?></td>
-                                              <td><?php echo $dtls->prv_yr_col_int;?></td>
-                                                <td><?php echo $dtls->prv_yr_col_tot;?></td>
-                                                   <td><?php echo $dtls->col_per;?></td>
+                                    $col_int_od += $dtls->col_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_cr;
+                                    $col_int_cr += $dtls->col_int_cr;
+
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_tot;
+                                    $col_int_tot += $dtls->col_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_colc;
+                                    $tot_colc += $dtls->tot_colc;
+                                    ?></td>
+                                    <td><?php echo $dtls->recov_per;
+                                    $recov_per += $dtls->recov_per;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_prn;
+                                    $prv_yr_dmd_prn += $dtls->prv_yr_dmd_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_int;
+                                    $prv_yr_dmd_int += $dtls->prv_yr_dmd_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_tot;
+                                    $prv_yr_dmd_tot += $dtls->prv_yr_dmd_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_prn;
+                                    $prv_yr_col_prn += $dtls->prv_yr_col_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_int;
+                                    $prv_yr_col_int += $dtls->prv_yr_col_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_tot;
+                                    $prv_yr_col_tot += $dtls->prv_yr_col_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_per;
+                                    $col_per += $dtls->col_per;
+                                    ?></td>
+
                                        </tr>
                                 <?php
 
-                                    }
+                                    }  ?>
+                                  
+                                  
+                                
+                                    <tr>
+                                      <td colspan="2">Total</td>
+                                    
+                                      <td><?=$dmd_prn_od?></td>
+                                      <td><?=$dmd_prn_cr?></td>
+                                      <td><?=$dmd_prn_tot?></td>
+                                      <td><?=$dmd_int_od?></td>
+                                      <td><?=$dmd_int_cr?></td>
+                                      <td><?=$dmd_int_tot?></td>
+                                      <td><?=$tot_dmd?></td>
+                                      <td><?=$col_prn_od?></td>
+                                      <td><?=$col_prn_cr?></td>
+                                      <td><?=$col_prn_adv?></td>
+                                      <td><?=$col_prn_tot?></td>
+                                      <td><?=$col_int_od?></td>
+                                      <td><?=$col_int_cr?></td>
+                                      <td><?=$col_int_tot?></td>
+                                      <td><?=$tot_colc?></td>
+                                      <td><?=$recov_per?></td>
+                                      <td><?=$prv_yr_dmd_prn?></td>
+                                      <td><?=$prv_yr_dmd_int?></td>
+                                      <td><?=$prv_yr_dmd_tot?></td>
+                                      <td><?=$prv_yr_col_prn?></td>
+                                      <td><?=$prv_yr_col_int?></td>
+                                      <td><?=$prv_yr_col_tot?></td>
+                                      <td><?=$col_per?></td>
+                                      
 
-                                     }
+                                    </tr>
+                                    <?php }
                                 
                                 else{
 
@@ -222,12 +339,9 @@ tr:hover {background-color: #f5f5f5;}
                             </tr>
 
                              <tr>
-                          
                               <th colspan="6">Total Members DEMANAD(Number)  Total Members Collection (Number)</th>
                               <th colspan="3">Total Members Collection (Number)</th>
-                                                  
-                            
-                            </tr>
+                             </tr>
 
                             <tr>
                           
@@ -253,33 +367,65 @@ tr:hover {background-color: #f5f5f5;}
                                 if($reports){ 
 
                                     $i = 1;
+                                  
 
                                     foreach($reports as $dtls){
 
                             ?>
                                 <tr>
                                    <!--   <td><?php //echo $i++; ?></td> -->
-                                       <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo $dtls->tot_no_ac_dmd;?></td>
-                                     <td><?php echo $dtls->tot_no_ac_od_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_col;?></td>
+                                    <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_dmd;
+                                    $tot_no_ac_dmd += $dtls->tot_no_ac_dmd;
 
-                                    <td><?php echo $dtls->tot_no_ac_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_prog;?></td>
-                                   
-
-                                   
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_dmd;
+                                    $tot_no_ac_od_dmd += $dtls->tot_no_ac_od_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;
+                                    $tot_no_ac_curr_dmd += $dtls->tot_no_ac_curr_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_col;
+                                    $tot_no_ac_col += $dtls->tot_no_ac_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_col;
+                                    $tot_no_ac_od_col += $dtls->tot_no_ac_od_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_col;
+                                      $tot_no_ac_curr_col += $dtls->tot_no_ac_curr_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_prog;
+                                    $tot_no_ac_prog += $dtls->tot_no_ac_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_prog;
+                                    $tot_no_ac_od_prog += $dtls->tot_no_ac_od_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_prog;
+                                    $tot_no_ac_curr_prog += $dtls->tot_no_ac_curr_prog;
+                                    ?></td>
                                      
                                 </tr>
                                 <?php
 
-                                    }
+                                    }  ?>
 
-                                     }
+
+                                    <tr>
+                                       <td>Total</td>
+                                      <td><?=$tot_no_ac_dmd?></td>
+                                      <td><?=$tot_no_ac_od_dmd?></td>
+                                      <td><?=$tot_no_ac_curr_dmd?></td>
+                                      <td><?=$tot_no_ac_col?></td>
+                                      <td><?=$tot_no_ac_od_col?></td>
+                                      <td><?=$tot_no_ac_curr_col?></td>
+                                      <td><?=$tot_no_ac_prog?></td>
+                                      <td><?=$tot_no_ac_od_prog?></td>
+                                      <td><?=$tot_no_ac_curr_prog?></td>
+                                     
+                                    </tr>
+
+
+                                  <?php   }
                                 
                                 else{
 
@@ -377,41 +523,120 @@ tr:hover {background-color: #f5f5f5;}
                             ?>
                                 <tr>
                                    <!--   <td><?php //echo $i++; ?></td> -->
-                                      <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
-                                     <td><?php echo $dtls->dmd_prn_od;?></td>
-                                    <td><?php echo $dtls->dmd_prn_cr;?></td>
-                                    <td><?php echo $dtls->dmd_prn_tot;?></td>
-                                    <td><?php echo $dtls->dmd_int_od;?></td>
-                                    <td><?php echo $dtls->dmd_int_cr;?></td>
+                                    <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
+                                    <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
 
-                                    <td><?php echo $dtls->dmd_int_tot;?></td>
-                                    <td><?php echo $dtls->tot_dmd;?></td>
-                                    <td><?php echo $dtls->col_prn_od;?></td>
-                                    <td><?php echo $dtls->col_prn_cr;?></td>
-                                    <td><?php echo $dtls->col_prn_adv;?></td>
-                                    <td><?php echo $dtls->col_prn_tot;?></td>
+                                    <td><?php echo $dtls->dmd_prn_od;
+                                                   $dmd_prn_od += $dtls->dmd_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_cr;
+                                                    $dmd_prn_cr += $dtls->dmd_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_tot;
+                                                    $dmd_prn_tot += $dtls->dmd_prn_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_od;
+                                                      $dmd_int_od += $dtls->dmd_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_cr;
+                                                  $dmd_int_cr += $dtls->dmd_int_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_tot;
+                                        $dmd_int_tot += $dtls->dmd_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_dmd;
+                                    $tot_dmd += $dtls->tot_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_od;
+                                    $col_prn_od += $dtls->col_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_cr;
 
-                                     <td><?php echo $dtls->col_int_od;?></td>
-                                    <td><?php echo $dtls->col_int_cr;?></td>
-                                    <td><?php echo $dtls->col_int_tot;?></td>
+                                    $col_prn_cr += $dtls->col_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_adv;
+                                    $col_prn_adv += $dtls->col_prn_adv;
 
-                                    <td><?php echo $dtls->tot_colc;?></td>
-                                   <td><?php echo $dtls->recov_per;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_tot;
+                                    $col_prn_tot += $dtls->col_prn_tot;
 
-                                      <td><?php echo $dtls->prv_yr_dmd_prn;?></td>
-                                        <td><?php echo $dtls->prv_yr_dmd_int;?></td>
-                                          <td><?php echo $dtls->prv_yr_dmd_tot;?></td>
-                                            <td><?php echo $dtls->prv_yr_col_prn;?></td>
-                                              <td><?php echo $dtls->prv_yr_col_int;?></td>
-                                                <td><?php echo $dtls->prv_yr_col_tot;?></td>
-                                                   <td><?php echo $dtls->col_per;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_od;
+
+                                    $col_int_od += $dtls->col_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_cr;
+                                    $col_int_cr += $dtls->col_int_cr;
+
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_tot;
+                                    $col_int_tot += $dtls->col_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_colc;
+                                    $tot_colc += $dtls->tot_colc;
+                                    ?></td>
+                                    <td><?php echo $dtls->recov_per;
+                                    $recov_per += $dtls->recov_per;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_prn;
+                                    $prv_yr_dmd_prn += $dtls->prv_yr_dmd_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_int;
+                                    $prv_yr_dmd_int += $dtls->prv_yr_dmd_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_tot;
+                                    $prv_yr_dmd_tot += $dtls->prv_yr_dmd_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_prn;
+                                    $prv_yr_col_prn += $dtls->prv_yr_col_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_int;
+                                    $prv_yr_col_int += $dtls->prv_yr_col_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_tot;
+                                    $prv_yr_col_tot += $dtls->prv_yr_col_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_per;
+                                    $col_per += $dtls->col_per;
+                                    ?></td>
                                        </tr>
                                 <?php
 
-                                    }
+                                    }?>
 
-                                     }
+                                    <tr>
+                                      <td colspan="2">Total</td>
+                                    
+                                      <td><?=$dmd_prn_od?></td>
+                                      <td><?=$dmd_prn_cr?></td>
+                                      <td><?=$dmd_prn_tot?></td>
+                                      <td><?=$dmd_int_od?></td>
+                                      <td><?=$dmd_int_cr?></td>
+                                      <td><?=$dmd_int_tot?></td>
+                                      <td><?=$tot_dmd?></td>
+                                      <td><?=$col_prn_od?></td>
+                                      <td><?=$col_prn_cr?></td>
+                                      <td><?=$col_prn_adv?></td>
+                                      <td><?=$col_prn_tot?></td>
+                                      <td><?=$col_int_od?></td>
+                                      <td><?=$col_int_cr?></td>
+                                      <td><?=$col_int_tot?></td>
+                                      <td><?=$tot_colc?></td>
+                                      <td><?=$recov_per?></td>
+                                      <td><?=$prv_yr_dmd_prn?></td>
+                                      <td><?=$prv_yr_dmd_int?></td>
+                                      <td><?=$prv_yr_dmd_tot?></td>
+                                      <td><?=$prv_yr_col_prn?></td>
+                                      <td><?=$prv_yr_col_int?></td>
+                                      <td><?=$prv_yr_col_tot?></td>
+                                      <td><?=$col_per?></td>
+                                      
+
+                                    </tr>
+
+
+                                     <?php }
                                 
                                 else{
 
@@ -482,18 +707,36 @@ tr:hover {background-color: #f5f5f5;}
 
                             ?>
                                 <tr>
-                                   <!--   <td><?php //echo $i++; ?></td> -->
-                                       <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo $dtls->tot_no_ac_dmd;?></td>
-                                     <td><?php echo $dtls->tot_no_ac_od_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_col;?></td>
+                                    <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
 
-                                    <td><?php echo $dtls->tot_no_ac_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_prog;?></td>
+                                    <td><?php echo $dtls->tot_no_ac_dmd;
+                                    $tot_no_ac_dmd += $dtls->tot_no_ac_dmd;
+
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_dmd;
+                                    $tot_no_ac_od_dmd += $dtls->tot_no_ac_od_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;
+                                    $tot_no_ac_curr_dmd += $dtls->tot_no_ac_curr_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_col;
+                                    $tot_no_ac_col += $dtls->tot_no_ac_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_col;
+                                    $tot_no_ac_od_col += $dtls->tot_no_ac_od_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_col;
+                                      $tot_no_ac_curr_col += $dtls->tot_no_ac_curr_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_prog;
+                                    $tot_no_ac_prog += $dtls->tot_no_ac_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_prog;
+                                    $tot_no_ac_od_prog += $dtls->tot_no_ac_od_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_prog;
+                                    $tot_no_ac_curr_prog += $dtls->tot_no_ac_curr_prog;
+                                    ?></td>
                                    
 
                                    
@@ -501,9 +744,26 @@ tr:hover {background-color: #f5f5f5;}
                                 </tr>
                                 <?php
 
-                                    }
+                                    } ?>
+                                    
+                                    <tr>
+                                      
+                                      <td>Total</td>
+                                      <td><?=$tot_no_ac_dmd?></td>
+                                      <td><?=$tot_no_ac_od_dmd?></td>
+                                      <td><?=$tot_no_ac_curr_dmd?></td>
+                                      <td><?=$tot_no_ac_col?></td>
+                                      <td><?=$tot_no_ac_od_col?></td>
+                                      <td><?=$tot_no_ac_curr_col?></td>
+                                      <td><?=$tot_no_ac_prog?></td>
+                                      <td><?=$tot_no_ac_od_prog?></td>
+                                      <td><?=$tot_no_ac_curr_prog?></td>
+                                     
+                                    </tr>
 
-                                     }
+
+
+                                     <?php }
                                 
                                 else{
 
@@ -609,39 +869,114 @@ tr:hover {background-color: #f5f5f5;}
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                       <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
                                        <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
-                                     <td><?php echo $dtls->dmd_prn_od;?></td>
-                                    <td><?php echo $dtls->dmd_prn_cr;?></td>
-                                    <td><?php echo $dtls->dmd_prn_tot;?></td>
-                                    <td><?php echo $dtls->dmd_int_od;?></td>
-                                    <td><?php echo $dtls->dmd_int_cr;?></td>
+                                      <td><?php echo $dtls->dmd_prn_od;
+                                                   $dmd_prn_od += $dtls->dmd_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_cr;
+                                                    $dmd_prn_cr += $dtls->dmd_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_tot;
+                                                    $dmd_prn_tot += $dtls->dmd_prn_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_od;
+                                                      $dmd_int_od += $dtls->dmd_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_cr;
+                                                  $dmd_int_cr += $dtls->dmd_int_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_tot;
+                                        $dmd_int_tot += $dtls->dmd_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_dmd;
+                                    $tot_dmd += $dtls->tot_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_od;
+                                    $col_prn_od += $dtls->col_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_cr;
 
-                                    <td><?php echo $dtls->dmd_int_tot;?></td>
-                                    <td><?php echo $dtls->tot_dmd;?></td>
-                                    <td><?php echo $dtls->col_prn_od;?></td>
-                                    <td><?php echo $dtls->col_prn_cr;?></td>
-                                    <td><?php echo $dtls->col_prn_adv;?></td>
-                                    <td><?php echo $dtls->col_prn_tot;?></td>
+                                    $col_prn_cr += $dtls->col_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_adv;
+                                    $col_prn_adv += $dtls->col_prn_adv;
 
-                                     <td><?php echo $dtls->col_int_od;?></td>
-                                    <td><?php echo $dtls->col_int_cr;?></td>
-                                    <td><?php echo $dtls->col_int_tot;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_tot;
+                                    $col_prn_tot += $dtls->col_prn_tot;
 
-                                    <td><?php echo $dtls->tot_colc;?></td>
-                                   <td><?php echo $dtls->recov_per;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_od;
 
-                                      <td><?php echo $dtls->prv_yr_dmd_prn;?></td>
-                                        <td><?php echo $dtls->prv_yr_dmd_int;?></td>
-                                          <td><?php echo $dtls->prv_yr_dmd_tot;?></td>
-                                            <td><?php echo $dtls->prv_yr_col_prn;?></td>
-                                              <td><?php echo $dtls->prv_yr_col_int;?></td>
-                                                <td><?php echo $dtls->prv_yr_col_tot;?></td>
-                                                   <td><?php echo $dtls->col_per;?></td>
+                                    $col_int_od += $dtls->col_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_cr;
+                                    $col_int_cr += $dtls->col_int_cr;
+
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_tot;
+                                    $col_int_tot += $dtls->col_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_colc;
+                                    $tot_colc += $dtls->tot_colc;
+                                    ?></td>
+                                    <td><?php echo $dtls->recov_per;
+                                    $recov_per += $dtls->recov_per;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_prn;
+                                    $prv_yr_dmd_prn += $dtls->prv_yr_dmd_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_int;
+                                    $prv_yr_dmd_int += $dtls->prv_yr_dmd_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_tot;
+                                    $prv_yr_dmd_tot += $dtls->prv_yr_dmd_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_prn;
+                                    $prv_yr_col_prn += $dtls->prv_yr_col_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_int;
+                                    $prv_yr_col_int += $dtls->prv_yr_col_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_tot;
+                                    $prv_yr_col_tot += $dtls->prv_yr_col_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_per;
+                                    $col_per += $dtls->col_per;
+                                    ?></td>
                                        </tr>
                                 <?php
 
-                                    }
+                                    } ?>
+                                    <tr>
+                                      <td colspan="2">Total</td>
+                                    
+                                      <td><?=$dmd_prn_od?></td>
+                                      <td><?=$dmd_prn_cr?></td>
+                                      <td><?=$dmd_prn_tot?></td>
+                                      <td><?=$dmd_int_od?></td>
+                                      <td><?=$dmd_int_cr?></td>
+                                      <td><?=$dmd_int_tot?></td>
+                                      <td><?=$tot_dmd?></td>
+                                      <td><?=$col_prn_od?></td>
+                                      <td><?=$col_prn_cr?></td>
+                                      <td><?=$col_prn_adv?></td>
+                                      <td><?=$col_prn_tot?></td>
+                                      <td><?=$col_int_od?></td>
+                                      <td><?=$col_int_cr?></td>
+                                      <td><?=$col_int_tot?></td>
+                                      <td><?=$tot_colc?></td>
+                                      <td><?=$recov_per?></td>
+                                      <td><?=$prv_yr_dmd_prn?></td>
+                                      <td><?=$prv_yr_dmd_int?></td>
+                                      <td><?=$prv_yr_dmd_tot?></td>
+                                      <td><?=$prv_yr_col_prn?></td>
+                                      <td><?=$prv_yr_col_int?></td>
+                                      <td><?=$prv_yr_col_tot?></td>
+                                      <td><?=$col_per?></td>
 
-                                     }
+                                    </tr>
+
+                               <?php      }
                                 
                                 else{
 
@@ -714,16 +1049,34 @@ tr:hover {background-color: #f5f5f5;}
                                 <tr>
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                        <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo $dtls->tot_no_ac_dmd;?></td>
-                                     <td><?php echo $dtls->tot_no_ac_od_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_col;?></td>
+                                        <td><?php echo $dtls->tot_no_ac_dmd;
+                                    $tot_no_ac_dmd += $dtls->tot_no_ac_dmd;
 
-                                    <td><?php echo $dtls->tot_no_ac_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_prog;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_dmd;
+                                    $tot_no_ac_od_dmd += $dtls->tot_no_ac_od_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;
+                                    $tot_no_ac_curr_dmd += $dtls->tot_no_ac_curr_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_col;
+                                    $tot_no_ac_col += $dtls->tot_no_ac_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_col;
+                                    $tot_no_ac_od_col += $dtls->tot_no_ac_od_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_col;
+                                      $tot_no_ac_curr_col += $dtls->tot_no_ac_curr_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_prog;
+                                    $tot_no_ac_prog += $dtls->tot_no_ac_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_prog;
+                                    $tot_no_ac_od_prog += $dtls->tot_no_ac_od_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_prog;
+                                    $tot_no_ac_curr_prog += $dtls->tot_no_ac_curr_prog;
+                                    ?></td>
                                    
 
                                    
@@ -731,9 +1084,24 @@ tr:hover {background-color: #f5f5f5;}
                                 </tr>
                                 <?php
 
-                                    }
+                                    }  ?>
 
-                                     }
+                                      <tr>
+                                      
+                                      <td>Total</td>
+                                      <td><?=$tot_no_ac_dmd?></td>
+                                      <td><?=$tot_no_ac_od_dmd?></td>
+                                      <td><?=$tot_no_ac_curr_dmd?></td>
+                                      <td><?=$tot_no_ac_col?></td>
+                                      <td><?=$tot_no_ac_od_col?></td>
+                                      <td><?=$tot_no_ac_curr_col?></td>
+                                      <td><?=$tot_no_ac_prog?></td>
+                                      <td><?=$tot_no_ac_od_prog?></td>
+                                      <td><?=$tot_no_ac_curr_prog?></td>
+                                     
+                                    </tr>
+ 
+                                   <?php  }
                                 
                                 else{
 
@@ -834,39 +1202,116 @@ tr:hover {background-color: #f5f5f5;}
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                       <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
                                        <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
-                                     <td><?php echo $dtls->dmd_prn_od;?></td>
-                                    <td><?php echo $dtls->dmd_prn_cr;?></td>
-                                    <td><?php echo $dtls->dmd_prn_tot;?></td>
-                                    <td><?php echo $dtls->dmd_int_od;?></td>
-                                    <td><?php echo $dtls->dmd_int_cr;?></td>
+                                    <td><?php echo $dtls->dmd_prn_od;
+                                                   $dmd_prn_od += $dtls->dmd_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_cr;
+                                                    $dmd_prn_cr += $dtls->dmd_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_tot;
+                                                    $dmd_prn_tot += $dtls->dmd_prn_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_od;
+                                                      $dmd_int_od += $dtls->dmd_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_cr;
+                                                  $dmd_int_cr += $dtls->dmd_int_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_tot;
+                                        $dmd_int_tot += $dtls->dmd_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_dmd;
+                                    $tot_dmd += $dtls->tot_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_od;
+                                    $col_prn_od += $dtls->col_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_cr;
 
-                                    <td><?php echo $dtls->dmd_int_tot;?></td>
-                                    <td><?php echo $dtls->tot_dmd;?></td>
-                                    <td><?php echo $dtls->col_prn_od;?></td>
-                                    <td><?php echo $dtls->col_prn_cr;?></td>
-                                    <td><?php echo $dtls->col_prn_adv;?></td>
-                                    <td><?php echo $dtls->col_prn_tot;?></td>
+                                    $col_prn_cr += $dtls->col_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_adv;
+                                    $col_prn_adv += $dtls->col_prn_adv;
 
-                                     <td><?php echo $dtls->col_int_od;?></td>
-                                    <td><?php echo $dtls->col_int_cr;?></td>
-                                    <td><?php echo $dtls->col_int_tot;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_tot;
+                                    $col_prn_tot += $dtls->col_prn_tot;
 
-                                    <td><?php echo $dtls->tot_colc;?></td>
-                                   <td><?php echo $dtls->recov_per;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_od;
 
-                                      <td><?php echo $dtls->prv_yr_dmd_prn;?></td>
-                                        <td><?php echo $dtls->prv_yr_dmd_int;?></td>
-                                          <td><?php echo $dtls->prv_yr_dmd_tot;?></td>
-                                            <td><?php echo $dtls->prv_yr_col_prn;?></td>
-                                              <td><?php echo $dtls->prv_yr_col_int;?></td>
-                                                <td><?php echo $dtls->prv_yr_col_tot;?></td>
-                                                   <td><?php echo $dtls->col_per;?></td>
+                                    $col_int_od += $dtls->col_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_cr;
+                                    $col_int_cr += $dtls->col_int_cr;
+
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_tot;
+                                    $col_int_tot += $dtls->col_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_colc;
+                                    $tot_colc += $dtls->tot_colc;
+                                    ?></td>
+                                    <td><?php echo $dtls->recov_per;
+                                    $recov_per += $dtls->recov_per;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_prn;
+                                    $prv_yr_dmd_prn += $dtls->prv_yr_dmd_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_int;
+                                    $prv_yr_dmd_int += $dtls->prv_yr_dmd_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_tot;
+                                    $prv_yr_dmd_tot += $dtls->prv_yr_dmd_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_prn;
+                                    $prv_yr_col_prn += $dtls->prv_yr_col_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_int;
+                                    $prv_yr_col_int += $dtls->prv_yr_col_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_tot;
+                                    $prv_yr_col_tot += $dtls->prv_yr_col_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_per;
+                                    $col_per += $dtls->col_per;
+                                    ?></td>
                                        </tr>
                                 <?php
 
-                                    }
+                                    } ?>
+                                     <tr>
+                                      <td colspan="2">Total</td>
+                                    
+                                      <td><?=$dmd_prn_od?></td>
+                                      <td><?=$dmd_prn_cr?></td>
+                                      <td><?=$dmd_prn_tot?></td>
+                                      <td><?=$dmd_int_od?></td>
+                                      <td><?=$dmd_int_cr?></td>
+                                      <td><?=$dmd_int_tot?></td>
+                                      <td><?=$tot_dmd?></td>
+                                      <td><?=$col_prn_od?></td>
+                                      <td><?=$col_prn_cr?></td>
+                                      <td><?=$col_prn_adv?></td>
+                                      <td><?=$col_prn_tot?></td>
+                                      <td><?=$col_int_od?></td>
+                                      <td><?=$col_int_cr?></td>
+                                      <td><?=$col_int_tot?></td>
+                                      <td><?=$tot_colc?></td>
+                                      <td><?=$recov_per?></td>
+                                      <td><?=$prv_yr_dmd_prn?></td>
+                                      <td><?=$prv_yr_dmd_int?></td>
+                                      <td><?=$prv_yr_dmd_tot?></td>
+                                      <td><?=$prv_yr_col_prn?></td>
+                                      <td><?=$prv_yr_col_int?></td>
+                                      <td><?=$prv_yr_col_tot?></td>
+                                      <td><?=$col_per?></td>
+                                      
 
-                                     }
+                                    </tr>
+
+
+                                <?php     }
                                 
                                 else{
 
@@ -939,20 +1384,35 @@ tr:hover {background-color: #f5f5f5;}
                                 <tr>
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                        <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo $dtls->tot_no_ac_dmd;?></td>
-                                     <td><?php echo $dtls->tot_no_ac_od_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_col;?></td>
+                                         <td><?php echo $dtls->tot_no_ac_dmd;
+                                    $tot_no_ac_dmd += $dtls->tot_no_ac_dmd;
 
-                                    <td><?php echo $dtls->tot_no_ac_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_prog;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_dmd;
+                                    $tot_no_ac_od_dmd += $dtls->tot_no_ac_od_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;
+                                    $tot_no_ac_curr_dmd += $dtls->tot_no_ac_curr_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_col;
+                                    $tot_no_ac_col += $dtls->tot_no_ac_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_col;
+                                    $tot_no_ac_od_col += $dtls->tot_no_ac_od_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_col;
+                                      $tot_no_ac_curr_col += $dtls->tot_no_ac_curr_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_prog;
+                                    $tot_no_ac_prog += $dtls->tot_no_ac_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_prog;
+                                    $tot_no_ac_od_prog += $dtls->tot_no_ac_od_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_prog;
+                                    $tot_no_ac_curr_prog += $dtls->tot_no_ac_curr_prog;
+                                    ?></td>
                                    
-
-                                   
-                                     
                                 </tr>
                                 <?php
 
@@ -1047,39 +1507,116 @@ tr:hover {background-color: #f5f5f5;}
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                       <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
                                        <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
-                                     <td><?php echo $dtls->dmd_prn_od;?></td>
-                                    <td><?php echo $dtls->dmd_prn_cr;?></td>
-                                    <td><?php echo $dtls->dmd_prn_tot;?></td>
-                                    <td><?php echo $dtls->dmd_int_od;?></td>
-                                    <td><?php echo $dtls->dmd_int_cr;?></td>
+                                      <td><?php echo $dtls->dmd_prn_od;
+                                                   $dmd_prn_od += $dtls->dmd_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_cr;
+                                                    $dmd_prn_cr += $dtls->dmd_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_tot;
+                                                    $dmd_prn_tot += $dtls->dmd_prn_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_od;
+                                                      $dmd_int_od += $dtls->dmd_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_cr;
+                                                  $dmd_int_cr += $dtls->dmd_int_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_tot;
+                                        $dmd_int_tot += $dtls->dmd_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_dmd;
+                                    $tot_dmd += $dtls->tot_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_od;
+                                    $col_prn_od += $dtls->col_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_cr;
 
-                                    <td><?php echo $dtls->dmd_int_tot;?></td>
-                                    <td><?php echo $dtls->tot_dmd;?></td>
-                                    <td><?php echo $dtls->col_prn_od;?></td>
-                                    <td><?php echo $dtls->col_prn_cr;?></td>
-                                    <td><?php echo $dtls->col_prn_adv;?></td>
-                                    <td><?php echo $dtls->col_prn_tot;?></td>
+                                    $col_prn_cr += $dtls->col_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_adv;
+                                    $col_prn_adv += $dtls->col_prn_adv;
 
-                                     <td><?php echo $dtls->col_int_od;?></td>
-                                    <td><?php echo $dtls->col_int_cr;?></td>
-                                    <td><?php echo $dtls->col_int_tot;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_tot;
+                                    $col_prn_tot += $dtls->col_prn_tot;
 
-                                    <td><?php echo $dtls->tot_colc;?></td>
-                                   <td><?php echo $dtls->recov_per;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_od;
 
-                                      <td><?php echo $dtls->prv_yr_dmd_prn;?></td>
-                                        <td><?php echo $dtls->prv_yr_dmd_int;?></td>
-                                          <td><?php echo $dtls->prv_yr_dmd_tot;?></td>
-                                            <td><?php echo $dtls->prv_yr_col_prn;?></td>
-                                              <td><?php echo $dtls->prv_yr_col_int;?></td>
-                                                <td><?php echo $dtls->prv_yr_col_tot;?></td>
-                                                   <td><?php echo $dtls->col_per;?></td>
+                                    $col_int_od += $dtls->col_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_cr;
+                                    $col_int_cr += $dtls->col_int_cr;
+
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_tot;
+                                    $col_int_tot += $dtls->col_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_colc;
+                                    $tot_colc += $dtls->tot_colc;
+                                    ?></td>
+                                    <td><?php echo $dtls->recov_per;
+                                    $recov_per += $dtls->recov_per;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_prn;
+                                    $prv_yr_dmd_prn += $dtls->prv_yr_dmd_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_int;
+                                    $prv_yr_dmd_int += $dtls->prv_yr_dmd_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_tot;
+                                    $prv_yr_dmd_tot += $dtls->prv_yr_dmd_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_prn;
+                                    $prv_yr_col_prn += $dtls->prv_yr_col_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_int;
+                                    $prv_yr_col_int += $dtls->prv_yr_col_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_tot;
+                                    $prv_yr_col_tot += $dtls->prv_yr_col_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_per;
+                                    $col_per += $dtls->col_per;
+                                    ?></td>
                                        </tr>
                                 <?php
 
-                                    }
+                                    }?>
 
-                                     }
+                                    <tr>
+                                      <td colspan="2">Total</td>
+                                    
+                                      <td><?=$dmd_prn_od?></td>
+                                      <td><?=$dmd_prn_cr?></td>
+                                      <td><?=$dmd_prn_tot?></td>
+                                      <td><?=$dmd_int_od?></td>
+                                      <td><?=$dmd_int_cr?></td>
+                                      <td><?=$dmd_int_tot?></td>
+                                      <td><?=$tot_dmd?></td>
+                                      <td><?=$col_prn_od?></td>
+                                      <td><?=$col_prn_cr?></td>
+                                      <td><?=$col_prn_adv?></td>
+                                      <td><?=$col_prn_tot?></td>
+                                      <td><?=$col_int_od?></td>
+                                      <td><?=$col_int_cr?></td>
+                                      <td><?=$col_int_tot?></td>
+                                      <td><?=$tot_colc?></td>
+                                      <td><?=$recov_per?></td>
+                                      <td><?=$prv_yr_dmd_prn?></td>
+                                      <td><?=$prv_yr_dmd_int?></td>
+                                      <td><?=$prv_yr_dmd_tot?></td>
+                                      <td><?=$prv_yr_col_prn?></td>
+                                      <td><?=$prv_yr_col_int?></td>
+                                      <td><?=$prv_yr_col_tot?></td>
+                                      <td><?=$col_per?></td>
+                                      
+
+                                    </tr>
+
+                                     <?php }
                                 
                                 else{
 
@@ -1152,16 +1689,34 @@ tr:hover {background-color: #f5f5f5;}
                                 <tr>
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                        <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo $dtls->tot_no_ac_dmd;?></td>
-                                     <td><?php echo $dtls->tot_no_ac_od_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_col;?></td>
+                                       <td><?php echo $dtls->tot_no_ac_dmd;
+                                    $tot_no_ac_dmd += $dtls->tot_no_ac_dmd;
 
-                                    <td><?php echo $dtls->tot_no_ac_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_prog;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_dmd;
+                                    $tot_no_ac_od_dmd += $dtls->tot_no_ac_od_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;
+                                    $tot_no_ac_curr_dmd += $dtls->tot_no_ac_curr_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_col;
+                                    $tot_no_ac_col += $dtls->tot_no_ac_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_col;
+                                    $tot_no_ac_od_col += $dtls->tot_no_ac_od_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_col;
+                                      $tot_no_ac_curr_col += $dtls->tot_no_ac_curr_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_prog;
+                                    $tot_no_ac_prog += $dtls->tot_no_ac_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_prog;
+                                    $tot_no_ac_od_prog += $dtls->tot_no_ac_od_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_prog;
+                                    $tot_no_ac_curr_prog += $dtls->tot_no_ac_curr_prog;
+                                    ?></td>
                                    
 
                                    
@@ -1169,9 +1724,25 @@ tr:hover {background-color: #f5f5f5;}
                                 </tr>
                                 <?php
 
-                                    }
+                                    } ?>
 
-                                     }
+
+                                      <tr>
+                                      
+                                      <td>Total</td>
+                                      <td><?=$tot_no_ac_dmd?></td>
+                                      <td><?=$tot_no_ac_od_dmd?></td>
+                                      <td><?=$tot_no_ac_curr_dmd?></td>
+                                      <td><?=$tot_no_ac_col?></td>
+                                      <td><?=$tot_no_ac_od_col?></td>
+                                      <td><?=$tot_no_ac_curr_col?></td>
+                                      <td><?=$tot_no_ac_prog?></td>
+                                      <td><?=$tot_no_ac_od_prog?></td>
+                                      <td><?=$tot_no_ac_curr_prog?></td>
+                                     
+                                    </tr>
+
+                                  <?php   }
                                 
                                 else{
 
@@ -1257,39 +1828,116 @@ tr:hover {background-color: #f5f5f5;}
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                       <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
                                        <td><?php echo date("d/m/y",strtotime($dtls->return_dt));?></td>
-                                     <td><?php echo $dtls->dmd_prn_od;?></td>
-                                    <td><?php echo $dtls->dmd_prn_cr;?></td>
-                                    <td><?php echo $dtls->dmd_prn_tot;?></td>
-                                    <td><?php echo $dtls->dmd_int_od;?></td>
-                                    <td><?php echo $dtls->dmd_int_cr;?></td>
+                                      <td><?php echo $dtls->dmd_prn_od;
+                                                   $dmd_prn_od += $dtls->dmd_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_cr;
+                                                    $dmd_prn_cr += $dtls->dmd_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_prn_tot;
+                                                    $dmd_prn_tot += $dtls->dmd_prn_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_od;
+                                                      $dmd_int_od += $dtls->dmd_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_cr;
+                                                  $dmd_int_cr += $dtls->dmd_int_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->dmd_int_tot;
+                                        $dmd_int_tot += $dtls->dmd_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_dmd;
+                                    $tot_dmd += $dtls->tot_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_od;
+                                    $col_prn_od += $dtls->col_prn_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_cr;
 
-                                    <td><?php echo $dtls->dmd_int_tot;?></td>
-                                    <td><?php echo $dtls->tot_dmd;?></td>
-                                    <td><?php echo $dtls->col_prn_od;?></td>
-                                    <td><?php echo $dtls->col_prn_cr;?></td>
-                                    <td><?php echo $dtls->col_prn_adv;?></td>
-                                    <td><?php echo $dtls->col_prn_tot;?></td>
+                                    $col_prn_cr += $dtls->col_prn_cr;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_adv;
+                                    $col_prn_adv += $dtls->col_prn_adv;
 
-                                     <td><?php echo $dtls->col_int_od;?></td>
-                                    <td><?php echo $dtls->col_int_cr;?></td>
-                                    <td><?php echo $dtls->col_int_tot;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_prn_tot;
+                                    $col_prn_tot += $dtls->col_prn_tot;
 
-                                    <td><?php echo $dtls->tot_colc;?></td>
-                                   <td><?php echo $dtls->recov_per;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_od;
 
-                                      <td><?php echo $dtls->prv_yr_dmd_prn;?></td>
-                                        <td><?php echo $dtls->prv_yr_dmd_int;?></td>
-                                          <td><?php echo $dtls->prv_yr_dmd_tot;?></td>
-                                            <td><?php echo $dtls->prv_yr_col_prn;?></td>
-                                              <td><?php echo $dtls->prv_yr_col_int;?></td>
-                                                <td><?php echo $dtls->prv_yr_col_tot;?></td>
-                                                   <td><?php echo $dtls->col_per;?></td>
+                                    $col_int_od += $dtls->col_int_od;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_cr;
+                                    $col_int_cr += $dtls->col_int_cr;
+
+                                    ?></td>
+                                    <td><?php echo $dtls->col_int_tot;
+                                    $col_int_tot += $dtls->col_int_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_colc;
+                                    $tot_colc += $dtls->tot_colc;
+                                    ?></td>
+                                    <td><?php echo $dtls->recov_per;
+                                    $recov_per += $dtls->recov_per;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_prn;
+                                    $prv_yr_dmd_prn += $dtls->prv_yr_dmd_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_int;
+                                    $prv_yr_dmd_int += $dtls->prv_yr_dmd_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_dmd_tot;
+                                    $prv_yr_dmd_tot += $dtls->prv_yr_dmd_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_prn;
+                                    $prv_yr_col_prn += $dtls->prv_yr_col_prn;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_int;
+                                    $prv_yr_col_int += $dtls->prv_yr_col_int;
+                                    ?></td>
+                                    <td><?php echo $dtls->prv_yr_col_tot;
+                                    $prv_yr_col_tot += $dtls->prv_yr_col_tot;
+                                    ?></td>
+                                    <td><?php echo $dtls->col_per;
+                                    $col_per += $dtls->col_per;
+                                    ?></td>
                                        </tr>
                                 <?php
 
-                                    }
+                                    } ?>
 
-                                     }
+                                    <tr>
+                                      <td colspan="2">Total</td>
+                                    
+                                      <td><?=$dmd_prn_od?></td>
+                                      <td><?=$dmd_prn_cr?></td>
+                                      <td><?=$dmd_prn_tot?></td>
+                                      <td><?=$dmd_int_od?></td>
+                                      <td><?=$dmd_int_cr?></td>
+                                      <td><?=$dmd_int_tot?></td>
+                                      <td><?=$tot_dmd?></td>
+                                      <td><?=$col_prn_od?></td>
+                                      <td><?=$col_prn_cr?></td>
+                                      <td><?=$col_prn_adv?></td>
+                                      <td><?=$col_prn_tot?></td>
+                                      <td><?=$col_int_od?></td>
+                                      <td><?=$col_int_cr?></td>
+                                      <td><?=$col_int_tot?></td>
+                                      <td><?=$tot_colc?></td>
+                                      <td><?=$recov_per?></td>
+                                      <td><?=$prv_yr_dmd_prn?></td>
+                                      <td><?=$prv_yr_dmd_int?></td>
+                                      <td><?=$prv_yr_dmd_tot?></td>
+                                      <td><?=$prv_yr_col_prn?></td>
+                                      <td><?=$prv_yr_col_int?></td>
+                                      <td><?=$prv_yr_col_tot?></td>
+                                      <td><?=$col_per?></td>
+                                      
+
+                                    </tr>
+
+                                    <?php }
                                 
                                 else{
 
@@ -1357,23 +2005,57 @@ tr:hover {background-color: #f5f5f5;}
                                 <tr>
                                    <!--   <td><?php //echo $i++; ?></td> -->
                                        <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                       <td><?php echo $dtls->tot_no_ac_dmd;?></td>
-                                     <td><?php echo $dtls->tot_no_ac_od_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_col;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_col;?></td>
+                                        <td><?php echo $dtls->tot_no_ac_dmd;
+                                    $tot_no_ac_dmd += $dtls->tot_no_ac_dmd;
 
-                                    <td><?php echo $dtls->tot_no_ac_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_od_prog;?></td>
-                                    <td><?php echo $dtls->tot_no_ac_curr_prog;?></td>
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_dmd;
+                                    $tot_no_ac_od_dmd += $dtls->tot_no_ac_od_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_dmd;
+                                    $tot_no_ac_curr_dmd += $dtls->tot_no_ac_curr_dmd;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_col;
+                                    $tot_no_ac_col += $dtls->tot_no_ac_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_col;
+                                    $tot_no_ac_od_col += $dtls->tot_no_ac_od_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_col;
+                                      $tot_no_ac_curr_col += $dtls->tot_no_ac_curr_col;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_prog;
+                                    $tot_no_ac_prog += $dtls->tot_no_ac_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_od_prog;
+                                    $tot_no_ac_od_prog += $dtls->tot_no_ac_od_prog;
+                                    ?></td>
+                                    <td><?php echo $dtls->tot_no_ac_curr_prog;
+                                    $tot_no_ac_curr_prog += $dtls->tot_no_ac_curr_prog;
+                                    ?></td>
                                                                         
                                 </tr>
                                 <?php
 
-                                    }
+                                    } ?>
 
-                                     }
+                                    
+                                      <tr>
+                                      
+                                      <td>Total</td>
+                                      <td><?=$tot_no_ac_dmd?></td>
+                                      <td><?=$tot_no_ac_od_dmd?></td>
+                                      <td><?=$tot_no_ac_curr_dmd?></td>
+                                      <td><?=$tot_no_ac_col?></td>
+                                      <td><?=$tot_no_ac_od_col?></td>
+                                      <td><?=$tot_no_ac_curr_col?></td>
+                                      <td><?=$tot_no_ac_prog?></td>
+                                      <td><?=$tot_no_ac_od_prog?></td>
+                                      <td><?=$tot_no_ac_curr_prog?></td>
+                                     
+                                    </tr>
+
+                                <?php     }
                                 
                                 else{
 

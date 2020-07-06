@@ -132,6 +132,7 @@
                     <div class="input-group-prepend bg-transparent">
                       <span class="input-group-text bg-transparent border-right-0">
                         <i class="mdi mdi-lock-outline text-primary"></i>
+                        <i class="glyphicon icon-eye-open glyphicon-eye-open"></i>
                       </span>
                     </div>
                     <input type="password" class="form-control form-control-lg" name="paswd" id="paswd" placeholder="Password" required>
