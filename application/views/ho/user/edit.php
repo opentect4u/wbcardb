@@ -10,7 +10,7 @@
 
                 <div class="form-header">
                 
-                    <h4>User Update  dfsff</h4>
+                    <h4>User Update</h4>
                 </div>
 
             <input type="hidden" name="user_id" value="<?php echo $user_dtls->user_id; ?>">
@@ -63,6 +63,16 @@
                     </div>
 
                 </div>
+
+                <div class="form-group row">
+
+                    <label for="remarks" class="col-sm-3 col-form-label">Remarks:</label>
+
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control required" name="remarks" id="remarks" value="" />                        
+                    </div>
+
+                </div> 
              
                 <div class="form-group row">
 

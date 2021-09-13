@@ -1,125 +1,123 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller {
 
-	public function __construct(){
+    public function __construct() {
 
         parent:: __construct();
-        
+
         $this->load->model('Process');
         $this->load->model('Master');
-	}
+    }
 
-	public function index(){
-      
-		if($_SERVER['REQUEST_METHOD']=="POST"){
+    public function index() {
 
-            $userId	=	$_POST['userid'];
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-            $pwd	=	$_POST['paswd'];
+            $userId = $_POST['userid'];
 
-            $data   =	$this->Process->userInf($userId);
-             if(!empty($data->password)){
+            $pwd = $_POST['paswd'];
 
-            $match	=	password_verify($pwd,$data->password);
-            
-			if($match){
-                
-                $this->session->set_userdata('login',$data);
+            $data = $this->Process->userInf($userId);
+            if (!empty($data->password)) {
 
-                $_SESSION['user_id']   = $data->user_id;
-                
-                $_SESSION['user_type'] = $data->user_type;
+                $match = password_verify($pwd, $data->password);
 
-                $_SESSION['user_name'] = $data->user_name;
-                
-                $_SESSION['sys_date']  = date('Y-m-d'); 
+                if ($match) {
 
-                redirect('Main/login');
-			}else{
+                    $this->session->set_userdata('login', $data);
 
-                $this->session->set_flashdata('err_message','Invalid username and password combination.Please try again.');
-		
-				$this->load->view('login/login');
-			}
+                    $_SESSION['user_id'] = $data->user_id;
 
+                    $_SESSION['user_type'] = $data->user_type;
 
-        }else{
+                    $_SESSION['user_name'] = $data->user_name;
 
-                $this->session->set_flashdata('err_message','Invalid username and password combination.Please try again.');
-        
+                    $_SESSION['sys_date'] = date('Y-m-d');
+
+                    redirect('Main/login');
+                } else {
+
+                    $this->session->set_flashdata('err_message', 'Invalid username and password combination.Please try again.');
+
+                    $this->load->view('login/login');
+                }
+            } else {
+
+                $this->session->set_flashdata('err_message', 'Invalid username and password combination.Please try again.');
+
                 $this->load->view('login/login');
-           }
-        }else{
-        
+            }
+        } else {
+
             $this->load->view('login/login');
         }
     }
-    public function dashboard()
-    {
+
+    public function dashboard() {
         $this->load->view('ho/dashboard/dashboard');
     }
 
-    
-    public function login(){
+    public function login() {
 
-		if($this->session->userdata('login')){
+        if ($this->session->userdata('login')) {
 
-             $select     =   array("ifnull(count(ardb_id), 0) ardb_id");
+            $select = array("ifnull(count(ardb_id), 0) ardb_id");
 
-             $where = array("date_format(td_fridy_rtn.`week_dt`,'%Y-%m')" => date('Y-m'));
+            $where = array("date_format(td_fridy_rtn.`week_dt`,'%Y-%m')" => date('Y-m'));
 
-             $wherei = array("date_format(td_investment.`return_dt`,'%Y-%m')" => date('Y-m'));
-             $nabfarm = array(
+            $wherei = array("date_format(td_investment.`return_dt`,'%Y-%m')" => date('Y-m'));
+            $nabfarm = array(
                 "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
-                 "report_type" => "2");
-             $nonanbfarm = array(
+                "report_type" => "2");
+            $nonanbfarm = array(
                 "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
-                 "report_type" => "3");
-             $sgh = array(
+                "report_type" => "3");
+            $sgh = array(
                 "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
-                 "report_type" => "4");
-             $nhb = array(
+                "report_type" => "4");
+            $nhb = array(
                 "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
-                 "report_type" => "5");
-             $nab = array(
+                "report_type" => "5");
+            $nab = array(
                 "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
-                 "report_type" => "6");
-             $consolidated = array(
+                "report_type" => "6");
+            $consolidated = array(
                 "date_format(td_fortnight.`return_dt`,'%Y-%m')" => date('Y-m'),
-                 "report_type" => "1");
+                "report_type" => "1");
 
-            $data["firday"]       = $this->Master->get_particulars("td_fridy_rtn",$select,$where,1);
-            $data["invest"]       = $this->Master->get_particulars("td_investment",$select,$wherei,1);
-            $data["nabfarm"]      = $this->Master->get_particulars("td_fortnight",$select,$nabfarm,1);
-            $data["nonanbfarm"]   = $this->Master->get_particulars("td_fortnight",$select,$nonanbfarm,1);
-            $data["sgh"]          = $this->Master->get_particulars("td_fortnight",$select,$sgh,1);
-            $data["nhb"]          = $this->Master->get_particulars("td_fortnight",$select,$nhb,1);
-            $data["nab"]          = $this->Master->get_particulars("td_fortnight",$select,$nab,1);
-            $data["consolidated"] = $this->Master->get_particulars("td_fortnight",$select,$consolidated,1);
+            $data["firday"] = $this->Master->get_particulars("td_fridy_rtn", $select, $where, 1);
+            $data["invest"] = $this->Master->get_particulars("td_investment", $select, $wherei, 1);
+            $data["nabfarm"] = $this->Master->get_particulars("td_fortnight", $select, $nabfarm, 1);
+            $data["nonanbfarm"] = $this->Master->get_particulars("td_fortnight", $select, $nonanbfarm, 1);
+            $data["sgh"] = $this->Master->get_particulars("td_fortnight", $select, $sgh, 1);
+            $data["nhb"] = $this->Master->get_particulars("td_fortnight", $select, $nhb, 1);
+            $data["nab"] = $this->Master->get_particulars("td_fortnight", $select, $nab, 1);
+            $data["consolidated"] = $this->Master->get_particulars("td_fortnight", $select, $consolidated, 1);
+            $data["details"] = json_encode($this->Process->get_details($_SESSION['br_id']));
 
             $this->load->view('common/header');
-            $this->load->view('ho/dashboard/dashboard',$data);
+            $this->load->view('ho/dashboard/dashboard', $data);
             $this->load->view('common/footer');
+        } else {
 
-		}else{
-
-			$this->load->view('login/login');
+            $this->load->view('login/login');
         }
     }
-    
-    public function logout(){
 
-        if($this->session->userdata('login')){
+    public function logout() {
+
+        if ($this->session->userdata('login')) {
 
             $this->session->unset_userdata('login');
 
             redirect('Main/login');
-        }else{
+        } else {
 
             redirect('Main/login');
         }
-
     }
+
 }

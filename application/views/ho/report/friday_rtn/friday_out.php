@@ -77,7 +77,7 @@ tr:hover {background-color: #f5f5f5;}
 
                     <div class="com-md-12" style="text-align:center;">
                         <h4> THE West Bengal State Cooperative Agriculture & Rural Development Bank Ltd.</h4>                        
-                          CONSOLIDATED FRIDAY RETURN FOR THE WEEK ENDING <?php echo date('d/m/y',strtotime($_POST['from_dt']));?>  to  <?php echo date('d/m/y',strtotime($_POST['to_dt']));?>
+                          CONSOLIDATED FRIDAY RETURN BETWEEN <?php echo date('d/m/y',strtotime($_POST['from_dt']));?>  to  <?php echo date('d/m/y',strtotime($_POST['to_dt']));?>
                     </div> 
                     <div class="com-md-1">Rs. In Lakh</div>
 
@@ -99,6 +99,7 @@ tr:hover {background-color: #f5f5f5;}
                             <tr>
                               <th>Sl No.</th>
                               <th>Name of ARDB.</th>
+                              <th>Date</th>
                               <th>RD</th>
                               <th>FD</th>
                               <th>Flexi</th>
@@ -154,7 +155,11 @@ tr:hover {background-color: #f5f5f5;}
                             ?>
                                 <tr>
                                     <td><?php echo $i++; ?></td>
+
                                     <td><?php echo get_ardb_name($dtls->ardb_id);?></td>
+
+                                    <td><?php echo date('d/m/Y',strtotime($dtls->week_dt));?></td>
+
                                     <td><?php echo round(($dtls->rd)/100000,2);
 
                                           $rd += round(($dtls->rd)/100000,2);
@@ -239,6 +244,7 @@ tr:hover {background-color: #f5f5f5;}
 
                                  <tr>
                                     <td colspan="2">Total</td>
+                                    <td></td>
                                     <td><?=$rd?></td>
                                     <td><?=$fd?></td>
                                     <td><?=$flexi_sb?></td>

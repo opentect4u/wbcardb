@@ -30218,3 +30218,96 @@ div.tagsinput span.tag a {
 }
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
+
+
+
+
+/* design 06/01/2021 start */
+
+.table-responsive{margin-top: 40px;}
+.card .card-title {font-size: 18px;}
+table.dataTable{border: 1px solid #c8c8c8;border-top: 2px solid #c8c8c8;}
+td .fa-lg{margin-left: 10px;}
+div.dataTables_wrapper div.dataTables_length select{width: 50px;}
+.table th, .jsgrid .jsgrid-table th, .table td, .jsgrid .jsgrid-table td{border: 1px solid #c8c8c8;}
+.bttn-ad{margin-left: 700px;}
+.table thead th, .jsgrid .jsgrid-table thead th{text-transform: capitalize;}
+hr{margin-bottom: 0;}
+.table thead th, .jsgrid .jsgrid-table thead th {border-bottom: 1px solid #c8c8c8;}
+.border-none td{border:0px solid #FFF;outline: none;}
+.margin-tt{margin-top: 15px;margin-left: 15px;}
+.form-control{border: 1px solid #9a9a9a;}
+.form-group.row select {border: 1px solid #9a9a9a;color: black;}
+.m {border-top: 1px solid #c8c8c8;}
+.margin-topp-remove {margin: 0;}
+.block-width {outline: 1px solid #9a9a9a !important; color: black !important; width: 125px; }
+.textarea-width{width: 125px;}
+.form-group {margin-bottom: 0;}
+.width-th{width: 100px;}
+.table thead th, .jsgrid .jsgrid-table thead th{font-size: 12px;}
+.footer span.text-muted.text-center.text-sm-left.d-block.d-sm-inline-block { margin: 0 auto;}
+.table{ margin-bottom: 0; border-top: 1px solid #c8c8c8; }
+.border-none { border: none; }
+.bttn-align input{margin-left: -15px;}
+.width-obc{width: 65px;}
+.form-control::placeholder {color: #6e6e6e;} /* Firefox, Chrome, Opera */
+.form-control:-ms-input-placeholder{color: #6e6e6e;} /* Internet Explorer 10-11 */ 
+.form-control::-ms-input-placeholder {color: #6e6e6e;}  /* Microsoft Edge */
+
+
+.modal-backdrop{position: fixed;top: 0;left: 100%;z-index: 9999;width: 400px;height: 100vh;background-color: #0000 !important;}
+div#myModal {position: fixed;top: -31px;right: 0 !important;left: 50%;width: 600px;}
+.modal-content {border: 2px solid #DDD;background: #405189;color: #FFF;left: 50%;}
+.modal-body {width: 305px;text-align: justify;}
+.modal .modal-dialog .modal-content .modal-body {padding: 35px 35px 35px 26px;}
+.form-control, .asColorPicker-input, .dataTables_wrapper select, .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text], .jsgrid .jsgrid-table .jsgrid-filter-row select, .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number], .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--single .select2-search__field, .typeahead, .tt-query, .tt-hint{height: 35px;}
+
+.notification{position: relative;}
+.notification .badge {
+ position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 2px 5px;
+    border-radius: 50%;
+    background: #ffb63c;
+    color: white;
+}
+.nav-menu{list-style: none;}
+.nav-icon {background: #bee284; padding: 8px; border-radius: 50%; color: #405189;}
+.nav-note {padding-left: 10px; color: white;}
+.sanc-amt {position: absolute; top: -19px; right: 65px; padding: 8px 20px; border-radius: 15%; background: #28a745; color: white;}
+.form-control, .asColorPicker-input, .dataTables_wrapper select, .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text], .jsgrid .jsgrid-table .jsgrid-filter-row select, .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number], .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--single .select2-search__field, .typeahead, .tt-query, .tt-hint{padding: 0.200rem 0.200rem;}
+
+li.nav-item {width: 100%;}
+ul.nav.flex-column.sub-menu {margin-left: 20px;}
+nav#sidebar {
+    background: #2c2e3e;
+}
+nav#sidebar ul li a {
+    color: #ffffff94;
+}
+/*nav#sidebar .nav-item ul li:hover a {
+    color: #ffffff;
+}*/
+.new-w {
+    max-width: 255px;
+}
+nav#sidebar ul li a:focus {
+    background: #3f404c;
+}
+/*li.nav-item:hover {
+    background: #3f404c;
+}*/
+nav#sidebar ul li a:hover {
+    color: white;
+}
+
+span.select2-selection.select2-selection--single {border: 1px solid #9a9a9a;color: black;}
+.select2-container--default .select2-dropdown {border: 1px solid #9a9a9a;}
+.select2-search--dropdown {border-bottom: 1px solid #9a9a9a;}
+.select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-dropdown .select2-search__field, .select2-container--default .select2-selection--multiple .select2-search__field {border-color: #9a9a9a;}
+/*a.nav-link.collapsed {
+    margin-left: 20px;
+}*/
+/* design 06/01/2021 end*/
+/*.sub-menu ul{margin-left: 20px;}*/

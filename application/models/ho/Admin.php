@@ -135,4 +135,9 @@ class Admin extends CI_Model {
 
     }
 
+    function get_ardb_ho_details(){
+        $sql = $this->db->get('mm_ardb_ho');
+        return $query->result();
+    }
+
 }

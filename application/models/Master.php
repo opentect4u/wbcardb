@@ -51,6 +51,15 @@ class Master extends CI_Model{
 
     }
 
+    public function get_dc($ardb){
+
+      $query = $this->db->query("select distinct ardb_id,return_dt
+                                from td_dc
+                                where ardb_id = '$ardb'");
+
+      return $query->result();
+    }
+
   public function getAllhsn(){
 
         $this->db->select('*');

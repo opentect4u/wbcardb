@@ -72,13 +72,12 @@ tr:hover {background-color: #f5f5f5;}
               <div class="row">
                 <div class="col-12">
 
-                <?php    foreach($reports as $dtl);?>
                   <div id="divToPrint" style="overflow-x:auto;">
 
                     <div style="text-align:center;">
 
-                     <h4>THE <?php echo get_ardb_name($dtl->ardb_id); ?> PCARD LTD.</h4>              
-           FRIDAY RETURN FOR THEWEEK ENDING <?php echo date('d/m/y',strtotime($_POST['from_dt'])); ?>  To <?php echo date('d/m/y',strtotime($_POST['to_dt'])); ?> (Rs. In Lakh)
+                     <h4>THE <?php echo get_ardb_name($_POST['ardb_id']); ?></h4>              
+           FRIDAY RETURN BETWEEN <?php echo date('d/m/y',strtotime($_POST['from_dt'])); ?>  To <?php echo date('d/m/y',strtotime($_POST['to_dt'])); ?> (Rs. In Lakh)
                             
 
 
@@ -108,7 +107,7 @@ tr:hover {background-color: #f5f5f5;}
 
                             <tr>
                               <th>Sl No.</th>
-                              <th>Name of ARDB</th>
+                              <th>Date</th>
                               <th>RD</th>
                               <th>FD</th>
                               <th>Flexi</th>
@@ -134,34 +133,141 @@ tr:hover {background-color: #f5f5f5;}
                                 if($reports){ 
 
                                     $i = 1;
-                                 
+
+                                    $tot_rd                       = 0;
+                                    $tot_fd                       = 0;
+                                    $tot_sb                       = 0;
+                                    $tot_mis                      = 0;
+                                    $tot_other                    = 0;
+                                    $tot_ibsd                     = 0;
+                                    $tot_total_dep_mob            = 0;
+                                    $tot_cash_in_hand             = 0;
+                                    $tot_other_bank               = 0;
+                                    $tot_ibsd_loan                = 0;
+                                    $tot_dep_loan                 = 0;
+                                    $tot_wbcardb_remit_slr        = 0;
+                                    $tot_wbcardb_remit_slr_excess = 0;
+                                    $tot_total_fund_deploy        = 0;
+
                                     foreach($reports as $dtls){
 
                             ?>
                                 <tr>
                                     <td><?php echo $i++; ?></td>
-                                    <td><?php echo get_ardb_name($dtls->ardb_id); ?></td>
-                                    <td><?php echo round($dtls->rd/100000,2);?></td>
-                                    <td><?php echo round($dtls->fd/100000,2);?></td>
-                                    <td><?php echo round($dtls->flexi_sb/100000,2);?></td>
-                                    <td><?php echo round($dtls->mis/100000,2);?></td>
-                                    <td><?php echo round($dtls->other_dep/100000,2);?></td>
-                                    <td><?php echo round($dtls->ibsd/100000,2);?></td>
-                                    <td><?php echo round($dtls->total_dep_mob/100000,2);?></td>
-                                    <td><?php echo round($dtls->cash_in_hand/100000,2);?></td>
-                                    <td><?php echo round($dtls->other_bank/100000,2);?></td>
-                                    <td><?php echo round($dtls->ibsd_loan/100000,2);?></td>
-                                    <td><?php echo round($dtls->dep_loan/100000,2);?></td>
-                                    <td><?php echo round($dtls->wbcardb_remit_slr/100000,2);?></td>
-                                    <td><?php echo round($dtls->wbcardb_remit_slr_excess/100000,2);?></td>
-                                    <td><?php echo round($dtls->total_fund_deploy/100000,2) ;?></td>
+
+                                    <td><?php echo date('d/m/Y',strtotime($dtls->week_dt)); ?></td>
+
+                                    <td><?php $rd = round($dtls->rd/100000,2);
+                                              echo $rd;
+                                              $tot_rd += $rd;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $fd = round($dtls->fd/100000,2);
+                                              echo $fd;
+                                              $tot_fd += $fd;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $sb = round($dtls->flexi_sb/100000,2);
+                                              echo $sb;
+                                              $tot_sb += $sb;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $mis = round($dtls->mis/100000,2);
+                                              echo $mis;
+                                              $tot_mis += $mis;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $other_dep = round($dtls->other_dep/100000,2);
+                                              echo $other_dep;
+                                              $tot_other += $other_dep;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $ibsd = round($dtls->ibsd/100000,2);
+                                              echo $ibsd;
+                                              $tot_ibsd += $ibsd;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $total_dep_mob = round($dtls->total_dep_mob/100000,2);
+                                              echo $total_dep_mob;
+                                              $tot_total_dep_mob += $total_dep_mob;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $cash_in_hand = round($dtls->cash_in_hand/100000,2);
+                                              echo $cash_in_hand;
+                                              $tot_cash_in_hand += $cash_in_hand;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $other_bank = round($dtls->other_bank/100000,2);
+                                              echo $other_bank;
+                                              $tot_other_bank += $other_bank;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $ibsd_loan = round($dtls->ibsd_loan/100000,2);
+                                              echo $ibsd_loan;
+                                              $tot_ibsd_loan += $ibsd_loan;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $dep_loan = round($dtls->dep_loan/100000,2);
+                                              echo $dep_loan;
+                                              $tot_dep_loan += $dep_loan;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $wbcardb_remit_slr = round($dtls->wbcardb_remit_slr/100000,2);
+                                              echo $wbcardb_remit_slr;
+                                              $tot_wbcardb_remit_slr += $wbcardb_remit_slr;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $wbcardb_remit_slr_excess = round($dtls->wbcardb_remit_slr_excess/100000,2);
+                                              echo $wbcardb_remit_slr_excess;
+                                              $tot_wbcardb_remit_slr_excess += $wbcardb_remit_slr_excess;
+                                        ?>
+                                    </td>
+
+                                    <td><?php $total_fund_deploy = round($dtls->total_fund_deploy/100000,2);
+                                              echo $total_fund_deploy;
+                                              $tot_total_fund_deploy += $total_fund_deploy;
+                                        ?>
+                                    </td>
                                   
                                 </tr>
                                 <?php
 
-                                    }
+                                    } 
+                                  ?>
 
-                                     }
+                                  <tr>
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td><?=$tot_rd?></td>
+                                    <td><?=$tot_fd?></td>
+                                    <td><?=$tot_sb?></td>
+                                    <td><?=$tot_mis?></td>
+                                    <td><?=$tot_other?></td>
+                                    <td><?=$tot_ibsd?></td>
+                                    <td><?=$tot_total_dep_mob?></td>
+                                    <td><?=$tot_cash_in_hand?></td>
+                                    <td><?=$tot_other_bank?></td>
+                                    <td><?=$tot_ibsd_loan?></td>
+                                    <td><?=$tot_dep_loan?></td>
+                                    <td><?=$tot_wbcardb_remit_slr?></td>
+                                    <td><?=$tot_wbcardb_remit_slr_excess?></td>
+                                    <td><?=$tot_total_fund_deploy?></td>
+                                    
+                                  </tr>
+
+                                 <?php    }
                                 
                                 else{
 
