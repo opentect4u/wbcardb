@@ -20,6 +20,8 @@ $shg_details = json_decode($shg_details);
                                         <th>Sector</th>
                                         <th>Pronote<br> No</th>
                                         <th>Purpose</th>
+										<th>Approver-1<br> Reason</th>
+                                        <th>Approver-2<br> Reason</th>
                                         <th>Action</th>
                                         <!-- <th>Download<br> Document</th> -->
                                         <!-- <th>Forward Data</th> -->
@@ -38,6 +40,8 @@ $shg_details = json_decode($shg_details);
 					echo '<td>' . $dt->sector_name . '</td>';
 					echo '<td>' . $dt->pronote_no . '</td>';
 					echo '<td>' . $dt->purpose . '</td>';
+					echo '<td>' . $dt->a1_reason . '</td>';
+					echo '<td>' . $dt->a2_reason . '</td>';
 					echo '<td>
                                         <a href="dc_self/dc_entry/' . $pronote_no . '/' . $memo_no . '" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-pencil fa-lg"></i></a>';
 					if ($dt->fwd_data == 'N' || $dt->fwd_data == 'R' || $dt->fwd_data == 'A') {

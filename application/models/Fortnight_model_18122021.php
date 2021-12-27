@@ -11,7 +11,8 @@ class Fortnight_Model extends CI_Model {
         $_SESSION['user_type'] == 'P' ? $this->db->where(array('fwd_data' => 'Y')) : ($_SESSION['user_type'] == 'V' ? $this->db->where(array('fwd_data' => 'Y', 'approve_1' => 'Y')) : '');
         $this->db->order_by('return_dt');
         $query = $this->db->get('td_investment');
-
+//        echo $this->db->last_query();
+//        exit;
         return $query->result();
     }
 
@@ -37,7 +38,9 @@ class Fortnight_Model extends CI_Model {
     }
 
     function investment_save($data) {
-
+//        echo '<pre>';
+//        var_dump($data);
+//        exit;
         if ($data['id'] > 0) {
             $input = array(
                 'ac_closed' => $data['ac_closed'],
@@ -307,7 +310,8 @@ class Fortnight_Model extends CI_Model {
         $_SESSION['user_type'] == 'P' ? $this->db->where(array('fwd_data' => 'Y')) : ($_SESSION['user_type'] == 'V' ? $this->db->where(array('fwd_data' => 'Y', 'approve_1' => 'Y')) : '');
         $this->db->order_by('entry_date');
         $query = $this->db->get('td_fort_dr_col');
-
+//        echo $this->db->last_query();
+//        exit;
         return $query->result();
     }
 
@@ -322,7 +326,8 @@ class Fortnight_Model extends CI_Model {
         $this->db->where(array('ardb_id' => $ardb_id, 'DATE_FORMAT(return_form, "%Y-%m-%d")=' => $frm_dt, 'DATE_FORMAT(return_to, "%Y-%m-%d")=' => $to_dt));
         $_SESSION['user_type'] == 'P' ? $this->db->where(array('fwd_data' => 'Y')) : ($_SESSION['user_type'] == 'V' ? $this->db->where(array('fwd_data' => 'Y', 'approve_1' => 'Y')) : '');
         $query = $this->db->get('vw_fort_dr');
-
+//        echo $this->db->last_query();
+//        exit;
         return $query->result();
     }
 
@@ -665,7 +670,8 @@ class Fortnight_Model extends CI_Model {
         $this->db->group_by('ardb_id, return_form, return_to');
         $this->db->order_by('return_form, return_to');
         $query = $this->db->get('vw_fort_dr');
-
+//        echo $this->db->last_query();
+//        exit;
         return $query->result();
     }
 
@@ -969,12 +975,6 @@ class Fortnight_Model extends CI_Model {
         return $query->result();
     }
 
-	public function get_ardb_nm($ardb_id)
-		{
-
-		$sql = $this->db->query("SELECT a.name from mm_ardb_ho a  where a.id = '$ardb_id'");
-			return $sql->row();
-		}
     function get_demand_details_by_sector_id($ardb_id, $sector_id, $frm_fn_yr, $to_fin_yr) {
         $this->db->where(array('sector_id' => $sector_id, 'ardb_id' => $ardb_id, 'frm_fn_year' => $frm_fn_yr, 'to_fn_year' => $to_fin_yr));
         $query = $this->db->get('td_fort_dr_dmd');

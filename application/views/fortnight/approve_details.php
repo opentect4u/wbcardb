@@ -31,9 +31,10 @@ $target_details = json_decode($target_details);
                                     <tr>
                                         <th colspan="2">Farm</th>
                                         <th colspan="2">NF</th>
-                                        <th colspan="2">PL</th>
+                                        <!-- <th colspan="2">LD and Others</th> -->
                                         <th colspan="2">RH</th>
                                         <th colspan="2">SHG & JLG</th>
+                                        <th colspan="2">LD and Others</th>
                                         <th colspan="2">Total</th>
                                         <th colspan="2">Last Year</th>
                                     </tr>
@@ -65,12 +66,14 @@ $target_details = json_decode($target_details);
                                             echo '<td>' . $tr->fm_amt . '</td>';
                                             echo '<td>' . $tr->nf_no_case . '</td>';
                                             echo '<td>' . $tr->nf_amt . '</td>';
-                                            echo '<td>' . $tr->pl_no_case . '</td>';
-                                            echo '<td>' . $tr->pl_amt . '</td>';
+                                            // echo '<td>' . $tr->pl_no_case . '</td>';
+                                            // echo '<td>' . $tr->pl_amt . '</td>';
                                             echo '<td>' . $tr->rh_no_case . '</td>';
                                             echo '<td>' . $tr->rh_amt . '</td>';
                                             echo '<td>' . $tr->shg_no_case . '</td>';
                                             echo '<td>' . $tr->shg_amt . '</td>';
+                                            echo '<td>' . $tr->pl_no_case . '</td>';
+                                            echo '<td>' . $tr->pl_amt . '</td>';
                                             echo '<td>' . $tr->tot_inv_of_curr_yr_no_case . '</td>';
                                             echo '<td>' . $tr->tot_inv_of_curr_yr_amt . '</td>';
                                             echo '<td>' . $tr->tot_inv_of_pre_yr_no_case . '</td>';
@@ -96,9 +99,10 @@ $target_details = json_decode($target_details);
                                         <tr>
                                             <th colspan="2">Farm</th>
                                             <th colspan="2">NF</th>
-                                            <th colspan="2">PL</th>
+                                            <!-- <th colspan="2">LD and Others</th> -->
                                             <th colspan="2">RH</th>
                                             <th colspan="2">SHG & JLG</th>
+                                            <th colspan="2">LD and Others</th>
                                             <th colspan="2">Total</th>
                                             <th colspan="2">Last Year</th>
                                         </tr>
@@ -130,12 +134,14 @@ $target_details = json_decode($target_details);
                                                 echo '<td>' . $dt->fm_amt . '</td>';
                                                 echo '<td>' . $dt->nf_no_case . '</td>';
                                                 echo '<td>' . $dt->nf_amt . '</td>';
-                                                echo '<td>' . $dt->pl_no_case . '</td>';
-                                                echo '<td>' . $dt->pl_amt . '</td>';
+                                                // echo '<td>' . $dt->pl_no_case . '</td>';
+                                                // echo '<td>' . $dt->pl_amt . '</td>';
                                                 echo '<td>' . $dt->rh_no_case . '</td>';
                                                 echo '<td>' . $dt->rh_amt . '</td>';
                                                 echo '<td>' . $dt->shg_no_case . '</td>';
                                                 echo '<td>' . $dt->shg_amt . '</td>';
+                                                echo '<td>' . $dt->pl_no_case . '</td>';
+                                                echo '<td>' . $dt->pl_amt . '</td>';
                                                 echo '<td>' . $dt->tot_inv_of_curr_yr_no_case . '</td>';
                                                 echo '<td>' . $dt->tot_inv_of_curr_yr_amt . '</td>';
                                                 echo '<td>' . $dt->tot_inv_of_pre_yr_no_case . '</td>';
@@ -162,9 +168,10 @@ $target_details = json_decode($target_details);
                                         <tr>
                                             <th colspan="2">Farm</th>
                                             <th colspan="2">NF</th>
-                                            <th colspan="2">PL</th>
+                                            <!-- <th colspan="2">LD and Others</th> -->
                                             <th colspan="2">RH</th>
                                             <th colspan="2">SHG & JLG</th>
+                                            <th colspan="2">LD and Others</th>
                                             <th colspan="2">Total</th>
                                             <th colspan="2">Last Year</th>
                                         </tr>
@@ -196,12 +203,14 @@ $target_details = json_decode($target_details);
                                                 echo '<td>' . $pr->fm_amt1 . '</td>';
                                                 echo '<td>' . $pr->nf_no_case1 . '</td>';
                                                 echo '<td>' . $pr->nf_amt1 . '</td>';
-                                                echo '<td>' . $pr->pl_no_case1 . '</td>';
-                                                echo '<td>' . $pr->pl_amt1 . '</td>';
+                                                // echo '<td>' . $pr->pl_no_case1 . '</td>';
+                                                // echo '<td>' . $pr->pl_amt1 . '</td>';
                                                 echo '<td>' . $pr->rh_no_case1 . '</td>';
                                                 echo '<td>' . $pr->rh_amt1 . '</td>';
                                                 echo '<td>' . $pr->shg_no_case1 . '</td>';
                                                 echo '<td>' . $pr->shg_amt1 . '</td>';
+                                                echo '<td>' . $pr->pl_no_case1 . '</td>';
+                                                echo '<td>' . $pr->pl_amt1 . '</td>';
                                                 echo '<td>' . $pr->tot_inv_of_curr_yr_no_case1 . '</td>';
                                                 echo '<td>' . $pr->tot_inv_of_curr_yr_amt1 . '</td>';
                                                 echo '<td>' . $pr->tot_inv_of_pre_yr_no_case1 . '</td>';

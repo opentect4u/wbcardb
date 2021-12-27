@@ -5,7 +5,7 @@ $col_pri_dtls = json_decode($col_pri_dtls);
 $col_int_dtls = json_decode($col_int_dtls);
 $prog_pri_dtls = json_decode($prog_pri_dtls);
 $prog_int_dtls = json_decode($prog_int_dtls);
-//$lkh = 100000;
+// $lkh = 100000;
 $lkh=1;
 //foreach ($dmd_pri_dtls as $dt) {
 //    print_r($dt);
@@ -33,7 +33,6 @@ $lkh=1;
                 <div class="row mt-4">
                     <div class="col-12">
                         <div id="divToPrint" style="overflow-x:auto;">
-							 <h5 style="text-align:left"> <center><?php echo $ardb_nm ?></center></h5>
                             <h4><center>FORTNIGHTLY RETURN<br>
                                     <p>Rs. In Lakh<br><?php //$fortnight_details[0]->name                                                                             ?></p><br>
                                     Demand for the year <?= CURRENT_YEAR ?>
@@ -247,16 +246,15 @@ $lkh=1;
                             </div>
                             <div class="mt-4">
                                 <?php
-                                // $form=$frm_dt;
-								//$form='';
+                                 $form=$frm_dt;
                                 $dif_yr = date('Y') - date('Y', strtotime($frm_dt));
                                 if (date('Ymd', strtotime($frm_dt)) <= date('Y') . END_ACC_DM && date('Ymd', strtotime($frm_dt)) >= (date('Y') - $dif_yr) . '0401') {
                                     $form = (date('Y') - $dif_yr) . '-04-01';
                                 } elseif (date('Ymd', strtotime($frm_dt)) <= (date('Y') - $dif_yr) . '0401' && date('Ymd', strtotime($frm_dt)) >= (date('Y') - ($dif_yr + 1)) . '0401') {
                                     $form = (date('Y') - ($dif_yr + 1)) . '-04-01';
                                 }else{
-								$form=$frm_dt;
-								}
+                                    $form=$frm_dt;
+                                    }
                                 ?>
                                 <h4><center> Progressive total of Collection made during the period <small>(<?= date('d/m/Y', strtotime(str_replace('-', '/', $form))) . ' - ' . date('d/m/Y', strtotime(str_replace('-', '/', $to_dt))) ?>)</small></center></h4>
                                 <table style="width: 100%;" id="example">

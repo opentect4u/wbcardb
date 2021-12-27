@@ -59,7 +59,8 @@ $report_type = unserialize(REPORT_TYPE);
                                 <tbody>
                                     <?php
                                     $i = 1;
-                                    $lk = 100000;
+                                    // $lk = 100000;
+                                    $lk=1;
                                     if ($report_details) {
                                         foreach ($report_details as $dt) {
                                             echo '<tr>';

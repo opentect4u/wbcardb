@@ -75,7 +75,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Rate of Interest (%)</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="rete_of_interest" id="rate_of_interest" value="<?= $selected ? $selected->roi : '0.00' ?>" required="">
+                                        <input type="decimal" class="form-control" name="rete_of_interest" id="rate_of_interest" value="<?= $selected ? $selected->roi : '0.00' ?>"  oninput="validate(this)" required="">
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@ if ($id > 0) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-13">
                         <div class="table-responsive margin-topp-remove">
                             <table id="table" class="table m">
                                 <thead>
@@ -157,13 +157,16 @@ if ($id > 0) {
                                         <th>Block</th>
                                         <th>BOD Sanction Date</th>
                                         <th>Due Date</th>
-                                        <th>Borrower<br> SL. No.</th>
+                                        <th>Loan Id.</th>
                                         <th>Project Cost</th>
                                         <th>Amount Sanctioned</th>
                                         <th>Total Own <br>Contribution <br>(Rs.)</th>
                                         <th>Corpus Fund</th>
                                         <th>Amount <br>Disbursed <br>(Rs)</th>
                                         <th>Intersee <br>Agreement Date</th>
+                                        <th>Bond No</th>
+                                        <th>
+
                                         <th><button type="button" class="btn btn-success" id="dynamic_add"><i class="fa fa-plus"></i></button></th>
                                     </tr>
                                 </thead>
@@ -197,7 +200,7 @@ if ($id > 0) {
 					    echo '</select></div></td>';
 					    // echo '<td><div class="form-group"><input type="text" class="form-control width-th required" name="rete_of_interest[]" id="rate_of_interest_'.$i.'" value="'.$dt->roi.'" /></div></td>';
 					    echo '<td>
-                                          <div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' . $i . '" value="' . $dt->bod_sanc_dt . '" /></div>
+                                          <div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' . $i . '" value="' . $dt->bod_sanc_dt . '" onchange="checkbod_dt(' . $i . ')"/></div>
                                       </td>
                                       <td>
                                           <div class="form-group"><input type="date" class="form-control required" name="due_date[]" id="due_date_' . $i . '" value="' . $dt->due_dt . '" readonly/></div>
@@ -209,20 +212,21 @@ if ($id > 0) {
                                           <div class="form-group"><input type="text" class="form-control width-th required" name="project_cost[]" id="project_cost_' . $i . '" value="' . $dt->project_cost . '" /></div>
                                       </td>
                                       <td>
-                                          <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_amount[]" id="sanction_amount_' . $i . '" value="' . $dt->sanc_amt . '" onchange="check_amt(' . $i . ')"/></div>
+                                          <div class="form-group"><input type="number" class="form-control width-th required" name="sanction_amount[]" id="sanction_amount_' . $i . '" value="' . $dt->sanc_amt . '" onchange="check_amt(' . $i . ')"/></div>
                                       </td>
                                       <td>
-                                          <div class="form-group"><input type="text" class="form-control width-th required" name="own_contribution[]" id="own_contribution_' . $i . '" value="' . $dt->tot_own_amt . '" /></div>
+                                          <div class="form-group"><input type="text" class="form-control width-th required" name="own_contribution[]" id="own_contribution_' . $i . '" value="' . $dt->tot_own_amt . '" readonly/></div>
                                       </td>
                                       <td>
-                                          <div class="form-group"><input type="text" class="form-control width-th required" name="corp_fnd[]" id="corp_fnd_' . $i . '" value="' . $dt->corp_fnd . '" /></div>
+                                          <div class="form-group"><input type="text" class="form-control width-th required" name="corp_fnd[]" id="corp_fnd_' . $i . '" value="' . $dt->corp_fnd . '" onchange="checkcorp_fnd(' . $i . ')" /></div>
                                       </td>
                                       <td>
-                                          <div class="form-group"><input type="text" class="form-control width-th required" name="disbursed_amount[]" id="disbursed_amount_' . $i . '" value="' . $dt->disb_amt . '" /></div>
+                                          <div class="form-group"><input type="text" class="form-control width-th required" name="disbursed_amount[]" id="disbursed_amount_' . $i . '" value="' . $dt->disb_amt . '"  onchange="checkdisb_amt(' . $i . ')"/></div>
                                       </td>
                                       <td>
-                                          <div class="form-group"><input type="date" class="form-control required" name="agriment_date[]" id="agriment_date_' . $i . '" value="' . $dt->intr_aggr_dt . '" /></div>
+                                          <div class="form-group"><input type="date" class="form-control required" name="agriment_date[]" id="agriment_date_' . $i . '" value="' . $dt->intr_aggr_dt . '" onchange="checkagree_dt(' . $i . ')"/></div>
                                       </td>
+                                      
                                       <td><button type="button" id="remove_1" class="btn btn-danger" onclick="_delete(' . $i . ')"><i class="fa fa-remove"></i></button></td>';
 					    echo '</tr>';
 					    $i++;
@@ -257,7 +261,7 @@ if ($id > 0) {
     					    <div class="form-group"><input type="text" class="form-control width-th required" name="rete_of_interest[]" id="rate_of_interest_1" /></div>
     					</td> -->
     					<td>
-    					    <div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_1" value="<?= date('Y-m-d') ?>" /></div>
+    					    <div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_1" value="<?= date('Y-m-d') ?>" onchange="checkbod_dt(1)" /></div>
     					</td>
     					<td>
     					    <div class="form-group"><input type="date" class="form-control required" name="due_date[]" id="due_date_1" value="" readonly /></div>
@@ -272,16 +276,16 @@ if ($id > 0) {
     					    <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_amount[]" id="sanction_amount_1" value="0" onchange="check_amt(1)"/></div>
     					</td>
     					<td>
-    					    <div class="form-group"><input type="text" class="form-control width-th required" name="own_contribution[]" id="own_contribution_1" value="0" /></div>
+    					    <div class="form-group"><input type="text" class="form-control width-th required" name="own_contribution[]" id="own_contribution_1" value="0" readonly/></div>
     					</td>
     					<td>
-    					    <div class="form-group"><input type="text" class="form-control width-th required" name="corp_fnd[]" id="corp_fnd_1" value="0" /></div>
+    					    <div class="form-group"><input type="text" class="form-control width-th required" name="corp_fnd[]" id="corp_fnd_1" value="0"  onchange="checkcorp_fnd(1)"/></div>
     					</td>
     					<td>
-    					    <div class="form-group"><input type="text" class="form-control width-th required" name="disbursed_amount[]" id="disbursed_amount_1" /></div>
+    					    <div class="form-group"><input type="text" class="form-control width-th required" name="disbursed_amount[]" id="disbursed_amount_1" value="0" onchange="checkdisb_amt(1)" /></div>
     					</td>
     					<td>
-    					    <div class="form-group"><input type="date" class="form-control required" name="agriment_date[]" id="agriment_date_1" value="<?= date('Y-m-d') ?>" /></div>
+    					    <div class="form-group"><input type="date" class="form-control required" name="agriment_date[]" id="agriment_date_1" value="<?= date('Y-m-d') ?>" onchange="checkagree_dt(1)"/></div>
     					</td>
     					<td><button type="button" id="remove_1" class="btn btn-danger" onclick="_delete(1)"><i class="fa fa-remove"></i></button></td>
     				    </tr>
@@ -460,7 +464,7 @@ if ($id > 0) {
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <input type="submit" id="submit" class="btn btn-info" value="Save" <?= $disable_button ?>/>
+                                <input type="submit" id="submit" class="btn btn-info" value="Save" <?= $disable_button ?> onclick="myFunction()"/>
                             </div>
                         </div>
                     </div>
@@ -496,7 +500,20 @@ if ($id > 0) {
 		});
 	    });
         </script>
-
+<script>
+            $(document).ready(function(){
+                //add on 12/12/2021
+        var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+        // alert(count);
+		 $('#total').val(count);
+		// $('#tot_count').val(count);
+                var gen_id = $("#gender_id").val();
+                
+                    $("#gender_id").change();
+                
+                // alert(sec_id);
+            })
+        </script>
         <script>
 	    $('#gender_id').change(function () {
 		if ($(this).val() == 1) {
@@ -535,15 +552,16 @@ if ($id > 0) {
 	?>'
 				+ '</select></div></td>'
 				// +'<td><div class="form-group"><input type="text" class="form-control required" name="rete_of_interest[]" id="rate_of_interest_'+ x +'" /></div></td>'
-				+ '<td><div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' + x + '" value="<?= date('Y-m-d') ?>" /></div></td>'
+				+ '<td><div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' + x + '" value="<?= date('Y-m-d') ?>" onchange="checkbod_dt(' + x + ')"/></div></td>'
 				+ '<td><div class="form-group"><input type="date" class="form-control required" name="due_date[]" id="due_date_' + x + '" value="" readonly /></div></td>'
 				+ '<td><div class="form-group"><input type="text" class="form-control required" name="brrwr_sl_no[]" id="brrwr_sl_no_' + x + '" /></div></td>'
 				+ '<td><div class="form-group"><input type="text" class="form-control required" name="project_cost[]" id="project_cost_' + x + '" onchange="pro_cost(' + x + ')" /></div></td>'
-				+ '<td><div class="form-group"><input type="text" class="form-control required" name="sanction_amount[]" id="sanction_amount_' + x + '" value="0" onchange="check_amt(' + x + ')"/></div></td>'
-				+ '<td><div class="form-group"><input type="text" class="form-control required" name="own_contribution[]" id="own_contribution_' + x + '" value="0" /></div></td>'
-				+ '<td><div class="form-group"><input type="text" class="form-control required" name="disbursed_amount[]" id="disbursed_amount_' + x + '" /></div></td>'
-				+ '<td><div class="form-group"><input type="text" class="form-control required" name="corp_fnd[]" id="corp_fnd_' + x + '" /></div></td>'
-				+ '<td><div class="form-group"><input type="date" class="form-control required" name="agriment_date[]" id="agriment_date_' + x + '" value="<?= date('Y-m-d') ?>" /></div></td>'
+				+ '<td><div class="form-group"><input type="number" class="form-control required" name="sanction_amount[]" id="sanction_amount_' + x + '" value="0" onchange="check_amt(' + x + ')"/></div></td>'
+				+ '<td><div class="form-group"><input type="text" class="form-control required" name="own_contribution[]" id="own_contribution_' + x + '" value="0" readonly/></div></td>'
+                + '<td><div class="form-group"><input type="text" class="form-control required" name="corp_fnd[]" id="corp_fnd_' + x + '"  value="0" onchange="checkcorp_fnd(' + x + ')"/></div></td>'
+                + '<td><div class="form-group"><input type="text" class="form-control required" name="disbursed_amount[]" id="disbursed_amount_' + x + '"  value="0" onchange="checkdisb_amt(' + x + ')" /></div></td>'
+			
+				+ '<td><div class="form-group"><input type="date" class="form-control required" name="agriment_date[]" id="agriment_date_' + x + '" value="<?= date('Y-m-d') ?>" onchange="checkagree_dt(' + x + ')" /></div></td>'
 				+ '<td><button type="button" id="remove_' + x + '" class="btn btn-danger" onclick="_delete(' + x + ')"><i class="fa fa-remove"></i></button></td>'
 				+ '</tr>');
 			// var y = x-1;
@@ -600,9 +618,88 @@ if ($id > 0) {
 		}
 	    }
 
+
+
+function checkbod_dt(id){
+    var sanc_dt = $('#sanction_date_'+ id).val();
+    //alert(sanc_dt);
+    var d = new Date();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
+
+	var output = d.getFullYear() + '-' +
+	(month<10 ? '0' : '') + month + '-' +
+	(day<10 ? '0' : '') + day;
+    if(new Date(output) < new Date(sanc_dt))
+		{
+		alert("Sanction Date Can Not Be Greater Than Current Date");
+        $('#sanction_date_'+ id).val(output);
+		// $('#submit').attr('type', 'buttom');
+		return false;
+		}else{
+		// $('#submit').attr('type', 'submit');
+        return true;
+		}
+}
+
+//agriment_date
+function checkagree_dt(id){
+    var sanc_dt = $('#agriment_date_'+ id).val();
+    //alert(sanc_dt);
+    var d = new Date();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
+
+	var output = d.getFullYear() + '-' +
+	(month<10 ? '0' : '') + month + '-' +
+	(day<10 ? '0' : '') + day;
+    if(new Date(output) < new Date(sanc_dt))
+		{
+		alert("Agreement Date Can Not Be Greater Than Current Date");
+        $('#agriment_date_'+ id).val(output);
+		// $('#submit').attr('type', 'buttom');
+		return false;
+		}else{
+		// $('#submit').attr('type', 'submit');
+        return false;
+		}
+}
+
+
+function checkcorp_fnd(id){
+    $('#corp_fnd_' + id).val(parseInt($('#corp_fnd_' + id).val()));
+}
+        function checkdisb_amt(id){
+            // alert('hi');
+            // alert(parseInt($('#project_cost_' + id).val()));
+            // alert(parseInt($('#disbursed_amount_' + id).val()));
+            $('#disbursed_amount_' + id).val(parseInt($('#disbursed_amount_' + id).val()));
+    if (parseInt($('#disbursed_amount_' + id).val()) > parseInt($('#sanction_amount_').val())) {
+		    alert('Disbursed Amount is exceeds Sanction Amount');
+            $('#disbursed_amount_' + id).val(0);
+		    $('#submit').attr('disabled', 'disabled');
+		} else {
+		    $('#submit').removeAttr('disabled');
+        }
+           
+            if(parseInt($('#disbursed_amount_' + id).val()) > parseInt($('#project_cost_' + id).val())){
+                    $('#submit').attr('disabled', 'disabled');
+                    alert('Disbursed Amount Can Not Be Greater Than Sanction/Project cost Amount');
+                    $('#disbursed_amount_' + id).val(0);
+
+                }else{
+                    $('#submit').removeAttr('disabled'); 
+                }
+		
+
+}
+
 	    function check_amt(id) {
-		if ($('#sanction_amount_' + id).val() > $('#sanc_amt').text()) {
-		    alert('Sanction Amount is Excided With Limit');
+           //alert($('#sanc_amt').text());
+          $('#sanction_amount_' + id).val(parseInt($('#sanction_amount_' + id).val()));
+		if (parseInt($('#sanction_amount_' + id).val()) > $('#sanc_amt').text()) {
+		    alert('Sanction Amount is Exceeded With Limit');
+            $('#sanction_amount_' + id).val(0);
 		    $('#submit').attr('disabled', 'disabled');
 		} else {
 		    $('#submit').removeAttr('disabled');
@@ -611,6 +708,9 @@ if ($id > 0) {
 	    }
 
 	    function pro_cost(id) {
+            $('#project_cost_' + id).val(parseInt($('#project_cost_' + id).val()));
+            // alert('hi');
+            // parseFloat($('#project_cost_' + id).val()).toFixed(2);
 		count_own_cont(id);
 //                var project_cost = $('#project_cost_' + x).val();
 //                $('#sanction_amount_' + x).val(project_cost);
@@ -619,28 +719,129 @@ if ($id > 0) {
 	    }
 
 	    function count_own_cont(id) {
+            if(parseInt($('#project_cost_' + id).val()) - parseInt($('#sanction_amount_' + id).val())<0){
+                $('#own_contribution_' + id).val(0);
+            }else{
 		$('#own_contribution_' + id).val(parseInt($('#project_cost_' + id).val()) - parseInt($('#sanction_amount_' + id).val()));
+        }
 	    }
 
 	    $('#tot_sc').change(function () {
-		count_total($(this).val());
+		// alert($(this).val());
+        var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+        if (parseInt($(this).val())> parseInt($('#total_memb').val()) ||parseInt( $('#total').val())>parseInt($('#total_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_sc").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_st').change(function () {
-		count_total($(this).val());
+		// alert($(this).val());
+        var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#total_memb').val()) ||parseInt( count)>parseInt($('#total_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_st").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
+
 	    });
 	    $('#tot_obca').change(function () {
-		count_total($(this).val());
+		//count_total($(this).val());
+        var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#total_memb').val()) ||parseInt( count)>parseInt($('#total_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_obca").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                
+                $('#submit').removeAttr('disabled');
+                }
+
 	    });
 	    $('#tot_obcb').change(function () {
-		count_total($(this).val());
+		// count_total($(this).val());
+        var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#total_memb').val()) ||parseInt( count)>parseInt($('#total_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_obcb").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+                }
+
 	    });
 	    $('#tot_gen').change(function () {
-		count_total($(this).val());
+		//count_total($(this).val());
 		// check_total_member();
+        var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#total_memb').val()) ||parseInt( count)>parseInt($('#total_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_gen").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_oth').change(function () {
-		count_total($(this).val());
+		//count_total($(this).val());
 		// check_total_member();
+        var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#total_memb').val()) ||parseInt( count)>parseInt($('#total_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_oth").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    function count_total(value) {
 		var total = $('#total').val();
@@ -655,48 +856,164 @@ if ($id > 0) {
 		    $('#submit').removeAttr('disabled');
 		} else {
 		    $('#submit').attr('disabled', 'disabled');
-		    alert('Data is greated than Total Members');
+		    alert('Data is greater than Total Members');
 		}
 	    }
 
 	    $('#tot_men').change(function () {
 		// alert($(this).val());
 		check_total_gender();
+        document.getElementById("tot_men").focus();
 	    });
 	    $('#tot_wom').change(function () {
 		check_total_gender();
+        document.getElementById("tot_wom").focus();
 	    });
 	    function check_total_gender() {
 		var total_gender = parseInt($('#tot_men').val()) + parseInt($('#tot_wom').val());
 		if (total_gender <= $('#tot_memb').val()) {
+            
 		    $('#submit').removeAttr('disabled');
 		} else {
 		    $('#submit').attr('disabled', 'disabled');
 		    alert('Total Gender is greated than total member');
+            $('#tot_men').val(0); 
+             $('#tot_wom').val(0);
 		}
 	    }
 
 
 	    $('#tot_big').change(function () {
-		check_total_member();
+		// check_total_member();
+        var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_memb').val()) ||parseInt( count)>parseInt($('#tot_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_big").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());                $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_marginal').change(function () {
-		check_total_member();
+		// check_total_member();
+        var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_memb').val()) ||parseInt( count)>parseInt($('#tot_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_marginal").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+               // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_small').change(function () {
-		check_total_member();
+		//check_total_member();
+        var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_memb').val()) ||parseInt( count)>parseInt($('#tot_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_small").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+               // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_landless').change(function () {
-		check_total_member();
+		//check_total_member();
+        var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_memb').val()) ||parseInt( count)>parseInt($('#tot_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_landless").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+               // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_lig').change(function () {
-		check_total_member();
+		// check_total_member();
+        var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                if (parseInt($(this).val())> parseInt($('#tot_memb').val()) ||parseInt( count)>parseInt($('#tot_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_lig").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_mig').change(function () {
-		check_total_member();
+		// check_total_member();
+        var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                if (parseInt($(this).val())> parseInt($('#tot_memb').val()) ||parseInt( count)>parseInt($('#tot_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_mig").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    $('#tot_hig').change(function () {
-		check_total_member();
+		// check_total_member();
+        var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                if (parseInt($(this).val())> parseInt($('#tot_memb').val()) ||parseInt( count)>parseInt($('#tot_memb').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_hig").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
 	    });
 	    function check_total_member() {
 		var total_borrower = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
@@ -711,3 +1028,132 @@ if ($id > 0) {
 		}
 	    }
         </script>
+
+<script>
+$(document).ready(function(){
+$("#pronote_date").change(function(){
+    //alert('hi');
+
+	var pronote_date= $('#pronote_date').val();
+	var d = new Date();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
+
+	var output = d.getFullYear() + '-' +
+	(month<10 ? '0' : '') + month + '-' +
+	(day<10 ? '0' : '') + day;
+
+// console.log(trans_dt,output);
+		if(new Date(output) <new Date(pronote_date))
+		{
+		alert("Pronote Date Can Not Be Greater Than Current Date");
+	$('#pronote_date').val(output);
+
+		//$('#submit').attr('type', 'buttom');
+		return false;
+		}else{
+		//$('#submit').attr('type', 'submit');
+        return true;
+		}
+	})
+});
+</script>
+<script>
+$(document).ready(function(){
+$("#date").change(function(){
+    //alert('hi');
+
+	var memo_date= $('#date').val();
+	var d = new Date();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
+
+	var output = d.getFullYear() + '-' +
+	(month<10 ? '0' : '') + month + '-' +
+	(day<10 ? '0' : '') + day;
+    // alert("Memo Date is Greater Than Current Date");
+// console.log(trans_dt,output);
+// alert(new Date(output));
+// alert(new Date(memo_date));
+		if(new Date(output) <new Date(memo_date))
+		{
+		alert("Memo Date is Greater Than Current Date");
+        $('#date').val(output);
+		//$('#submit').attr('type', 'buttom');
+		return false;
+		}else{
+		//$('#submit').attr('type', 'submit');
+        return true;
+		}
+	})
+});
+</script>
+<script>
+       function myFunction() {
+        var  sum_borrow=parseInt($('#total_memb').val())
+        var total_group = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+        // alert(total_group);
+        var total_borrower = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+        var tot_cast = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+         if(total_group==0){
+            // alert(total_group);
+            $('#submit').attr('disabled', 'disabled');
+                       alert('Income Group Value Must Be Greater Than 0');
+                   
+                   }else{
+                    $('#submit').removeAttr('disabled');    
+                       
+                   }
+
+                   if(tot_cast==0){
+            // alert(total_group);
+            $('#submit').attr('disabled', 'disabled');
+                       alert('Cast Value Must Be Greater Than 0');
+                   
+                   }else{
+                    $('#submit').removeAttr('disabled');    
+                       
+                   }
+
+
+                //    var total_borrower = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+         if(total_borrower==0){
+            // alert(total_group);
+            $('#submit').attr('disabled', 'disabled');
+                       alert('Borrower Classification Value Must Be Greater Than 0');
+                   
+                   }else{
+                    $('#submit').removeAttr('disabled');    
+                       
+                   }
+
+                   if(sum_borrow!=total_borrower|| sum_borrow!=tot_cast || sum_borrow!=total_group){
+            
+            
+            alert(' Total Members Not matched with other group');
+            $('#submit').attr('disabled', 'disabled');
+        }else{
+         $('#submit').removeAttr('disabled');    
+            
+
+}
+
+}
+
+    </script>
+    <!-- <script>
+        $('#rate_of_interest').on('change', function () {
+            // alert('hi');
+            $(this).val(parseFloat($(this).val()).toFixed(2));
+    
+            
+        });
+    </script> -->
+
+    <script>
+
+      var validate = function(e) {
+          var t = e.value;
+          e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+      }
+  </script>

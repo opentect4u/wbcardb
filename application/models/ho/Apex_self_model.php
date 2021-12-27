@@ -33,7 +33,19 @@ class Apex_self_Model extends CI_Model {
 	$query = $this->db->get('md_sector');
 	return $query->result();
     }
+	function apex_self_dc_header($ardb_id, $memo_no) {
 
+		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+		FLOOR(sum(a.inst_amt)) as tot_amt FROM td_apex_self shg ,td_apex_self_dis a
+		WHERE shg.ardb_id=a.ardb_id and shg.pronote_no=a.pronote_no and shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+	
+		$data = $this->db->query($sql);
+	
+	// 	echo $this->db->last_query();exit;
+	// die();
+		return $data->result();
+	
+		}
     function get_shg_details($ardb_id) {
 	$this->db->select('a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, a.pronote_no, a.ho_fwd_data as fwd_data');
 	$this->db->where(array(
@@ -57,8 +69,11 @@ class Apex_self_Model extends CI_Model {
 
     function apex_edit($ardb_id, $memo_no, $pronote_no) {
 	$where = $pronote_no != '' || $pronote_no > 0 ? 'AND replace(replace(replace(a.pronote_no, " ", ""), "/", ""), "-", "")="' . $pronote_no . '"' : "";
-	$sql = 'SELECT b.*,a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.ho_fwd_data as fwd_data, di.inst_sl_no, di.inst_date, di.inst_amt, '
-		. '(b.sanc_amt - (SELECT sum(d.inst_amt) FROM td_apex_self_dis d WHERE b.lso_no=d.lso_no AND a.ardb_id=d.ardb_id GROUP BY a.memo_no)) as remaining_sanc_amt '
+	$sql = 'SELECT b.ardb_id,b.entry_date,b.memo_no,b.pronote_no,b.lso_no,b.file_no,b.block_id,b.name_of_borr,
+	b.moratorium,b.loan,FLOOR(b.repay_per_tot) as repay_per_tot,b.purpose_code,b.roi,FLOOR(b.pro_cost) as pro_cost ,FLOOR(b.own_cont) as own_cont,FLOOR(b.corp_fund) as corp_fund,FLOOR(b.sanc_amt) as sanc_amt,
+	b.lnd_off_sec,b.cult_area,b.val_of_hypo,b.gros_inc_gen,ISULL(b.reg_m_bond_dt,"") as reg_m_bond_dt,b.reg_m_bond_no,b.in_out	,
+	    a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.ho_fwd_data as fwd_data, di.inst_sl_no, di.inst_date, FLOOR(di.inst_amt) as inst_amt, '
+		. '(FLOOR(b.sanc_amt) - (SELECT FLOOR(sum(d.inst_amt)) FROM td_apex_self_dis d WHERE b.lso_no=d.lso_no AND a.ardb_id=d.ardb_id GROUP BY a.memo_no)) as remaining_sanc_amt '
 		. 'FROM td_apex_self a '
 		. 'JOIN td_apex_self_dtls b ON a.pronote_no=b.pronote_no AND a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id '
 		. 'JOIN td_apex_self_dis di ON a.memo_no=di.memo_no AND b.lso_no=di.lso_no AND b.pronote_no=di.pronote_no '
@@ -159,13 +174,13 @@ class Apex_self_Model extends CI_Model {
 	// var_dump($data);exit;
 	// var_dump($file_data['file_name']);
 	$input = array(
-	    'ardb_id' => $ardb_id,
-	    'entry_date' => date('Y-m-d'),
-	    'memo_no' => $data['memo_no'],
-	    'pronote_no' => $data['pronote_no'],
-	    'file_name' => $file_data['file_name'],
-	    'file_path' => $file_data['full_path'],
-	    'created_by' => date('Y-m-d'),
+	    'ardb_id'     => $ardb_id,
+	    'entry_date'  => date('Y-m-d'),
+	    'memo_no'     => $data['memo_no'],
+	    'pronote_no'  => $data['pronote_no'],
+	    'file_name'   => $file_data['file_name'],
+	    'file_path'   => $file_data['full_path'],
+	    'created_by'  => date('Y-m-d'),
 	    'modified_by' => date('Y-m-d')
 	);
 	$this->db->insert('td_dc_shg_upload', $input);
@@ -173,8 +188,7 @@ class Apex_self_Model extends CI_Model {
     }
 
     function get_file_details($ardb_id, $memo_no) {
-	$this->db->where(array(
-	    'ardb_id' => $ardb_id,
+	$this->db->where(array('ardb_id' => $ardb_id,
 	    'replace(replace(replace(memo_no, " ", ""), "/", ""), "-", "")=' => $memo_no
 	));
 	$query = $this->db->get('td_dc_shg_upload');
@@ -433,18 +447,31 @@ class Apex_self_Model extends CI_Model {
 
     function get_csv_details($ardb_id, $memo_no) {
 	$this->load->dbutil();
-	$sql = 'SELECT a.ardb_id, a.sector_code, a.memo_no, DATE_FORMAT(STR_TO_DATE(a.memo_date,"%Y-%m-%d"), "%d/%m/%Y")memo_date, a.pronote_no, a.lso_no, b.file_no, b.block_id, '
-		. 'replace(b.name_of_borr, " ", "-") name_of_borr, b.moratorium, b.loan, b.repay_per_tot, b.purpose_code, b.roi, b.pro_cost, b.own_cont, '
-		. 'b.corp_fund, b.sanc_amt, b.lnd_off_sec, b.cult_area, b.val_of_hypo, b.gros_inc_gen, DATE_FORMAT(STR_TO_DATE(b.reg_m_bond_dt,"%Y-%m-%d"), "%d/%m/%Y")reg_m_bond_dt, '
-		. 'b.reg_m_bond_no, c.tot_memb, c.tot_borrower, c.tot_male, c.tot_female, c.tot_sc, c.tot_st, c.tot_obca, '
-		. 'c.tot_obcb, c.tot_gen, c.tot_other, c.tot_count, c.tot_big, c.tot_small, c.tot_marginal, c.tot_landless, '
-		. 'c.tot_lig, c.tot_mig, c.tot_hig, d.inst_sl_no, DATE_FORMAT(STR_TO_DATE(d.inst_date,"%Y-%m-%d"), "%d/%m/%Y")inst_date, d.inst_amt '
-		. 'FROM td_apex_self a '
-		. 'JOIN td_apex_self_dtls b ON a.ardb_id=b.ardb_id AND a.memo_no=b.memo_no AND a.pronote_no=b.pronote_no '
-		. 'JOIN td_apex_self_borrower c ON a.ardb_id=c.ardb_id AND a.memo_no=c.memo_no AND a.pronote_no=c.pronote_no '
-		. 'JOIN td_apex_self_dis d ON a.ardb_id=d.ardb_id AND a.memo_no=d.memo_no AND a.pronote_no=d.pronote_no '
-		. 'where a.ardb_id= ' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '"';
+	// $sql = 'SELECT a.ardb_id, a.sector_code, a.memo_no, DATE_FORMAT(STR_TO_DATE(a.memo_date,"%Y-%m-%d"), "%d/%m/%Y")memo_date, a.pronote_no, b.lso_no, b.file_no, b.block_id, '
+	// 	. 'replace(b.name_of_borr, " ", "-") name_of_borr, b.moratorium, b.loan, b.repay_per_tot, b.purpose_code, b.roi, b.pro_cost, b.own_cont, '
+	// 	. 'b.corp_fund, b.sanc_amt, b.lnd_off_sec, b.cult_area, b.val_of_hypo, b.gros_inc_gen, DATE_FORMAT(STR_TO_DATE(b.reg_m_bond_dt,"%Y-%m-%d"), "%d/%m/%Y")reg_m_bond_dt, '
+	// 	. 'b.reg_m_bond_no, c.tot_memb, c.tot_borrower, c.tot_male, c.tot_female, c.tot_sc, c.tot_st, c.tot_obca, '
+	// 	. 'c.tot_obcb, c.tot_gen, c.tot_other, c.tot_count, c.tot_big, c.tot_small, c.tot_marginal, c.tot_landless, '
+	// 	. 'c.tot_lig, c.tot_mig, c.tot_hig, d.inst_sl_no, DATE_FORMAT(STR_TO_DATE(d.inst_date,"%Y-%m-%d"), "%d/%m/%Y")inst_date, d.inst_amt '
+	// 	. 'FROM td_apex_self a '
+	// 	. 'JOIN td_apex_self_dtls b ON a.ardb_id=b.ardb_id AND a.memo_no=b.memo_no AND a.pronote_no=b.pronote_no '
+	// 	. 'JOIN td_apex_self_borrower c ON a.ardb_id=c.ardb_id AND a.memo_no=c.memo_no AND a.pronote_no=c.pronote_no '
+	// 	. 'JOIN td_apex_self_dis d ON a.ardb_id=d.ardb_id AND a.memo_no=d.memo_no AND a.pronote_no=d.pronote_no '
+	// 	. 'where a.ardb_id= ' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY b.lso_no';
+	$sql = 'SELECT a.ardb_id, a.sector_code, a.memo_no, DATE_FORMAT(STR_TO_DATE(a.memo_date,"%Y-%m-%d"), "%d/%m/%Y")memo_date, a.pronote_no, b.lso_no, b.file_no, b.block_id, '
+	. 'replace(b.name_of_borr, " ", "-") name_of_borr, b.moratorium, b.loan, b.repay_per_tot, b.purpose_code, b.roi, b.pro_cost, b.own_cont, '
+	. 'b.corp_fund, b.sanc_amt, b.lnd_off_sec, b.cult_area, b.val_of_hypo, b.gros_inc_gen, IF(c.reg_m_bond_dt="00/00/0000","",c.reg_m_bond_dt) reg_m_bond_dt, '
+	. 'b.reg_m_bond_no, c.tot_memb, c.tot_borrower, c.tot_male, c.tot_female, c.tot_sc, c.tot_st, c.tot_obca, '
+	. 'c.tot_obcb, c.tot_gen, c.tot_other, c.tot_count, c.tot_big, c.tot_small, c.tot_marginal, c.tot_landless, '
+	. 'c.tot_lig, c.tot_mig, c.tot_hig, d.inst_sl_no, DATE_FORMAT(STR_TO_DATE(d.inst_date,"%Y-%m-%d"), "%d/%m/%Y")inst_date, d.inst_amt '
+	. 'FROM td_apex_self a '
+	. 'JOIN td_apex_self_dtls b ON a.ardb_id=b.ardb_id AND a.memo_no=b.memo_no AND a.pronote_no=b.pronote_no '
+	. 'JOIN td_apex_self_borrower c ON a.ardb_id=c.ardb_id AND a.memo_no=c.memo_no AND a.pronote_no=c.pronote_no '
+	. 'JOIN td_apex_self_dis d ON a.ardb_id=d.ardb_id AND a.memo_no=d.memo_no AND a.pronote_no=d.pronote_no '
+	. 'where a.ardb_id= ' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY b.lso_no';
+
 	$query = $this->db->query($sql);
+	echo $this->db->last_query();exit;
 	$delimiter = "|";
 	$newline = "\r\n";
 	$enclosure = '';

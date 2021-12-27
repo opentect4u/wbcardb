@@ -17,6 +17,8 @@ $approve_details = json_decode($approve_details);
                                         <th>Memo Date</th>
                                         <!--<th>Sector</th>-->
                                         <th>Status</th>
+                                        <th>Disbursement No</th>
+                                        <th>Disbursement Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -25,6 +27,8 @@ $approve_details = json_decode($approve_details);
 				    $i = 1;
 				    foreach ($approve_details as $dt) {
 					$memo_no = str_replace(array(':', '-', '/', '*', ' '), '', $dt->memo_no);
+                    // $disb_dt=date('d/m/Y', strtotime(str_replace('-', '/', $dt->instl_dt)));
+                    $disb_dt=$dt->instl_dt;
 					echo '<tr>';
 					echo '<td>' . $i . '</td>';
 					echo '<td>' . $dt->memo_no . '</td>';
@@ -42,8 +46,10 @@ $approve_details = json_decode($approve_details);
 					} else {
 					    echo '';
 					}
+                    echo '<td>'.$dt->instl_no.'</td>';
+                    echo '<td>' . date('d/m/Y', strtotime(str_replace('-', '/', $dt->instl_dt))) . '</td>';
 					echo '</td>';
-					echo '<td><a href="approve_details/' . $memo_no . '" data-toggle="tooltip" data-placement="bottom" title="View"><i class="fa fa-eye fa-lg"></i></a></td>';
+					echo '<td><a href="approve_details/' . $memo_no .'/'. $disb_dt.'" data-toggle="tooltip" data-placement="bottom" title="View"><i class="fa fa-eye fa-lg"></i></a></td>';
 					echo '</tr>';
 					$i++;
 				    }

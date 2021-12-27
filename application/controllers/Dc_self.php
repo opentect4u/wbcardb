@@ -29,7 +29,7 @@ class Dc_self extends CI_Controller {
         //For Individual Functions
 
         $this->load->model('dc_self_model');
-
+        $this->load->model('Process');
         $this->load->helper('url');
 
         $this->load->library('zip');
@@ -212,19 +212,25 @@ class Dc_self extends CI_Controller {
 
     }
 
-
-
     function dc_save() {
 
         // redirect('dc/dc_view');
+       
+        $user_id=$_SESSION['user_id'] ;
+        $data1 = $this->Process->userInf($user_id);
+        $psw=$_SESSION['password'] ;
+        $br= $_SESSION['br_id'];
 
         $data = $this->input->post();
 
         if ($this->dc_self_model->dc_save($data)) {
 
             $this->session->set_flashdata('msg', '<b style:"color:green;">Successfully added!</b>');
-
+            // echo $this->db->last_query();
+            // exit();
+            if ($br==$data1->br_id) {
             redirect('dc_self');
+            }
 
         } else {
 
@@ -259,14 +265,11 @@ class Dc_self extends CI_Controller {
     }
 
 
-
     function get_dc_details() {
 
         $memo_no = $this->input->post('memo_no');
 
         $pronote_no = $this->input->post('pronote_no');
-
-
 
         $dc_details = $this->dc_self_model->get_dc_details($memo_no, $pronote_no);
 
@@ -277,7 +280,6 @@ class Dc_self extends CI_Controller {
         echo json_encode($dc_details);
 
     }
-
 
 
     function file_uploads() {
@@ -322,10 +324,7 @@ class Dc_self extends CI_Controller {
 
         $folder = $up . $pronote_no;
 
-
-
         // echo $folder;exit;
-
 
 
         if (!is_dir($folder)) {
@@ -333,7 +332,6 @@ class Dc_self extends CI_Controller {
             mkdir($folder, 0777, true);
 
         }
-
 
 
         $config['upload_path'] = './uploads/other_than_shg_files/' . $pronote_no . '/';
@@ -347,8 +345,6 @@ class Dc_self extends CI_Controller {
         $config['max_width'] = 1024;
 
         $config['max_height'] = 768;
-
-
 
         $this->load->library('upload', $config);
 
@@ -373,7 +369,6 @@ class Dc_self extends CI_Controller {
                 $_FILES['file[]']['error'] = $_FILES['userfile']['error'][$k];
 
                 $_FILES['file[]']['size'] = $_FILES['userfile']['size'][$k];
-
 
 
                 $config['file_name'] = $pronote_no . '_' . ++$j;
@@ -423,7 +418,6 @@ class Dc_self extends CI_Controller {
     }
 
 
-
     function get_pronote_details() {
 
         $ardb_id = $_SESSION['br_id'];
@@ -435,8 +429,6 @@ class Dc_self extends CI_Controller {
         echo json_encode($pronote_details);
 
     }
-
-
 
     function get_shg_names() {
 
@@ -474,10 +466,6 @@ class Dc_self extends CI_Controller {
 
         $filename = $ardb_id . '-' . $memo_no . '.zip';
 
-
-
-
-
         // Download
 
         if (!$this->zip->download($filename)) {
@@ -492,11 +480,7 @@ class Dc_self extends CI_Controller {
 
     }
 
-
-
     // FORWARD
-
-
 
     function forward_view() {
 
@@ -517,7 +501,6 @@ class Dc_self extends CI_Controller {
         $this->load->view('common/footer');
 
     }
-
 
 
     function approve_details($memo_no) {
@@ -585,12 +568,16 @@ class Dc_self extends CI_Controller {
     }
 
 
-
-    function forward_data($memo_no) {
+    function forward_data() {
 
         $ardb_id = $_SESSION['br_id'];
+        $a1_reason =  $this->input->post('reason');
+        $qstr = $_GET['qstr'];
+       
+       $memo_no=explode(",",$qstr)[0];
+       $a1_reason=explode(",",$qstr)[1];
 
-        if ($this->dc_self_model->forward_data($ardb_id, $memo_no)) {
+        if ($this->dc_self_model->forward_data($ardb_id, $memo_no, $a1_reason)) {
 
             $this->session->set_flashdata('msg', '<b style:"color:red;">Forwaded Successfully!</b>');
 
@@ -607,13 +594,19 @@ class Dc_self extends CI_Controller {
     }
 
 
-
-    function reject_data($memo_no) {
+    function reject_data() {
 
         $ardb_id = $_SESSION['br_id'];
+        $a1_reason =  $this->input->post('reason');
+        $qstr = $_GET['qstr'];
+       
+       $memo_no=explode(",",$qstr)[0];
+       $a1_reason=explode(",",$qstr)[1];
 
-        if ($this->dc_self_model->reject_data($ardb_id, $memo_no)) {
+        if ($this->dc_self_model->reject_data($ardb_id, $memo_no,$a1_reason)) {
 
+            // echo $this->db->last_query();
+            // exit;
             $this->session->set_flashdata('msg', '<b style:"color:red;">Rejected Successfully!</b>');
 
             redirect('dc_self/forward_view');
@@ -627,7 +620,6 @@ class Dc_self extends CI_Controller {
         }
 
     }
-
 
 
     function get_sanc_amt() {
@@ -645,9 +637,7 @@ class Dc_self extends CI_Controller {
     }
 
 
-
 }
-
 
 
 ?>

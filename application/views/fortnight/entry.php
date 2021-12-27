@@ -44,7 +44,7 @@ if ($id > 0) {
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group row">
-                                    <label class="col-sm-5 col-form-label">From Fin Year</label>
+                                    <label class="col-sm-5 col-form-label">Financial Year</label>
                                     <div class="col-sm-7">
                                         <input type="number" class="form-control" name="from_fin_yr" id="from_fin_yr" value="<?= $select_inv ? $select_inv->from_fin_yr : CURRENT_YEAR ?>" required="" readonly/>
                                     </div>
@@ -52,7 +52,7 @@ if ($id > 0) {
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group row">
-                                    <label class="col-sm-5 col-form-label">To Fin Year</label>
+                                    <label class="col-sm-5 col-form-label">To </label>
                                     <div class="col-sm-7">
                                         <input type="number" class="form-control" name="to_fin_yr" id="to_fin_yr" value="<?= $select_inv ? $select_inv->to_fin_yr : NEXT_YEAR ?>" required="" readonly/>
                                     </div>
@@ -82,7 +82,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-5 col-form-label">Num of A/C Closed</label>
                                     <div class="col-sm-7">
-                                        <input type="number" class="form-control" name="no_acc_closed" id="no_acc_closed" value="<?= $select_inv ? $select_inv->no_acc_closed : '' ?>" required="" />
+                                        <input type="number" class="form-control" name="no_acc_closed" id="no_acc_closed" value="<?= $select_inv ? $select_inv->no_acc_closed : '' ?>"  />
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-5 col-form-label">Prog No. of  Browwing Members</label>
                                     <div class="col-sm-7">
-                                        <input type="number" class="form-control" name="prog_brro_memb" id="prog_brro_memb" value="<?= $select_inv ? $select_inv->prog_brro_memb : '' ?>" required="" />
+                                        <input type="number" class="form-control" name="prog_brro_memb" id="prog_brro_memb" value="<?= $select_inv ? $select_inv->prog_brro_memb : '' ?>" readonly  />
                                     </div>
                                 </div>
                             </div>
@@ -101,12 +101,12 @@ if ($id > 0) {
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" colspan="3"><b>Target of Investment for the year</b> <b><?= CURRENT_YEAR . ' - ' . NEXT_YEAR ?></b></th>
+                                                <th class="text-center" colspan="3"><b>Target of Lending for the year</b> <b><?= CURRENT_YEAR . ' - ' . NEXT_YEAR ?></b></th>
                                             </tr>
                                             <tr>
                                                 <th></th>
                                                 <th>No of Cases</th>
-                                                <th>Amount</th>
+                                                <th>Amount(Rs. In Lacs)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -131,12 +131,12 @@ if ($id > 0) {
                                                 <td><div class="form-group"><input type="number" class="form-control" name="shg_amt" id="shg_amt" value="<?= $selected ? $selected->shg_amt : '0' ?>" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
-                                                <td>LD & Others</td>
+                                                <td>LD & Others(Out Of Deposit)</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="pl_no_case" id="pl_no_case" value="<?= $selected ? $selected->pl_no_case : '0' ?>" required="" readonly/></div></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="pl_amt" id="pl_amt" value="<?= $selected ? $selected->pl_amt : '0' ?>" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
-                                                <td>Total Investment for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
+                                                <td>Total Lending for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_no_case" id="tot_inv_of_curr_yr_no_case" value="<?= $selected ? $selected->tot_inv_of_curr_yr_no_case : '0' ?>" required="" readonly/></div></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_amt" id="tot_inv_of_curr_yr_amt" value="<?= $selected ? $selected->tot_inv_of_curr_yr_amt : '0' ?>" required="" readonly/></div></td>
                                             </tr>
@@ -148,96 +148,97 @@ if ($id > 0) {
                                         </tbody>
                                         <thead>
                                             <tr>
-                                                <th class="text-center" colspan="3"><b>Investment made during the fortnight</b> <span id="ret_dt"></span></th>
+                                                <th class="text-center" colspan="3"><b>Lending during the fortnight</b> <span id="ret_dt"></span></th>
                                             </tr>
                                             <tr>
                                                 <th></th>
                                                 <th>No of Cases</th>
-                                                <th>Amount</th>
+                                                <th>Amount(Rs In Lacs)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Farm Sector</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="fm_no_case1" id="fm_no_case1" value="<?= $select_inv ? $select_inv->fm_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="fm_amt1" id="fm_amt1" value="<?= $select_inv ? $select_inv->fm_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="fm_amt1" id="fm_amt1" value="<?= $select_inv ? $select_inv->fm_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Non-Farm Sector</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="nf_no_case1" id="nf_no_case1" value="<?= $select_inv ? $select_inv->nf_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="nf_amt1" id="nf_amt1" value="<?= $select_inv ? $select_inv->nf_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="nf_amt1" id="nf_amt1" value="<?= $select_inv ? $select_inv->nf_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>RH</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="rh_no_case1" id="rh_no_case1" value="<?= $select_inv ? $select_inv->rh_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="rh_amt1" id="rh_amt1" value="<?= $select_inv ? $select_inv->rh_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="rh_amt1" id="rh_amt1" value="<?= $select_inv ? $select_inv->rh_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>SHG/JLG</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="shg_no_case1" id="shg_no_case1" value="<?= $select_inv ? $select_inv->shg_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="shg_amt1" id="shg_amt1" value="<?= $select_inv ? $select_inv->shg_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="shg_amt1" id="shg_amt1" value="<?= $select_inv ? $select_inv->shg_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
-                                                <td>LD & Others</td>
+                                                <td>LD & Others(Out Of Deposit)</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="pl_no_case1" id="pl_no_case1" value="<?= $select_inv ? $select_inv->pl_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pl_amt1" id="pl_amt1" value="<?= $select_inv ? $select_inv->pl_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pl_amt1" id="pl_amt1" value="<?= $select_inv ? $select_inv->pl_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
-                                                <td>Total Investment for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
+                                                <td>Total Lending for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_no_case1" id="tot_inv_of_curr_yr_no_case1" value="<?= $select_inv ? $select_inv->tot_inv_of_curr_yr_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_amt1" id="tot_inv_of_curr_yr_amt1" value="<?= $select_inv ? $select_inv->tot_inv_of_curr_yr_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="tot_inv_of_curr_yr_amt1" id="tot_inv_of_curr_yr_amt1" value="<?= $select_inv ? $select_inv->tot_inv_of_curr_yr_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Total upto the end of the previous  <br>Year <b><?= PREVIOUS_YEAR . '-' . CURRENT_YEAR ?></b></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_pre_yr_no_case1" id="tot_inv_of_pre_yr_no_case1" value="<?= $select_inv ? $select_inv->tot_inv_of_pre_yr_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_pre_yr_amt1" id="tot_inv_of_pre_yr_amt1" value="<?= $select_inv ? $select_inv->tot_inv_of_pre_yr_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="tot_inv_of_pre_yr_amt1" id="tot_inv_of_pre_yr_amt1" value="<?= $select_inv ? $select_inv->tot_inv_of_pre_yr_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                         </tbody>
                                         <thead>
                                             <tr>
-                                                <th class="text-center" colspan="3"><b>Progressive total of investent made up to the end of the period</b> <span id="ret_to_dt"></span></th>
+                                                <th class="text-center" colspan="3"><b>Progressive total of lending up to the end of the period</b> <span id="ret_to_dt"></span></th>
                                             </tr>
                                             <tr>
                                                 <th></th>
                                                 <th>No of Cases</th>
-                                                <th>Amount</th>
+                                                <th>Amount(Rs. In Lacs)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Farm Sector</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="fm_no_case2" id="fm_no_case2" value="<?= $select_prog ? $select_prog->fm_no_case : '0' ?>" required="" readonly/></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="fm_amt2" id="fm_amt2" value="<?= $select_prog ? $select_prog->fm_amt : '0' ?>" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="fm_amt2" id="fm_amt2" value="<?= $select_prog ? $select_prog->fm_amt : '0' ?>" required="" readonly /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Non-Farm Sector</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="nf_no_case2" id="nf_no_case2" value="<?= $select_prog ? $select_prog->nf_no_case : '0' ?>" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="nf_amt2" id="nf_amt2" value="<?= $select_prog ? $select_prog->nf_amt : '0' ?>" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="nf_amt2" id="nf_amt2" value="<?= $select_prog ? $select_prog->nf_amt : '0' ?>" required="" readonly /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>RH</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="rh_no_case2" id="rh_no_case2" value="<?= $select_prog ? $select_prog->rh_no_case : '0' ?>" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="rh_amt2" id="rh_amt2" value="<?= $select_prog ? $select_prog->rh_amt : '0' ?>" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="rh_amt2" id="rh_amt2" value="<?= $select_prog ? $select_prog->rh_amt : '0' ?>" required="" readonly /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>SHG/JLG</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="shg_no_case2" id="shg_no_case2" value="<?= $select_prog ? $select_prog->shg_no_case : '0' ?>" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="shg_amt2" id="shg_amt2" value="<?= $select_prog ? $select_prog->shg_amt : '0' ?>" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="shg_amt2" id="shg_amt2" value="<?= $select_prog ? $select_prog->shg_amt : '0' ?>" required="" readonly /></div></td>
                                             </tr>
                                             <tr>
-                                                <td>LD & Others</td>
+                                                <td>LD & Others(Out Of Deposit)</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="pl_no_case2" id="pl_no_case2" value="<?= $select_prog ? $select_prog->pl_no_case : '0' ?>" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pl_amt2" id="pl_amt2" value="<?= $select_prog ? $select_prog->pl_amt : '0' ?>" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pl_amt2" id="pl_amt2" value="<?= $select_prog ? $select_prog->pl_amt : '0' ?>" required="" readonly /></div></td>
                                             </tr>
                                             <tr>
-                                                <td>Total Investment for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
+                                                <td>Total Lending for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_no_case2" id="tot_inv_of_curr_yr_no_case2" value="<?= $select_prog ? $select_prog->tot_inv_of_curr_yr_no_case : '0' ?>" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_amt2" id="tot_inv_of_curr_yr_amt2" value="<?= $select_prog ? $select_prog->tot_inv_of_curr_yr_amt : '0' ?>" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="tot_inv_of_curr_yr_amt2" id="tot_inv_of_curr_yr_amt2" value="<?= $select_prog ? $select_prog->tot_inv_of_curr_yr_amt : '0' ?>" required="" readonly /></div></td>
                                             </tr>
                                             <tr>
-                                                <td>Total upto the end of the previous  <br>Year <b><?= PREVIOUS_YEAR . '-' . CURRENT_YEAR ?></b></td>
+                                                <!-- <td>Total upto the end of the previous  <br>Year <b><?= PREVIOUS_YEAR . '-' . CURRENT_YEAR ?></b></td> -->
+                                                <td> Total lending during the corresponding period of the previous  <br>Year <b><?= PREVIOUS_YEAR . '-' . CURRENT_YEAR ?></b></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_pre_yr_no_case2" id="tot_inv_of_pre_yr_no_case2" value="<?= $select_prog ? $select_prog->tot_inv_of_pre_yr_no_case : '0' ?>" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_pre_yr_amt2" id="tot_inv_of_pre_yr_amt2" value="<?= $select_prog ? $select_prog->tot_inv_of_pre_yr_amt : '0' ?>" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="tot_inv_of_pre_yr_amt2" id="tot_inv_of_pre_yr_amt2" value="<?= $select_prog ? $select_prog->tot_inv_of_pre_yr_amt : '0' ?>" required="" readonly /></div></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -389,7 +390,7 @@ if ($id > 0) {
                         <div class="col-md-12 pt-5">
                             <div class="form-group row bttn-align">
                                 <div class="col-md-2">
-                                    <button type="submit" id="submit" class="btn btn-info" <?= $disable_button; ?>>Save</button>
+                                    <button type="submit" id="submit" class="btn btn-info" <?= $disable_button; ?> onclick="myFunction()">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -401,11 +402,11 @@ if ($id > 0) {
     </div>
     <!-- content-wrapper ends -->
 
-    <script>
+    <!-- <script>
         function download() {
-            window.location.href = "<?= site_url('ho/self_doc_verify/download_zip/' . $flag . '/' . $ardb_id . '/' . $memo_no); ?>";
+            window.location.href = "<?php //site_url('ho/self_doc_verify/download_zip/' . $flag . '/' . $ardb_id . '/' . $memo_no); ?>";
         }
-    </script>
+    </script> -->
 
     <script>
         // COUNT No of CASES
@@ -445,44 +446,77 @@ if ($id > 0) {
 
         // COUNT AMOUNT
         $('#fm_amt1').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
+             //alert(parseFloat($(this).val()).toFixed(2));
             total_amount($(this).val());
             var fm_amt2 = <?= $select_prog ? $select_prog->fm_amt : '0' ?>;
-            $('#fm_amt2').val(parseInt($(this).val()) + parseInt(fm_amt2)).change();
+            // alert('hi');
+            // $('#fm_amt2').val(parseInt($(this).val()) + parseInt(fm_amt2)).change();
+            $('#fm_amt2').val(parseFloat($(this).val()) + parseFloat(fm_amt2)).change();
+            
         });
         $('#nf_amt1').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             total_amount($(this).val());
-            var nf_amt2 = <?= $select_prog ? $select_prog->nf_amt : '0' ?>;
-            $('#nf_amt2').val(parseInt($(this).val()) + parseInt(nf_amt2)).change();
+            var nf_amt2 = <?= $select_prog ? round($select_prog->nf_amt,2) : '0' ?>;
+            // $('#nf_amt2').val(parseInt($(this).val()) + parseInt(nf_amt2)).change();
+            $('#nf_amt2').val(parseFloat($(this).val()) + parseFloat(nf_amt2)).change();
         });
         $('#pl_amt1').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             total_amount($(this).val());
             var pl_amt2 = <?= $select_prog ? $select_prog->pl_amt : '0' ?>;
-            $('#pl_amt2').val(parseInt($(this).val()) + parseInt(pl_amt2)).change();
+            // $('#pl_amt2').val(parseInt($(this).val()) + parseInt(pl_amt2)).change()
+            var tot_pl=parseFloat($(this).val()) + parseFloat(pl_amt2).change();
+            tot_pl=tot_pl.toFixed(2);
+            // alert(tot_pl);
+            // $('#pl_amt2').val(parseFloat($(this).val()) + parseFloat(pl_amt2)).change();
+            $('#pl_amt2').val(parseFloat($(this).val()) + parseFloat(pl_amt2)).change();
+
+
+            
         });
         $('#rh_amt1').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             total_amount($(this).val());
             var rh_amt2 = <?= $select_prog ? $select_prog->rh_amt : '0' ?>;
-            $('#rh_amt2').val(parseInt($(this).val()) + parseInt(rh_amt2)).change();
+            // $('#rh_amt2').val(parseInt($(this).val()) + parseInt(rh_amt2)).change();
+            $('#rh_amt2').val(parseFloat($(this).val()) + parseFloat(rh_amt2)).change();
         });
         $('#shg_amt1').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             total_amount($(this).val());
-            var shg_amt2 = <?= $select_prog ? $select_prog->shg_amt : '0' ?>;
-            $('#shg_amt2').val(parseInt($(this).val()) + parseInt(shg_amt2)).change();
+            var shg_amt2 = <?= $select_prog ? round($select_prog->shg_amt,2) : '0' ?>;
+            // $('#shg_amt2').val(parseInt($(this).val()) + parseInt(shg_amt2)).change();
+            $('#shg_amt2').val(parseFloat($(this).val()) + parseFloat(shg_amt2)).change();
         });
         function total_amount(value) {
-            var total = $('#tot_inv_of_curr_yr_amt1').val();
+            
+            var total = parseFloat($('#tot_inv_of_curr_yr_amt1').val()).toFixed(2);
             if (total == '') {
                 total = 0;
             }
-            var count = parseInt($('#fm_amt1').val()) + parseInt($('#nf_amt1').val()) + parseInt($('#pl_amt1').val()) + parseInt($('#rh_amt1').val()) + parseInt($('#shg_amt1').val());
+            // var count = parseInt($('#fm_amt1').val()) + parseInt($('#nf_amt1').val()) + parseInt($('#pl_amt1').val()) + parseInt($('#rh_amt1').val()) + parseInt($('#shg_amt1').val());
+            // $('#tot_inv_of_curr_yr_amt1').val(count);
+            var count = parseFloat($('#fm_amt1').val()) + parseFloat($('#nf_amt1').val())  + parseFloat($('#rh_amt1').val()) + parseFloat($('#shg_amt1').val()) + parseFloat($('#pl_amt1').val());
+            count=count.toFixed(2);
+            // var tot=math.round(count);
+        //  alert(count);
             $('#tot_inv_of_curr_yr_amt1').val(count);
+            
         }
 
+
+        // $('#tot_inv_of_curr_yr_amt1').on('change', function () {
+        //     $(this).val(parseFloat($(this).val()).toFixed(2));
+        // }
         $('#tot_inv_of_pre_yr_no_case1').on('change', function () {
             $('#tot_inv_of_pre_yr_no_case2').val(parseInt($(this).val()) + parseInt($('#tot_inv_of_pre_yr_no_case2').val()));
         });
         $('#tot_inv_of_pre_yr_amt1').on('change', function () {
-            $('#tot_inv_of_pre_yr_amt2').val(parseInt($(this).val()) + parseInt($('#tot_inv_of_pre_yr_amt2').val()));
+            $(this).val(parseFloat($(this).val()).toFixed(2));
+            // $('#tot_inv_of_pre_yr_amt2').val(parseInt($(this).val()) + parseInt($('#tot_inv_of_pre_yr_amt2').val()));
+            $('#tot_inv_of_pre_yr_amt2').val(parseFloat($(this).val()) + parseFloat($('#tot_inv_of_pre_yr_amt2').val()));
         });
     </script>
 
@@ -529,12 +563,16 @@ if ($id > 0) {
             total_amount2($(this).val());
         });
         function total_amount2(value) {
-            var total = $('#tot_inv_of_curr_yr_amt2').val();
+            var total = parseFloat($('#tot_inv_of_curr_yr_amt2').val()).toFixed(2);
             if (total == '') {
                 total = 0;
             }
-            var count = parseInt($('#fm_amt2').val()) + parseInt($('#nf_amt2').val()) + parseInt($('#pl_amt2').val()) + parseInt($('#rh_amt2').val()) + parseInt($('#shg_amt2').val());
-            $('#tot_inv_of_curr_yr_amt2').val(count);
+            // var count = parseInt($('#fm_amt2').val()) + parseInt($('#nf_amt2').val()) + parseInt($('#pl_amt2').val()) + parseInt($('#rh_amt2').val()) + parseInt($('#shg_amt2').val());
+            // $('#tot_inv_of_curr_yr_amt2').val(count);
+var count = parseFloat($('#fm_amt2').val()) + parseFloat($('#nf_amt2').val()) + parseFloat($('#pl_amt2').val()) + parseFloat($('#rh_amt2').val()) + parseFloat($('#shg_amt2').val());
+count=count.toFixed(2);
+$('#tot_inv_of_curr_yr_amt2').val(count);
+            
         }
     </script>
 
@@ -563,48 +601,220 @@ if ($id > 0) {
             }
             var count = parseInt($('#sc').val()) + parseInt($('#st').val()) + parseInt($('#obca').val()) + parseInt($('#obcb').val()) + parseInt($('#gen').val());
             $('#total_1').val(count);
+           $('#prog_brro_memb').val(count);
         }
 
         //COUNT PERSONAL CLASSIFICATION
         $('#marginal').on('change', function () {
-            total2($(this).val());
-        });
-        $('#small').on('change', function () {
-            total2($(this).val());
-        });
-        $('#big').on('change', function () {
-            total2($(this).val());
-        });
-        $('#sal_earner').on('change', function () {
-            total2($(this).val());
-        });
-        $('#bussiness').on('change', function () {
-            total2($(this).val());
-            // check_total_member();
-        });
-        function total2(value) {
+            // total2($(this).val());
             var total = $('#total_2').val();
+            var total1=$('#total_1').val();
             if (total == '') {
                 total = 0;
             }
             var count = parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val());
-            $('#total_2').val(count);
-        }
+           
+        $('#total_2').val(count);
+        if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        document.getElementById("marginal").focus();
+        $(this).val(0);
+        $('#total_2').val(parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val()));
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+        });
+        $('#small').on('change', function () {
+            // total2($(this).val());
+            var total = $('#total_2').val();
+            var total1=$('#total_1').val();
+            if (total == '') {
+                total = 0;
+            }
+            var count = parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val());
+           
+        $('#total_2').val(count);
+        if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        document.getElementById("small").focus();
+        $(this).val(0);
+        $('#total_2').val(parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val()));
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+        });
+        $('#big').on('change', function () {
+            // total2($(this).val());
+            var total = $('#total_2').val();
+            var total1=$('#total_1').val();
+            if (total == '') {
+                total = 0;
+            }
+            var count = parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val());
+           
+        $('#total_2').val(count);
+        if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        document.getElementById("big").focus();
+        $(this).val(0);
+        $('#total_2').val(parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val()));
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+        });
+        $('#sal_earner').on('change', function () {
+            // total2($(this).val());
+            var total = $('#total_2').val();
+            var total1=$('#total_1').val();
+            if (total == '') {
+                total = 0;
+            }
+            var count = parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val());
+           
+        $('#total_2').val(count);
+        if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        document.getElementById("sal_earner").focus();
+        $(this).val(0);
+        $('#total_2').val(parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val()));
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+        });
+        $('#bussiness').on('change', function () {
+            // total2($(this).val());
+            // check_total_member();
+            var total = $('#total_2').val();
+            var total1=$('#total_1').val();
+            if (total == '') {
+                total = 0;
+            }
+            var count = parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val());
+           
+        $('#total_2').val(count);
+        if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        document.getElementById("bussiness").focus();
+        $(this).val(0);
+        $('#total_2').val(parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val()));
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+        });
+        function total2(value) {
+            var total = $('#total_2').val();
+            var total1=$('#total_1').val();
+            if (total == '') {
+                total = 0;
+            }
+            var count = parseInt($('#marginal').val()) + parseInt($('#small').val()) + parseInt($('#big').val()) + parseInt($('#sal_earner').val()) + parseInt($('#bussiness').val());
+           
+        $('#total_2').val(count);
+        if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+    }
 
         //COUNT GENDER CLASSIFICATION
         $('#male').on('change', function () {
-            total3($(this).val());
-        });
-        $('#female').on('change', function () {
-            total3($(this).val());
-        });
-        function total3(value) {
+            // total3($(this).val());
+            var total1=$('#total_1').val();
             var total = $('#total_3').val();
             if (total == '') {
                 total = 0;
             }
             var count = parseInt($('#male').val()) + parseInt($('#female').val());
-            $('#total_3').val(count);
+          
+        $('#total_3').val(count);
+            if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        document.getElementById("male").focus();
+        $(this).val(0);
+        $('#total_3').val( parseInt($('#male').val()) + parseInt($('#female').val()));
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+        });
+        $('#female').on('change', function () {
+            // total3($(this).val());
+            var total1=$('#total_1').val();
+            var total = $('#total_3').val();
+            if (total == '') {
+                total = 0;
+            }
+            var count = parseInt($('#male').val()) + parseInt($('#female').val());
+          
+        $('#total_3').val(count);
+            if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        document.getElementById("female").focus();
+        $(this).val(0);
+        $('#total_3').val( parseInt($('#male').val()) + parseInt($('#female').val()));
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
+        });
+        function total3(value) {
+            var total1=$('#total_1').val();
+            var total = $('#total_3').val();
+            if (total == '') {
+                total = 0;
+            }
+            var count = parseInt($('#male').val()) + parseInt($('#female').val());
+          
+        $('#total_3').val(count);
+            if (parseInt(count) > parseInt(total1) ) {
+        alert('Total Not Matched with cast total');
+        // $('#submit').attr('type', 'button');
+        $('#submit').prop('disabled', true);
+        return false;
+        }else{
+
+           $('#submit').prop('disabled', false);
+          return true;
+          }
         }
     </script>
 
@@ -621,4 +831,37 @@ if ($id > 0) {
             $('#ret_dt').text('(' + frm_dt + '-' + to_dt + ')');
             $('#ret_to_dt').text('(' + frm_dt + '-' + to_dt + ')');
         });
+        
+    </script>
+    <script>
+       function myFunction() {
+        // alert('hi');
+        var tot_1_val=parseInt($('#total_1').val());
+        var tot_2_val= parseInt($('#total_2').val());
+        var tot_3_val= parseInt($('#total_3').val());
+
+	 var tot_sum = parseInt($('#total_1').val()) + parseInt( $('#total_2').val()) +  parseInt($('#total_3').val());
+	 //alert(tot_sum);
+	if(tot_sum==0 ){
+		alert('Consolidated Borrowers Classification of the PCARDB Cant not zero');
+		$('#submit').attr('type', 'buttom');
+		event.preventDefault();
+	}else{
+	$('#submit').attr('type', 'submit');
+	}
+
+// alert(tot_1_val);
+// alert(tot_2_val);
+// alert(tot_3_val);
+
+    if(tot_1_val != tot_2_val && tot_1_val !=   tot_3_val){
+		alert('All Consolidated Borrowers Classification of the PCARDB Not Matched');
+		$('#submit').attr('type', 'buttom');
+		event.preventDefault();
+	}else{
+	$('#submit').attr('type', 'submit');
+	}
+
+}
+
     </script>

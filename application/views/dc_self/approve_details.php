@@ -72,15 +72,16 @@ $approve_details = json_decode($approve_details);
 
 					    <td>Total Amount of Requisition :-</td>
 
-					    <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
-
+					    <!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
+						<td class="pull-left"><?= $memo_header[0]->tot_amt ?></td
+						
 					</tr>
 
 					<tr>
 
 					    <td>Total No. of Pronote :-</td>
 
-					    <td class="pull-left"></td>
+					    <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
 
 					</tr>
 
@@ -102,7 +103,7 @@ $approve_details = json_decode($approve_details);
 
 			    <div class="col-md-12 pt-5">
 
-				<center><h4>Loan Requisition Cum Disbursement Certificate For Self Sanction Cases(Only for Selp Help Group/s)</h4></center>
+				<center><h4>Loan Requisition Cum Disbursement Certificate For Self Sanction Cases(Other Than Self Help Group/s)</h4></center>
 
 			    </div>
 
@@ -134,7 +135,9 @@ $approve_details = json_decode($approve_details);
 
 						<th class="table_thead">Due Date</th>
 
-						<th class="table_thead">Borrower<br> SL. No.</th>
+						<th class="table_thead">Loan<br> ID.</th>
+
+						<th class="table_thead">Customer<br>Name.</th>
 
 						<th class="table_thead">Rate of <br>Interest <br>(%)</th>
 
@@ -160,7 +163,7 @@ $approve_details = json_decode($approve_details);
 
 						<th class="table_thead">Total Loan<br>Amount<br>(Rs.)</th>
 
-						<th class="table_thead">Total Land<br>offered for<br>Mortgage</th>
+						<th class="table_thead">Total Land<br>offered for<br>Mortgage<br>(Acre)</th>
 
 						<th class="table_thead">Total Area<br>for cultivation<br>(Acre)</th>
 
@@ -173,6 +176,10 @@ $approve_details = json_decode($approve_details);
 						<th class="table_thead">Income<br>Generated<br>out of Loan</th>
 
 						<th class="table_thead">Total<br>Mortgage<br>Bond</th>
+
+						<th class="table_thead">M.Bond<br>No.</th>
+
+						<th class="table_thead">M.Bond<br>Date.</th>
 
 					    </tr>
 
@@ -256,7 +263,7 @@ $approve_details = json_decode($approve_details);
 
 						$igo_loan += $dt->igo_loan;
 
-						$tot_mordg_bond += $dt->tot_mordg_bond;
+						$tot_mordg_bond += intval($dt->tot_mordg_bond);
 
 
 
@@ -286,9 +293,15 @@ $approve_details = json_decode($approve_details);
 
 						echo '<td class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $dt->bod_sanc_dt))) . '</td>';
 
-						echo '<td class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $dt->due_dt))) . '</td>';
+						if($dt->due_dt!='0000-00-00'){
 
+							echo '<td class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $dt->due_dt))) . '</td>';
+						}else{
+							echo '<td class="table_body"></td>';
+						}
 						echo '<td class="table_body">' . $dt->brrwr_sl_no . '</td>';
+
+						echo '<td class="table_body">' . $dt->cust_name . '</td>';
 
 						echo '<td class="table_body">' . $dt->roi . '</td>';
 
@@ -327,6 +340,10 @@ $approve_details = json_decode($approve_details);
 						echo '<td class="table_body">' . $dt->igo_loan . '</td>';
 
 						echo '<td class="table_body">' . $dt->tot_mordg_bond . '</td>';
+
+						echo '<td class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $dt->reg_m_bond_dt))) . '</td>';
+						
+						echo '<td class="table_body">' . $dt->reg_m_bond_no . '</td>';
 
 						echo '</tr>';
 
@@ -422,7 +439,7 @@ $approve_details = json_decode($approve_details);
 
 						<th class="table_thead">Total Loan<br>Amount<br>(Rs.)</th>
 
-						<th class="table_thead">Total Land<br>offered for<br>Mortgage</th>
+						<th class="table_thead">Total Land<br>offered for<br>Mortgage<br>(Acre)</th>
 
 						<th class="table_thead">Total Area<br>for cultivation<br>(Acre)</th>
 
@@ -649,7 +666,14 @@ $approve_details = json_decode($approve_details);
     				    <input type="button" id="submit" class="btn btn-info pull-left" value="Forward" onclick="submit()" />
 
     				</div>
+					<?php if ($_SESSION['user_type'] != 'U') { ?>
+                                    <label for="reason" class="col-sm-1 col-form-label">Reason:</label>
+                                    <div class="col-sm-3">
 
+                                    <input type="text" style="width:350px" id=reason name="reason" class="form-control" value=" "    />
+                                   
+                                    </div> 
+                                    <?php } ?>
     			    </div>
 
     			</div>
@@ -674,14 +698,19 @@ $approve_details = json_decode($approve_details);
 
 	function submit() {
 
-	    window.location.href = "<?= site_url('/dc_self/forward_data/' . $memo_no); ?>";
+		var reason=$('#reason').val() ;
+            console.log(reason);
+	    // window.location.href = "<?= site_url('/apex_shg/forward_data/' . $memo_no); ?>"+ reason;
+        window.location.href = "<?= site_url('/dc_self/forward_data?qstr=' . $memo_no .','); ?>"+ reason;
+	   // window.location.href = "<?= site_url('/dc_self/forward_data/' . $memo_no); ?>";
 
 	}
 
 	function reject() {
-
-	    window.location.href = "<?= site_url('/dc_self/reject_data/' . $memo_no); ?>";
-
+		var reason=$('#reason').val() ;
+            console.log(reason);
+	    //window.location.href = "<?= site_url('/dc_self/reject_data/' . $memo_no); ?>";
+		window.location.href = "<?= site_url('/dc_self/reject_data?qstr=' . $memo_no .','); ?>"+ reason;
 	}
 
 	function download() {

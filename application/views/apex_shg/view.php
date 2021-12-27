@@ -20,6 +20,8 @@ $apex_details = json_decode($apex_details);
                                         <th>Memo No</th>
                                         <th>Sector</th>
                                         <th>Pronote No</th>
+                                        <th>Approver-1<br> Reason</th>
+                                        <th>Approver-2<br> Reason</th>
 <!--                                        <th>LSO No</th>
                                         <th>File No</th>-->
                                         <th>Action</th>
@@ -39,6 +41,8 @@ $apex_details = json_decode($apex_details);
                                         echo '<td>' . $dt->memo_no . '</td>';
                                         echo '<td>' . $dt->sector_name . '</td>';
                                         echo '<td>' . $dt->pronote_no . '</td>';
+                                        echo '<td>' . $dt->a1_reason . '</td>';
+                                        echo '<td>' . $dt->a2_reason . '</td>';
 //                                        echo '<td>' . $dt->lso_no . '</td>';
 //                                        echo '<td>' . $dt->file_no . '</td>';
                                         echo '<td>

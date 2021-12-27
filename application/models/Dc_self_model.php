@@ -52,7 +52,7 @@ class Dc_self_Model extends CI_Model {
 
     function get_self_details($ardb_id) {
 
-	$this->db->select('s.entry_date as memo_date, s.memo_no, s.letter_no, s.letter_date, s.pronote_no, s.pronote_date, p.purpose_name as purpose, s.moratorium_period, s.repayment_no, COUNT(sl_no) as upload, s.fwd_data, se.sector_name');
+	$this->db->select('s.entry_date as memo_date, s.memo_no, s.letter_no, s.letter_date, s.pronote_no, s.pronote_date, p.purpose_name as purpose, s.moratorium_period, s.repayment_no, COUNT(sl_no) as upload, s.fwd_data, se.sector_name,s.a1_reason,s.a2_reason');
 
 	$this->db->where(array('s.ardb_id' => $ardb_id));
 
@@ -250,6 +250,8 @@ class Dc_self_Model extends CI_Model {
 
 		    'brrwr_sl_no' => $data['brrwr_sl_no'][$i],
 
+			'cust_name' => $data['cust_name'][$i],
+
 		    'roi' => $data['rete_of_interest'],
 
 		    'project_cost' => $data['project_cost'][$i],
@@ -286,7 +288,11 @@ class Dc_self_Model extends CI_Model {
 
 		    'igo_loan' => $data['igo_loan'][$i],
 
-		    'tot_mordg_bond' => $data['tg_bond'][$i]
+		    'tot_mordg_bond' => $data['tg_bond'][$i],
+
+			'reg_m_bond_no' => $data['reg_m_bond_no'][$i],
+
+			'reg_m_bond_dt' => $data['reg_m_bond_dt'][$i]
 
 		);
 
@@ -716,11 +722,11 @@ class Dc_self_Model extends CI_Model {
 
 	$sql = 'SELECT s.pronote_no, s.pronote_date, p.purpose_name, s.moratorium_period, s.repayment_no, s.moratorium_period, '
 
-		. 's.repayment_no, dt.bod_sanc_dt, dt.due_dt, dt.brrwr_sl_no, dt.roi, dt.project_cost, '
+		. 's.repayment_no, dt.bod_sanc_dt, dt.due_dt, dt.cust_name,dt.reg_m_bond_dt,dt.reg_m_bond_no, dt.brrwr_sl_no, dt.roi,FLOOR( dt.project_cost) as project_cost, '
 
-		. 'dt.sanc_block as sanc_block_id, dt.sanc_working, dt.sanc_total, dt.dis_block as dis_block_id, dt.dis_working, '
+		. 'FLOOR(dt.sanc_block) as sanc_block_id, FLOOR(dt.sanc_working) as sanc_working, FLOOR(dt.sanc_total) as sanc_total, FLOOR(dt.dis_block) as dis_block_id, FLOOR(dt.dis_working) as dis_working, '
 
-		. 'dt.dis_total, dt.own_cont, dt.sub_received, dt.sub_receivable, dt.tot_loan_amt, dt.lof_mort, dt.af_culti, dt.sec_land, dt.sec_oth, dt.sec_tot, dt.igo_loan, dt.tot_mordg_bond '
+		. 'FLOOR(dt.dis_total)as dis_total ,FLOOR( dt.own_cont) as own_cont , FLOOR(dt.sub_received) as sub_received,FLOOR( dt.sub_receivable)sub_receivable, FLOOR(dt.tot_loan_amt) as tot_loan_amt, dt.lof_mort, dt.af_culti, FLOOR(dt.sec_land)as sec_land, FLOOR(dt.sec_oth)as sec_oth , FLOOR( dt.sec_tot) as sec_tot,FLOOR( dt.igo_loan) as igo_loan, FLOOR( dt.tot_mordg_bond)as tot_mordg_bond '
 
 		. 'FROM td_dc_self s '
 
@@ -744,7 +750,10 @@ class Dc_self_Model extends CI_Model {
 
     function get_shg_dc_header($ardb_id, $memo_no) {
 
-	$sql = 'select DISTINCT s.memo_no, se.sector_name, COUNT(s.pronote_no) as tot_pronote FROM td_dc_self s JOIN md_sector se ON s.sector_code=se.sector_code WHERE s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY s.memo_no, s.memo_no, se.sector_name ORDER by s.memo_no';
+	$sql = 'select DISTINCT s.memo_no, se.sector_name, COUNT(distinct s.pronote_no) as tot_pronote,sum(a.dis_total) as tot_amt
+	 FROM td_dc_self s , md_sector se ,td_dc_self_dtls a
+	 where s.sector_code=se.sector_code  
+	 and s.pronote_no=a.pronote_no  and s.ardb_id=a.ardb_id and s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY s.memo_no, s.memo_no, se.sector_name ORDER by s.memo_no';
 
 	$data = $this->db->query($sql);
 
@@ -770,7 +779,7 @@ class Dc_self_Model extends CI_Model {
 
     function get_total_shg($ardb_id, $memo_no) {
 
-	$sql = 'SELECT s.memo_no, s.pronote_no, s.pronote_date, sum(dt.project_cost) as tot_p_cost, SUM(dt.own_cont) as tot_own_cont, sum(dt.sub_received) as tot_s_rec, sum(dt.sub_receivable) as tot_s_receivable, sum(dt.tot_loan_amt) as tot_loan_amt, sum(dt.lof_mort) as tot_lof_mort, sum(dt.af_culti) as tot_af_culti, sum(dt.sec_land) as tot_sec_land, SUM(dt.sec_oth) as tot_sec_oth, sum(dt.sec_tot) as sec_tot, SUM(dt.igo_loan) as tot_igo_loan, SUM(dt.tot_mordg_bond) as tot_mordg_bond FROM td_dc_self s JOIN td_dc_self_dtls dt ON s.ardb_id=dt.ardb_id AND s.memo_no=dt.memo_no AND s.pronote_no=dt.pronote_no WHERE s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY dt.memo_no, dt.pronote_no, s.pronote_date ORDER by s.memo_no, dt.pronote_no';
+	$sql = 'SELECT s.memo_no, s.pronote_no, s.pronote_date,Floor( sum(dt.project_cost) )as tot_p_cost,Floor(  SUM(dt.own_cont) )as tot_own_cont,Floor(  sum(dt.sub_received) )as tot_s_rec,Floor(  sum(dt.sub_receivable)) as tot_s_receivable,Floor(  sum(dt.tot_loan_amt) )as tot_loan_amt, sum(dt.lof_mort) as tot_lof_mort, sum(dt.af_culti) as tot_af_culti, Floor( sum(dt.sec_land)) as tot_sec_land,Floor(  SUM(dt.sec_oth)) as tot_sec_oth, Floor( sum(dt.sec_tot)) as sec_tot,Floor(  SUM(dt.igo_loan)) as tot_igo_loan, Floor( SUM(dt.tot_mordg_bond)) as tot_mordg_bond FROM td_dc_self s JOIN td_dc_self_dtls dt ON s.ardb_id=dt.ardb_id AND s.memo_no=dt.memo_no AND s.pronote_no=dt.pronote_no WHERE s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY dt.memo_no, dt.pronote_no, s.pronote_date ORDER by s.memo_no, dt.pronote_no';
 
 	$data = $this->db->query($sql);
 
@@ -782,7 +791,7 @@ class Dc_self_Model extends CI_Model {
 
 
 
-    function forward_data($ardb_id, $memo_no) {
+    function forward_data($ardb_id, $memo_no,$reason) {
 
 	$user_type = $_SESSION['user_type'];
 
@@ -808,7 +817,9 @@ class Dc_self_Model extends CI_Model {
 
 		'app1_by' => $_SESSION['login']->user_id,
 
-		'app1_at' => date('Y-m-d h:i:s')
+		'app1_at' => date('Y-m-d h:i:s'),
+		
+		'a1_reason' =>$reason
 
 	    );
 
@@ -820,7 +831,9 @@ class Dc_self_Model extends CI_Model {
 
 		'app2_by' => $_SESSION['login']->user_id,
 
-		'app2_at' => date('Y-m-d h:i:s')
+		'app2_at' => date('Y-m-d h:i:s'),
+
+		'a2_reason' =>$reason
 
 	    );
 
@@ -846,7 +859,7 @@ class Dc_self_Model extends CI_Model {
 
 
 
-    function reject_data($ardb_id, $memo_no) {
+    function reject_data($ardb_id, $memo_no,$reason) {
 
 	$user_type = $_SESSION['user_type'];
 
@@ -866,7 +879,8 @@ class Dc_self_Model extends CI_Model {
 
 		'app1_by' => '',
 
-		'app1_at' => ''
+		'app1_at' => '',
+		'a1_reason' =>$reason
 
 	    );
 
@@ -890,7 +904,8 @@ class Dc_self_Model extends CI_Model {
 
 		'app2_by' => '',
 
-		'app2_at' => ''
+		'app2_at' => '',
+		'a2_reason' =>$reason
 
 	    );
 

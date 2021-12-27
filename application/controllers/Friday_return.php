@@ -43,8 +43,10 @@ class Friday_return extends CI_Controller {
                 $selected = array(
                     'id' => 1,
                     'week_dt' => $dt->week_dt,
+                    'week_no' => $dt->week_no,
                     'rd' => $dt->rd,
                     'fd' => $dt->fd,
+                    'td' => $dt->td,
                     'flexi_sb' => $dt->flexi_sb,
                     'mis' => $dt->mis,
                     'other_dep' => $dt->other_dep,
@@ -101,12 +103,10 @@ class Friday_return extends CI_Controller {
     }
 
     function view_details($ardb_id) {
-//        $ardb_id = 22;
+
         $dt = $_GET['dt'];
         $friday_details = $this->friday_return_model->get_friday_details_view($ardb_id, $dt);
-//        echo '<pre>';
-//        var_dump($friday_details);
-//        exit;
+
         $data['return_dt'] = date('d/m/Y', strtotime(str_replace('-', '/', $dt)));
         $data['ardb_id'] = $ardb_id;
         $data['friday_details'] = json_encode($friday_details);

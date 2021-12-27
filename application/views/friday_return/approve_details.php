@@ -39,7 +39,8 @@ $friday_details = json_decode($friday_details);
 
                                     <tr>
                                         <th>RD</th>
-                                        <th>Fixed/Term</th>
+                                        <th>Fixed</th>
+                                        <th>Term</th>
                                         <th>Flexi/Savings</th>
                                         <th>MIS</th>
                                         <th>Other Deposit</th>
@@ -57,7 +58,8 @@ $friday_details = json_decode($friday_details);
                                 <tbody>
                                     <?php
                                     $i = 1;
-                                    $lkh = 100000;
+                                    // $lkh = 100000;
+                                    $lkh = 1;
                                     if ($friday_details) {
                                         foreach ($friday_details as $dt) {
                                             $ts = 0;
@@ -65,6 +67,7 @@ $friday_details = json_decode($friday_details);
                                             echo '<td>' . $i . '</td>';
                                             echo '<td>' . $dt->rd / $lkh . '</td>';
                                             echo '<td>' . $dt->fd / $lkh . '</td>';
+                                            echo '<td>' . $dt->td / $lkh . '</td>';
                                             echo '<td>' . $dt->flexi_sb / $lkh . '</td>';
                                             echo '<td>' . $dt->mis / $lkh . '</td>';
                                             echo '<td>' . $dt->other_dep / $lkh . '</td>';

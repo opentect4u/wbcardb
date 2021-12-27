@@ -230,7 +230,7 @@
               <!-- <?php if( $_SESSION['user_type'] =="A"){?>
                 <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('admins');?>">User Create</a></li>
                 <?php } ?> -->
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles');?>">Chage Password</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles');?>">Change Password</a></li>
                 <!-- <li class="nav-item"><a class="nav-link" href="../../pages/forms/text_editor.html">Text editors</a></li>
                 <li class="nav-item"><a class="nav-link" href="../../pages/forms/code_editor.html">Code editors</a></li> -->
               </ul>

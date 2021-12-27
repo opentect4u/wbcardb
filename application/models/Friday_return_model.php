@@ -11,8 +11,7 @@ class Friday_return_Model extends CI_Model {
         $_SESSION['user_type'] == 'P' ? $this->db->where(array('fwd_data' => 'Y')) : ($_SESSION['user_type'] == 'V' ? $this->db->where(array('fwd_data' => 'Y', 'approve_1' => 'Y')) : '');
         $this->db->order_by('week_dt');
         $query = $this->db->get('td_fridy_rtn');
-//        echo $this->db->last_query();
-//        exit;
+
         return $query->result();
     }
 
@@ -24,13 +23,12 @@ class Friday_return_Model extends CI_Model {
     }
 
     function save($data) {
-//        echo '<pre>';
-//        var_dump($data);
-//        exit;
+
         if ($data['id'] > 0) {
-            $input = array(
+            $input = array('week_no' => $data['week_no'],
                 'rd' => $data['rd'],
                 'fd' => $data['fd'],
+                'td' => $data['td'],
                 'flexi_sb' => $data['flexi_sb'],
                 'mis' => $data['mis'],
                 'other_dep' => $data['other_dep'],
@@ -50,8 +48,10 @@ class Friday_return_Model extends CI_Model {
             $input = array(
                 'ardb_id' => $data['ardb_id'],
                 'week_dt' => $data['date'],
+                'week_no' => $data['week_no'],
                 'rd' => $data['rd'],
                 'fd' => $data['fd'],
+                'td' => $data['td'],
                 'flexi_sb' => $data['flexi_sb'],
                 'mis' => $data['mis'],
                 'other_dep' => $data['other_dep'],
@@ -110,7 +110,7 @@ class Friday_return_Model extends CI_Model {
             'week_dt' => $dt
         ));
         $this->db->update('td_fridy_rtn', $input);
-        //echo $this->db->last_query();exit;
+       
         return true;
     }
 
@@ -145,14 +145,13 @@ class Friday_return_Model extends CI_Model {
             'week_dt' => $dt
         ));
         $this->db->update('td_fridy_rtn', $input);
-        //echo $this->db->last_query();exit;
+        
         return true;
     }
 
-    //////////
-    function get_friday_details_view($ardb_id, $return_dt) {
+     function get_friday_details_view($ardb_id, $return_dt) {
         $fwd_data = $_SESSION['user_type'] == 'P' ? 'a.approve_1' : ($_SESSION['user_type'] == 'V' ? 'a.approve_2' : 'a.fwd_data');
-        $this->db->select('a.ardb_id, a.week_dt, a.rd rd, a.fd fd, a.flexi_sb flexi_sb, a.mis mis, '
+        $this->db->select('a.ardb_id, a.week_dt,a.week_no, a.rd rd, a.fd fd,a.td td, a.flexi_sb flexi_sb, a.mis mis, '
                 . 'a.other_dep other_dep, a.ibsd ibsd, a.total_dep_mob total_dep_mob, a.cash_in_hand cash_in_hand, '
                 . 'a.other_bank other_bank, a.ibsd_loan ibsd_loan, a.dep_loan dep_loan, a.wbcardb_remit_slr wbcardb_remit_slr, '
                 . 'a.wbcardb_remit_slr_excess wbcardb_remit_slr_excess, a.total_fund_deploy total_fund_deploy, a.ibsd_as ibsd_as, ' . $fwd_data . ' as fwd_data');

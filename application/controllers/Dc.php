@@ -30,6 +30,8 @@ class Dc extends CI_Controller {
 
         $this->load->model('dc_model');
 
+        $this->load->model('Process');
+
         $this->load->helper('url');
 
         $this->load->library('zip');
@@ -89,7 +91,8 @@ class Dc extends CI_Controller {
             $dc_shg = $this->dc_model->get_shg_details_edit($ardb_id, $pronote_no, $memo_no);
 
             $dc_shg_dtls = $this->dc_model->get_dc_shg_dtls_edit($ardb_id, $pronote_no, $memo_no);
-
+// echo $this->db->last_query();
+// exit;
             foreach ($dc_shg as $dc) {
 
                 $selected = array(
@@ -206,19 +209,22 @@ class Dc extends CI_Controller {
 
     }
 
-
-
     function dc_save() {
 
         // redirect('dc/dc_view');
-
+        $user_id=$_SESSION['user_id'] ;
+        $data1 = $this->Process->userInf($user_id);
+        $psw=$_SESSION['password'] ;
+        $br= $_SESSION['br_id'];
         $data = $this->input->post();
 
         if ($this->dc_model->dc_save($data)) {
 
             $this->session->set_flashdata('msg', '<b style:"color:green;">Successfully added!</b>');
+            if ($br==$data1->br_id) {
 
             redirect('dc/dc_view');
+            }
 
         } else {
 
@@ -619,11 +625,19 @@ class Dc extends CI_Controller {
 
 
 
-    function forward_data($memo_no) {
+    function forward_data() {
 
         $ardb_id = $_SESSION['br_id'];
+        $a1_reason =  $this->input->post('reason');
+        $qstr = $_GET['qstr'];
+       
+       $memo_no=explode(",",$qstr)[0];
+       $a1_reason=explode(",",$qstr)[1];
 
-        if ($this->dc_model->forward_data($ardb_id, $memo_no)) {
+
+        if ($this->dc_model->forward_data($ardb_id, $memo_no, $a1_reason)) {
+            // echo $this->db->last_query();
+            // exit();
 
             $this->session->set_flashdata('msg', '<b style:"color:red;">Forwaded Successfully!</b>');
 
@@ -641,12 +655,20 @@ class Dc extends CI_Controller {
 
 
 
-    function reject_data($memo_no) {
+    function reject_data() {
 
         $ardb_id = $_SESSION['br_id'];
+        $a1_reason =  $this->input->post('reason');
+        $qstr = $_GET['qstr'];
+       
+       $memo_no=explode(",",$qstr)[0];
+       $a1_reason=explode(",",$qstr)[1];
 
-        if ($this->dc_model->reject_data($ardb_id, $memo_no)) {
 
+        if ($this->dc_model->reject_data($ardb_id, $memo_no,$a1_reason)) {
+
+            //  echo $this->db->last_query();
+            //  exit();
             $this->session->set_flashdata('msg', '<b style:"color:red;">Rejected Successfully!</b>');
 
             redirect('dc/approve_view');
@@ -1205,7 +1227,8 @@ class Dc extends CI_Controller {
 
         $report_type = 'shgdc';
 
-        $file_name = $ardb_name . '_' . $report_type . '_' . $timestamp . '.csv';
+        // $file_name = $ardb_name . '_' . $report_type . '_' . $timestamp . '.csv';
+        $file_name = $report_type . '_' . $ardb_name . '_' . $timestamp . '.csv';
 
 
 

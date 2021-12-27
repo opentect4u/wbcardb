@@ -20,24 +20,28 @@ class Apex_shg_Model extends CI_Model {
 
     function apex_view($ardb_id) {
 	$this->db->distinct();
-	$this->db->select('a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, a.pronote_no, a.fwd_data');
+	$this->db->select('a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, a.pronote_no, a.fwd_data,a.a1_reason,a.a2_reason');
 	$this->db->where('a.ardb_id', $ardb_id);
 	$this->db->join('td_apex_shg_dtls b', 'a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id AND a.pronote_no=b.pronote_no');
 	$this->db->join('md_sector c', 'a.sector_code=c.sector_code');
 	$this->db->order_by('a.memo_date');
 	$query = $this->db->get('td_apex_shg a');
 	return $query->result();
-//        $sql = 'SELECT a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, b.pronote_no, b.lso_no, b.file_no, a.fwd_data '
-//                . 'FROM td_apex_shg a JOIN td_apex_shg_dtls b on a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id JOIN md_sector c ON a.sector_code=c.sector_code '
-//                . 'WHERE a.ardb_id=' . $ardb_id . ' ORDER BY a.memo_date';
-//        $data = $this->db->query($sql);
-//        return $data->result_array();
+		// $sql = 'SELECT a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, b.pronote_no, b.lso_no, b.file_no, a.fwd_data '
+	   // . 'FROM td_apex_shg a JOIN td_apex_shg_dtls b on a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id JOIN md_sector c ON a.sector_code=c.sector_code '
+	  // . 'WHERE a.ardb_id=' . $ardb_id . ' ORDER BY a.memo_date';
+	 // $data = $this->db->query($sql);
+	//  return $data->result_array();
     }
 
     function apex_edit($ardb_id, $memo_no, $pronote_no) {
 	$where = $pronote_no != '' && $pronote_no > 0 ? 'AND replace(replace(replace(a.pronote_no, " ", ""), "/", ""), "-", "")="' . $pronote_no . '"' : "";
-	$sql = 'SELECT b.*,a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.fwd_data, di.inst_sl_no, di.inst_date, di.inst_amt, '
-		. '(b.sanc_amt - (SELECT sum(d.inst_amt) FROM td_apex_shg_dis d WHERE b.lso_no=d.lso_no AND a.ardb_id=d.ardb_id GROUP BY a.memo_no)) as remaining_sanc_amt '
+	$sql = 'SELECT b.ardb_id,b.entry_date,b.memo_no,b.pronote_no,b.lso_no,b.file_no,b.block_id,
+	FLOOR(b.repay_per_tot) as repay_per_tot,b.purpose_code,b.roi,FLOOR(b.pro_cost) as pro_cost ,FLOOR(b.own_cont) as own_cont,FLOOR(b.corp_fund) as corp_fund,FLOOR(b.sanc_amt) as sanc_amt,
+	b.in_out,b.name_of_group,b.tot_member,b.moratorium_period,b.repayment_no,FLOOR(b.tot_depo_rais) as tot_depo_rais,
+	b.inter_ag_bo_dt,b.inter_ag_bo_no,b.group,
+	a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.fwd_data , di.inst_sl_no, di.inst_date, FLOOR(di.inst_amt) as inst_amt, '
+		. '(FLOOR(b.sanc_amt) - (SELECT FLOOR(sum(d.inst_amt)) FROM td_apex_shg_dis d WHERE b.lso_no=d.lso_no AND a.ardb_id=d.ardb_id GROUP BY a.memo_no)) as remaining_sanc_amt '
 		. 'FROM td_apex_shg a '
 		. 'JOIN td_apex_shg_dtls b on a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id AND a.pronote_no=b.pronote_no '
 		. 'JOIN td_apex_shg_dis di ON a.memo_no=di.memo_no AND b.lso_no=di.lso_no AND b.pronote_no=di.pronote_no '
@@ -45,8 +49,8 @@ class Apex_shg_Model extends CI_Model {
 		. 'JOIN md_purpose p ON b.purpose_code=p.purpose_code '
 		. 'WHERE a.ardb_id=' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" ' . $where;
 	$data = $this->db->query($sql);
-//        echo $this->db->last_query();
-//        exit;
+    //    echo $this->db->last_query();
+    //    exit;
 	return $data->result_array();
     }
 
@@ -71,9 +75,9 @@ class Apex_shg_Model extends CI_Model {
     }
 
     function get_apex_details($ardb_id, $lso_no) {
-	$sql = 'SELECT a.ardb_id, a.block_id, c.block_name, a.name_of_group, a.file_no, a.tot_member, '
-		. 'a.moratorium_period, a.repayment_no, a.repay_per_tot, a.purpose_code, p.purpose_name, a.roi, a.pro_cost, '
-		. 'a.own_cont, a.corp_fund, a.sanc_amt, a.tot_depo_rais, a.inter_ag_bo_dt, a.inter_ag_bo_no, '
+	$sql = 'SELECT a.ardb_id, a.block_id,a.pronote_no, c.block_name, a.name_of_group, a.file_no, a.tot_member, '
+		. 'a.moratorium_period, a.repayment_no, a.repay_per_tot, a.purpose_code, p.purpose_name, a.roi, FLOOR(a.pro_cost) as pro_cost, '
+		. 'FLOOR(a.own_cont) as own_cont, FLOOR(a.corp_fund) as corp_fund, FLOOR(a.sanc_amt)as sanc_amt, FLOOR(a.tot_depo_rais) as tot_depo_rais, a.inter_ag_bo_dt, a.inter_ag_bo_no, '
 		. '(a.sanc_amt - (SELECT SUM(b.inst_amt) FROM td_apex_shg_dis b WHERE b.ardb_id=a.ardb_id AND b.lso_no=a.lso_no GROUP BY a.lso_no)) as remaining_sanc_amt '
 		. 'FROM td_apex_shg_api a '
 		. 'JOIN md_block c ON a.block_id=c.block_code '
@@ -83,6 +87,21 @@ class Apex_shg_Model extends CI_Model {
 	return $data->result_array();
     }
 
+
+	function apex_shg_dc_header($ardb_id, $memo_no) {
+
+		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+		FLOOR(sum(a.inst_amt)) as tot_amt FROM td_apex_shg shg ,td_apex_shg_dis a
+		WHERE shg.ardb_id=a.ardb_id and shg.pronote_no=a.pronote_no and shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+	
+		$data = $this->db->query($sql);
+	
+	// 	echo $this->db->last_query();exit;
+	// die();
+		return $data->result();
+	
+		}
+	
     function save($data) {
 //        echo '<pre>';
 //        var_dump($data);
@@ -99,6 +118,7 @@ class Apex_shg_Model extends CI_Model {
 		'pronote_no' => $data['pronote_no']
 	    ));
 	    $this->db->update('td_apex_shg', $dtls_input);
+		
 	    for ($i = 0; $i < count($data['lso_no']); $i++) {
 		// td_apex_shg_dtls
 		$dtls_input = array(
@@ -155,7 +175,7 @@ class Apex_shg_Model extends CI_Model {
 		'memo_no' => $data['memo_no'],
 		'memo_date' => $data['memo_date'],
 		'pronote_no' => $data['pronote_no'],
-		'lso_no' => '',
+		'lso_no' => $data['lso_no'],
 		'sector_code' => $data['sector_code'],
 		'created_by' => $user_id,
 		'modified_by' => $user_id
@@ -253,7 +273,7 @@ class Apex_shg_Model extends CI_Model {
 	return $query->result();
     }
 
-    function forward_data($ardb_id, $memo_no) {
+    function forward_data($ardb_id, $memo_no,$a1_reason) {
 	$user_type = $_SESSION['user_type'];
 	$input = array();
 	if ($user_type == 'U') {
@@ -266,13 +286,16 @@ class Apex_shg_Model extends CI_Model {
 	    $input = array(
 		'approve_1' => 'Y',
 		'app1_by' => $_SESSION['login']->user_id,
-		'app1_at' => date('Y-m-d h:i:s')
+		'app1_at' => date('Y-m-d h:i:s'),
+		'a1_reason' => $a1_reason
+
 	    );
 	} elseif ($user_type == 'V') {
 	    $input = array(
 		'approve_2' => 'Y',
 		'app2_by' => $_SESSION['login']->user_id,
-		'app2_at' => date('Y-m-d h:i:s')
+		'app2_at' => date('Y-m-d h:i:s'),
+		'a2_reason' => $a1_reason
 	    );
 	}
 
@@ -286,7 +309,7 @@ class Apex_shg_Model extends CI_Model {
 	return true;
     }
 
-    function reject_data($ardb_id, $memo_no) {
+    function reject_data($ardb_id, $memo_no,$reason) {
 	$user_type = $_SESSION['user_type'];
 	$input = array();
 	if ($user_type == 'P') {
@@ -296,7 +319,9 @@ class Apex_shg_Model extends CI_Model {
 		'fwd_by' => '',
 		'approve_1' => 'N',
 		'app1_by' => '',
-		'app1_at' => ''
+		'app1_at' => '',
+		'a1_reason'=>$reason
+		
 	    );
 	} elseif ($user_type == 'V') {
 	    $input = array(
@@ -308,7 +333,8 @@ class Apex_shg_Model extends CI_Model {
 		'app1_at' => '',
 		'approve_2' => 'N',
 		'app2_by' => '',
-		'app2_at' => ''
+		'app2_at' => '',
+		'a2_reason'=>$reason
 	    );
 	}
 
@@ -317,7 +343,7 @@ class Apex_shg_Model extends CI_Model {
 	    'replace(replace(replace(memo_no, " ", ""), "/", ""), "-", "")=' => $memo_no
 	));
 	$this->db->update('td_apex_shg', $input);
-	//echo $this->db->last_query();exit;
+	// echo $this->db->last_query();exit;
 	return true;
     }
 

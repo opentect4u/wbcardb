@@ -2,6 +2,7 @@
 $shg_details = json_decode($shg_details);
 $borrower_details = json_decode($borrower_details);
 $approve_details = json_decode($approve_details);
+$memo_header = json_decode($memo_header);
 //echo '<pre>';
 //var_dump($borrower_details);
 //exit;
@@ -31,12 +32,24 @@ $approve_details = json_decode($approve_details);
                                         <tr>
                                             <td><b>Memo No </b> :-</td>
                                             <td class="pull-left"><?= $approve_details[0]->memo_no ?></td>
+                                            </tr>
+                                            <tr>
                                             <td><b>Memo Date</b> :-</td>
                                             <td class="pull-left"><?= date('d/m/Y', strtotime(str_replace('-', '/', $approve_details[0]->memo_date))) ?></td>
                                         </tr>
                                         <tr>
                                             <td>Sector :-</td>
                                             <td class="pull-left"><b><?= $approve_details[0]->sector_name ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Amount of Requisition :-</td>
+                                          
+                                            <td class="pull-left"><?= $memo_header[0]->tot_amt ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total No. of Pronote :-</td>
+                                           
+                                            <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
                                         </tr>
                                     </table>
                                 </div>

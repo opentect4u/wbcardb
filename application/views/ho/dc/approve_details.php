@@ -33,11 +33,11 @@ $approve_details = json_decode($approve_details);
                                         </tr>
                                         <tr>
                                             <td>Total Amount of Requisition :-</td>
-                                            <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
+                                            <td class="pull-left"><?= $memo_header[0]->tot_amt ?></td>
                                         </tr>
                                         <tr>
                                             <td>Total No. of Pronote :-</td>
-                                            <td class="pull-left"></td>
+                                            <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
                                         </tr>
                                     </table>
                                 </div>

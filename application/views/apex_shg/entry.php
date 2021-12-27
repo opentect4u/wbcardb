@@ -75,13 +75,13 @@ if ($id > 0) {
                                     <th>Branch Loan File No.</th>
                                     <th>Total Member</th>
                                     <th>Moratorium</th>
-                                    <th>Loan</th>
-                                    <th>Total</th>
+                                    <th>Period</th>
+                                    <th>Total Period</th>
                                     <th>Purpose</th>
                                     <th>Rate of Interest</th>
                                     <th>Project Cost</th>
                                     <th>Own Contribution</th>
-                                    <th>Corpus Fund</th>
+                                    <th>Subsidy</th>
                                     <th>Amount Of Loan Sanction</th>
                                     <th>Remaining Disbursement Amount</th>
                                     <th>Installment</th>
@@ -116,7 +116,7 @@ if ($id > 0) {
                                         <div class="form-group"><input type="text" class="form-control" name="file_no[]" id="file_no_' . $i . '" value="' . $shg->file_no . '" required="" readonly /></div>
                                     </td>
                                     <td>
-                                        <div class="form-group"><input type="text" class="form-control" name="tot_member[]" id="tot_member_' . $i . '" value="' . $shg->tot_member . '" required="" readonly /></div>
+                                        <div class="form-group"><input type="text" class="form-control" name="tot_member[]" id="tot_member_' . $i . '" value="' . $shg->tot_member . '" required=""  /></div>
                                     </td>
                                     <td>
                                         <div class="form-group"><input type="text" class="form-control" name="moratorium_period[]" id="moratorium_period_' . $i . '" value="' . $shg->moratorium_period . '" required="" readonly /></div>
@@ -135,13 +135,13 @@ if ($id > 0) {
                                         <div class="form-group"><input type="text" class="form-control" name="roi[]" id="roi_' . $i . '" value="' . $shg->roi . '" required="" readonly /></div>
                                     </td>
                                     <td>
-                                        <div class="form-group"><input type="text" class="form-control" name="pro_cost[]" id="pro_cost_' . $i . '" value="' . $shg->pro_cost . '" required="" readonly /></div>
+                                        <div class="form-group"><input type="number" class="form-control" name="pro_cost[]" id="pro_cost_' . $i . '" value="' . $shg->pro_cost . '" required="" readonly /></div>
                                     </td>
                                     <td>
                                         <div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_' . $i . '" value="' . $shg->own_cont . '" required="" readonly /></div>
                                     </td>
                                     <td>
-                                        <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' . $i . '" value="' . $shg->corp_fund . '" required="" readonly /></div>
+                                        <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' . $i . '" value="' . $shg->corp_fund . '" required=""  /></div>
                                     </td>
                                     <td>
                                         <div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_' . $i . '" value="' . $shg->sanc_amt . '" required="" readonly /></div>
@@ -156,7 +156,7 @@ if ($id > 0) {
                                         <div class="form-group"><input type="date" class="form-control required" name="inst_date[]" id="inst_date_' . $i . '" value="' . $shg->inst_date . '" /></div>
                                     </td>
                                     <td>
-                                        <div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_' . $i . '" value="' . $shg->inst_amt . '" /></div>
+                                        <div class="form-group"><input type="number" class="form-control required" name="inst_amt[]" id="inst_amt_' . $i . '" value="' . $shg->inst_amt . '" /></div>
                                     </td>
                                     <td>
                                         <div class="form-group"><input type="text" class="form-control" name="tot_depo_rais[]" id="tot_depo_rais_' . $i . '" value="' . $shg->tot_depo_rais . '" required="" readonly /></div>
@@ -190,7 +190,7 @@ if ($id > 0) {
                                             <div class="form-group"><input type="text" class="form-control" name="file_no[]" id="file_no_1" value="<?= $selected ? $selected->file_no : ''; ?>" required="" readonly /></div>
                                         </td>
                                         <td>
-                                            <div class="form-group"><input type="text" class="form-control" name="tot_member[]" id="tot_member_1" value="<?= $selected ? $selected->tot_member : ''; ?>" required="" readonly /></div>
+                                            <div class="form-group"><input type="text" class="form-control" name="tot_member[]" id="tot_member_1" value="<?= $selected ? $selected->tot_member : ''; ?>" required=""  /></div>
                                         </td>
                                         <td>
                                             <div class="form-group"><input type="text" class="form-control" name="moratorium_period[]" id="moratorium_period_1" value="<?= $selected ? $selected->moratorium_period : ''; ?>" required="" readonly /></div>
@@ -209,13 +209,13 @@ if ($id > 0) {
                                             <div class="form-group"><input type="text" class="form-control" name="roi[]" id="roi_1" value="<?= $selected ? $selected->roi : ''; ?>" required="" readonly /></div>
                                         </td>
                                         <td>
-                                            <div class="form-group"><input type="text" class="form-control" name="pro_cost[]" id="pro_cost_1" value="<?= $selected ? $selected->pro_cost : ''; ?>" required="" readonly /></div>
+                                            <div class="form-group"><input type="number" class="form-control" name="pro_cost[]" id="pro_cost_1" value="<?= $selected ? $selected->pro_cost : ''; ?>" required="" readonly /></div>
                                         </td>
                                         <td>
                                             <div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_1" value="<?= $selected ? $selected->own_cont : ''; ?>" required="" readonly /></div>
                                         </td>
                                         <td>
-                                            <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_1" value="<?= $selected ? $selected->corp_fund : ''; ?>" required="" readonly /></div>
+                                            <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_1" value="<?= $selected ? $selected->corp_fund : ''; ?>" required=""  /></div>
                                         </td>
                                         <td>
                                             <div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_1" value="<?= $selected ? $selected->sanc_amt : ''; ?>" required="" readonly /></div>
@@ -230,7 +230,7 @@ if ($id > 0) {
                                             <div class="form-group"><input type="date" class="form-control required" name="inst_date[]" id="inst_date_1" value="<?= date('Y-m-d') ?>" /></div>
                                         </td>
                                         <td>
-                                            <div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_1" onchange="check_inst(1)" /></div>
+                                            <div class="form-group"><input type="number" class="form-control required" name="inst_amt[]" id="inst_amt_1" onchange="check_inst(1)" /></div>
                                         </td>
                                         <td>
                                             <div class="form-group"><input type="text" class="form-control" name="tot_depo_rais[]" id="tot_depo_rais_1" value="<?= $selected ? $selected->tot_depo_rais : ''; ?>" required="" readonly /></div>
@@ -421,20 +421,20 @@ if ($id > 0) {
                             + '<td><div class="form-group"><input type="text" class="form-control" name="block_name[]" id="block_name_' + x + '" value="" required="" readonly /><input type="hidden" name="block_id[]" id="block_id_' + x + '" value=""/></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="name_of_group[]" id="name_of_group_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="file_no[]" id="file_no_' + x + '" value="" required="" readonly /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control" name="tot_member[]" id="tot_member_' + x + '" value="" required="" readonly /></div></td>'
+                            + '<td><div class="form-group"><input type="text" class="form-control" name="tot_member[]" id="tot_member_' + x + '" value="" required=""  /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="moratorium_period[]" id="moratorium_period_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="repayment_no[]" id="repayment_no_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="repay_per_tot[]" id="repay_per_tot_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="purpose_name[]" id="purpose_name_' + x + '" value="" required="" readonly /><input type="hidden" name="purpose_code[]" id="purpose_code_' + x + '" value="" /></div></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="roi[]" id="roi_' + x + '" value="" required="" readonly /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control" name="pro_cost[]" id="pro_cost_' + x + '" value="" required="" readonly /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control" name="pro_cost[]" id="pro_cost_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_' + x + '" value="" required="" readonly /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' + x + '" value="" required="" readonly /></div></td>'
+                            + '<td><div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' + x + '" value="" required=""  /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" id="remaining_sanc_amt_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control required" name="inst_sl_no[]" id="inst_sl_no_' + x + '" value="" /></div></td>'
                             + '<td><div class="form-group"><input type="date" class="form-control required" name="inst_date[]" id="inst_date_' + x + '" value="<?= date('Y-m-d') ?>" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_' + x + '" onchange="check_inst(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="inst_amt[]" id="inst_amt_' + x + '" onchange="check_inst(' + x + ')" /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="tot_depo_rais[]" id="tot_depo_rais_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="date" class="form-control" name="inter_ag_bo_dt[]" id="inter_ag_bo_dt_' + x + '" value="" required="" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control" name="inter_ag_bo_no[]" id="inter_ag_bo_no_' + x + '" value="" required="" readonly /></div></td>'

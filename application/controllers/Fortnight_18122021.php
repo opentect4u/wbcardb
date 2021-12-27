@@ -476,6 +476,7 @@ class Fortnight extends CI_Controller {
         $to_dt = $_GET['to_dt'];
         $flag = $_GET['flag'];
         $pro_dt = $this->fortnight_model->get_pro_dmd_details($dmd_id, $ardb_id, $sector_id, $frm_dt, $to_dt, $flag);
+        print_r($pro_dt);
         echo json_encode($pro_dt);
     }
 
@@ -493,22 +494,13 @@ class Fortnight extends CI_Controller {
         $to = $_POST['to_date'];
 //        var_dump(date('Y', strtotime($form)));
 //        exit;
-		$ardb_nm= $this->fortnight_model->get_ardb_nm($ardb_id);
-		//echo $this->db->last_query();
-		//exit;
         $dmd_pri_dtls = $this->fortnight_model->get_demand_prin_details_con($ardb_id, $form, $to);
-		//echo $this->db->last_query();
-		//exit;
+        
         $dmd_int_dtls = $this->fortnight_model->get_demand_int_details_con($ardb_id, $form, $to);
-		
         $col_pri_dtls = $this->fortnight_model->get_col_pri_details_con($ardb_id, $form, $to);
-		
         $col_int_dtls = $this->fortnight_model->get_col_int_details_con($ardb_id, $form, $to);
-		
         $prog_pri_dtls = $this->fortnight_model->get_prog_pri_details_con($ardb_id, $form, $to);
-		
         $prog_int_dtls = $this->fortnight_model->get_prog_int_details_con($ardb_id, $form, $to);
-		
         $data = array(
             'dmd_pri_dtls' => json_encode($dmd_pri_dtls),
             'dmd_int_dtls' => json_encode($dmd_int_dtls),
@@ -517,8 +509,7 @@ class Fortnight extends CI_Controller {
             'prog_pri_dtls' => json_encode($prog_pri_dtls),
             'prog_int_dtls' => json_encode($prog_int_dtls),
             'frm_dt' => $form,
-            'to_dt' => $to,
-			'ardb_nm'=>$ardb_nm->name
+            'to_dt' => $to
         );
         $this->load->view('common/header');
         $this->load->view("fortnight/report_con", $data);

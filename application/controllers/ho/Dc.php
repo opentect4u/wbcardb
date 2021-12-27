@@ -231,8 +231,8 @@ class Dc extends CI_Controller {
         date_default_timezone_set('Asia/Kolkata');
         $timestamp = date('Y-m-d_his');
         $report_type = 'shgdc';
-        $file_name = $ardb_name . '_' . $report_type . '_' . $timestamp . '.csv';
-
+        // $file_name = $ardb_name . '_' . $report_type . '_' . $timestamp . '.csv';
+        $file_name = $report_type . '_' . $ardb_name . '_' . $timestamp . '.csv';
         // Create temporary file
         $local_file = fopen('php://temp', 'r+');
         fwrite($local_file, $data);

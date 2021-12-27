@@ -30311,3 +30311,6 @@ span.select2-selection.select2-selection--single {border: 1px solid #9a9a9a;colo
 }*/
 /* design 06/01/2021 end*/
 /*.sub-menu ul{margin-left: 20px;}*/
+
+
+select.form-control:focus{box-shadow: 0px 0px 3px 3px #8a98e1;}

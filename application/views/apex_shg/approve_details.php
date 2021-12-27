@@ -1,6 +1,6 @@
 <?php
 $shg_details = json_decode($shg_details);
-//$memo_header = json_decode($memo_header);
+$memo_header = json_decode($memo_header);
 $borrower_details = json_decode($borrower_details);
 //$gt_details = json_decode($gt_details);
 //$details = json_decode($details);
@@ -34,6 +34,8 @@ $approve_details = json_decode($approve_details);
                                         <tr>
                                             <td><b>Memo No </b> :-</td>
                                             <td class="pull-left"><?= $shg_details[0]->memo_no ?></td>
+                                            </tr>
+                                            <tr>
                                             <td><b>Memo Date</b> :-</td>
                                             <td class="pull-left"><?= date('d/m/Y', strtotime(str_replace('-', '/', $shg_details[0]->memo_date))) ?></td>
                                         </tr>
@@ -41,13 +43,23 @@ $approve_details = json_decode($approve_details);
                                             <td>Sector :-</td>
                                             <td class="pull-left"><b>SHG</b></td>
                                         </tr>
+                                        <tr>
+                                            <td>Total Amount of Requisition :-</td>
+                                            <!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
+                                            <td class="pull-left"><?= $memo_header[0]->tot_amt ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total No. of Pronote :-</td>
+                                            <!-- <td class="pull-left"></td> -->
+                                            <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 pt-5">
-                                <center><h4>Loan Requisition Statement Cum-Disbursement Certificate</h4></center>
+                                <center><h4>Loan Requisition  Statement Cum-Disbursement Certificate</h4></center>
                             </div>
                         </div>
                         <div class="row">
@@ -224,6 +236,14 @@ $approve_details = json_decode($approve_details);
     				<div class="col-md-2">
     				    <input type="button" id="submit" class="btn btn-info pull-left" value="Forward" onclick="submit()" />
     				</div>
+                    <?php if ($_SESSION['user_type'] != 'U') { ?>
+                                    <label for="reason" class="col-sm-1 col-form-label">Reason:</label>
+                                    <div class="col-sm-3">
+
+                                    <input type="text" style="width:350px" id=reason name="reason" class="form-control" value=" "    />
+                                   
+                                    </div> 
+                                    <?php } ?>
     			    </div>
     			</div>
 			    <?php
@@ -238,9 +258,15 @@ $approve_details = json_decode($approve_details);
 
     <script>
 	function submit() {
-	    window.location.href = "<?= site_url('/apex_shg/forward_data/' . $memo_no); ?>";
+        var reason=$('#reason').val() ;
+            console.log(reason);
+	    // window.location.href = "<?= site_url('/apex_shg/forward_data/' . $memo_no); ?>"+ reason;
+        window.location.href = "<?= site_url('/apex_shg/forward_data?qstr=' . $memo_no .','); ?>"+ reason;
 	}
 	function reject() {
-	    window.location.href = "<?= site_url('/apex_shg/reject_data/' . $memo_no); ?>";
+        var reason=$('#reason').val() ;
+            console.log(reason);
+	    // window.location.href = "<?= site_url('/apex_shg/reject_data/' . $memo_no); ?>"+ reason;
+        window.location.href = "<?= site_url('/apex_shg/reject_data?qstr=' . $memo_no .','); ?>"+ reason;
 	}
     </script>

@@ -41,7 +41,7 @@ $sector_list = unserialize(REPORT_TYPE);
 //                                            echo '<td>' . $status . '</td>';
                                             echo '<td><a href="demand_entry/' . $dt->ardb_id . '?id=' . $dt->id . '" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-pencil fa-lg"></i></a>';
 //                                            if ($dt->fwd_data != 'Y') {
-                                            echo '<a href="delete/' . $dt->ardb_id . '?id=' . $dt->id . '" data-toggle="tooltip" data-placement="bottom" title="Delete" onclick="return check();"><i class="fa fa-trash-o fa-lg" style="color:red"></i></a>';
+                                            echo '<a href="dmd_delete/' . $dt->ardb_id . '?id=' . $dt->id . '" data-toggle="tooltip" data-placement="bottom" title="Delete" onclick="return check();"><i class="fa fa-trash-o fa-lg" style="color:red"></i></a>';
 //                                            }
                                             echo '</td>';
 //                                            if ($dt->fwd_data != 'Y') {

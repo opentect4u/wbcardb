@@ -13,7 +13,8 @@ class Process extends CI_Model {
             'u.user_status' => 'A'
         ));
         $this->db->join('mm_ardb_ho a', 'u.br_id=a.id');
-        // $this->db->where('user_status','A');
+        
+         // $this->db->where('user_status','A');
         // $this->db->where('user_type','U');
 
         $data = $this->db->get('md_users u');

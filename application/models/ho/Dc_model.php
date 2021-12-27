@@ -83,7 +83,8 @@ class Dc_Model extends CI_Model {
                 'modified_by' => date('Y-m-d h:i:s')
             );
             $this->db->where(array(
-                'ardb_id' => $data['ardb_id'],
+                // 'ardb_id' => $data['ardb_id'],
+                'ardb_id' => $_SESSION['br_id'],
                 'memo_no' => $data['memo_no'],
                 'pronote_no' => $data['pronote_no']
             ));
@@ -309,13 +310,19 @@ class Dc_Model extends CI_Model {
     }
 
     function get_approve_shg_details($ardb_id, $memo_no) {
-        $sql = 'SELECT `shg`.`pronote_no`, `shg`.`pronote_date`, `p`.`purpose_name`, `shg`.`moratorium_period`, `shg`.`repayment_no`, `dt`.`shg_name`, `dt`.`tot_memb`, `dt`.`shg_addr`, `b`.`block_name`, `dt`.`roi`, `dt`.`bod_sanc_dt`, `dt`.`due_dt`, `dt`.`brrwr_sl_no`, `dt`.`project_cost`, `dt`.`sanc_amt`, `dt`.`tot_own_amt`, `dt`.`corp_fnd`, `dt`.`disb_amt`, `dt`.`intr_aggr_dt`, `dt`.`total_Intr_ag_bond` FROM td_dc_shg_dtls dt JOIN td_dc_shg shg on dt.ardb_id=shg.ardb_id AND dt.memo_no=shg.memo_no AND dt.pronote_no=shg.pronote_no JOIN `md_purpose` `p` ON `shg`.`purpose_code`=`p`.`purpose_code` JOIN `md_block` `b` ON `dt`.`block_code`=`b`.`block_code` WHERE shg.ardb_id = "' . $ardb_id . '" AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "") = "' . $memo_no . '" ORDER BY dt.pronote_no, dt.sl_no';
+        $sql = 'SELECT `shg`.`pronote_no`, `shg`.`pronote_date`, `p`.`purpose_name`, `shg`.`moratorium_period`, `shg`.`repayment_no`, `dt`.`shg_name`, `dt`.`tot_memb`, `dt`.`shg_addr`, `b`.`block_name`, `dt`.`roi`, `dt`.`bod_sanc_dt`, `dt`.`due_dt`, `dt`.`brrwr_sl_no`, FLOOR(`dt`.`project_cost`) as project_cost, FLOOR(`dt`.`sanc_amt`) as sanc_amt, FLOOR(`dt`.`tot_own_amt`) as tot_own_amt, FLOOR(`dt`.`corp_fnd`) as corp_fnd,FLOOR( `dt`.`disb_amt` ) as disb_amt, `dt`.`intr_aggr_dt`, `dt`.`total_Intr_ag_bond` FROM td_dc_shg_dtls dt JOIN td_dc_shg shg on dt.ardb_id=shg.ardb_id AND dt.memo_no=shg.memo_no AND dt.pronote_no=shg.pronote_no JOIN `md_purpose` `p` ON `shg`.`purpose_code`=`p`.`purpose_code` JOIN `md_block` `b` ON `dt`.`block_code`=`b`.`block_code` WHERE shg.ardb_id = "' . $ardb_id . '" AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "") = "' . $memo_no . '" ORDER BY dt.pronote_no, dt.sl_no';
         $data = $this->db->query($sql);
         return $data->result();
     }
 
     function get_shg_dc_header($ardb_id, $memo_no) {
-        $sql = 'SELECT DISTINCT shg.ardb_id, shg.memo_no, COUNT(shg.pronote_no) as tot_pronote FROM td_dc_shg shg WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+        // $sql = 'SELECT DISTINCT shg.ardb_id, shg.memo_no,sum(a.disb_amt) as tot_amt, COUNT(shg.pronote_no) as tot_pronote 
+        // FROM td_dc_shg shg 
+        // WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+
+        $sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+        FLOOR(sum(a.disb_amt)) as tot_amt FROM td_dc_shg shg ,td_dc_shg_dtls a
+        WHERE shg.ardb_id=a.ardb_id and shg.pronote_no=a.pronote_no and shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
         $data = $this->db->query($sql);
         // echo $this->db->last_query();exit;
         return $data->result();
@@ -328,7 +335,7 @@ class Dc_Model extends CI_Model {
     }
 
     function get_total_shg($ardb_id, $memo_no) {
-        $sql = 'SELECT shg.memo_no, shg.pronote_date, shg.pronote_no, SUM(dt.tot_memb) as tot_memb, SUM(dt.project_cost) as tot_p_cost, sum(dt.sanc_amt) as tot_sanc_amt, SUM(dt.tot_own_amt) as tot_own_amt, sum(dt.disb_amt) as tot_disb_amt, dt.intr_aggr_dt, sum(dt.total_Intr_ag_bond) as tot_igb FROM td_dc_shg_dtls dt JOIN td_dc_shg shg ON dt.ardb_id=shg.ardb_id AND dt.memo_no=shg.memo_no AND dt.pronote_no=shg.pronote_no WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY dt.memo_no, dt.pronote_no, shg.pronote_date, dt.intr_aggr_dt';
+        $sql = 'SELECT shg.memo_no, shg.pronote_date, shg.pronote_no, SUM(dt.tot_memb) as tot_memb, FLOOR(SUM(dt.project_cost)) as tot_p_cost,FLOOR( sum(dt.sanc_amt)) as tot_sanc_amt, FLOOR(SUM(dt.tot_own_amt)) as tot_own_amt, FLOOR(sum(dt.disb_amt) )as tot_disb_amt, dt.intr_aggr_dt, sum(dt.total_Intr_ag_bond) as tot_igb FROM td_dc_shg_dtls dt JOIN td_dc_shg shg ON dt.ardb_id=shg.ardb_id AND dt.memo_no=shg.memo_no AND dt.pronote_no=shg.pronote_no WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY dt.memo_no, dt.pronote_no, shg.pronote_date, dt.intr_aggr_dt';
         $data = $this->db->query($sql);
         // echo $this->db->last_query();exit;
         return $data->result();
@@ -423,7 +430,7 @@ class Dc_Model extends CI_Model {
         $this->load->dbutil();
         $sql = 'SELECT shg.ardb_id, shg.memo_no, shg.sector_code, shg.pronote_no, DATE_FORMAT(STR_TO_DATE(shg.pronote_date,"%Y-%m-%d"), "%d/%m/%Y")pronote_date, '
                 . 'shg.purpose_code, IF(shg.gender_id=1, "M", "F") as gender, shg.roi, shg.moratorium_period, shg.repayment_no, dt.shg_name, dt.tot_memb as tot_memb_in_shg, dt.shg_addr, dt.block_code, DATE_FORMAT(STR_TO_DATE(dt.bod_sanc_dt,"%Y-%m-%d"), "%d/%m/%Y")bod_sanc_dt, '
-                . 'DATE_FORMAT(STR_TO_DATE(dt.due_dt,"%Y-%m-%d"), "%d/%m/%Y")due_dt, dt.brrwr_sl_no, dt.project_cost, dt.sanc_amt, dt.tot_own_amt, dt.disb_amt, DATE_FORMAT(STR_TO_DATE(dt.intr_aggr_dt,"%Y-%m-%d"), "%d/%m/%Y")intr_aggr_dt, dt.total_Intr_ag_bond, '
+                . ' "" as due_dt, dt.brrwr_sl_no, dt.project_cost, dt.sanc_amt, dt.tot_own_amt, dt.disb_amt, DATE_FORMAT(STR_TO_DATE(dt.intr_aggr_dt,"%Y-%m-%d"), "%d/%m/%Y")intr_aggr_dt, dt.total_Intr_ag_bond, '
                 . 'b.total_shg, b.tot_memb, b.tot_male, b.tot_female, b.tot_sc, b.tot_st, b.tot_obca, b.tot_obcb, b.tot_gen, b.tot_other, b.tot_count, b.tot_big, b.tot_marginal, b.tot_small, b.tot_landless, b.tot_lig, b.tot_mig, b.tot_hig '
                 . 'FROM td_dc_shg shg '
                 . 'JOIN td_dc_shg_dtls dt ON shg.ardb_id=dt.ardb_id AND shg.memo_no=dt.memo_no '

@@ -36,7 +36,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">RD</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="rd" id="rd" value="<?= $selected ? $selected->rd : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="rd" id="rd" value="<?= $selected ? $selected->rd : '0' ?>"  oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Fixed/Term</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="fd" id="fd" value="<?= $selected ? $selected->fd : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="fd" id="fd" value="<?= $selected ? $selected->fd : '0' ?>"  oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Flexi/Savings</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="flexi_sb" id="flexi_sb" value="<?= $selected ? $selected->flexi_sb : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="flexi_sb" id="flexi_sb" value="<?= $selected ? $selected->flexi_sb : '0' ?>"  oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">MIS</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="mis" id="mis" value="<?= $selected ? $selected->mis : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="mis" id="mis" value="<?= $selected ? $selected->mis : '0' ?>" oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Other Deposit</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="other_dep" id="other_dep" value="<?= $selected ? $selected->other_dep : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="other_dep" id="other_dep" value="<?= $selected ? $selected->other_dep : '0' ?>" oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">IBSD</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="ibsd" id="ibsd" value="<?= $selected ? $selected->ibsd : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="ibsd" id="ibsd" value="<?= $selected ? $selected->ibsd : '0' ?>" oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Total Deposit Mobilised</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="total_dep_mob" id="total_dep_mob" value="<?= $selected ? $selected->total_dep_mob : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="total_dep_mob" id="total_dep_mob" value="<?= $selected ? $selected->total_dep_mob : '0' ?>" oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Cash in Hand & Bank</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="cash_in_hand" id="cash_in_hand" value="<?= $selected ? $selected->cash_in_hand : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="cash_in_hand" id="cash_in_hand" value="<?= $selected ? $selected->cash_in_hand : '0' ?>"  oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Other Banks</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="other_bank" id="other_bank" value="<?= $selected ? $selected->other_bank : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="other_bank" id="other_bank" value="<?= $selected ? $selected->other_bank : '0' ?>" oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Loan from IBSD</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="ibsd_loan" id="ibsd_loan" value="<?= $selected ? $selected->ibsd_loan : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="ibsd_loan" id="ibsd_loan" value="<?= $selected ? $selected->ibsd_loan : '0' ?>" oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Loan Against Deposit</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="dep_loan" id="dep_loan" value="<?= $selected ? $selected->dep_loan : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="dep_loan" id="dep_loan" value="<?= $selected ? $selected->dep_loan : '0' ?>"  oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Remitted to WBSCARDB</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="wbcardb_remit_slr" id="wbcardb_remit_slr" value="<?= $selected ? $selected->wbcardb_remit_slr : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="wbcardb_remit_slr" id="wbcardb_remit_slr" value="<?= $selected ? $selected->wbcardb_remit_slr : '0' ?>"  oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Others</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="wbcardb_remit_slr_excess" id="wbcardb_remit_slr_excess" value="<?= $selected ? $selected->wbcardb_remit_slr_excess : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="wbcardb_remit_slr_excess" id="wbcardb_remit_slr_excess" value="<?= $selected ? $selected->wbcardb_remit_slr_excess : '0' ?>"  oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Total Deployment of Fund</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="total_fund_deploy" id="total_fund_deploy" value="<?= $selected ? $selected->total_fund_deploy : '0' ?>" required="" />
+                                        <input type="number" class="form-control" name="total_fund_deploy" id="total_fund_deploy" value="<?= $selected ? $selected->total_fund_deploy : '0' ?>" oninput="validate(this)" required="" />
                                     </div>
                                 </div>
                             </div>
@@ -243,3 +243,11 @@ if ($id > 0) {
             }
         });
     </script>
+     <script>
+
+var validate = function(e) {
+    //alert("hi");
+    var t = e.value;
+    e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+}
+</script>

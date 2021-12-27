@@ -26,9 +26,9 @@ class Apex_self_Model extends CI_Model {
 
     function apex_view($ardb_id) {
 	$this->db->distinct();
-	$this->db->select('a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, a.pronote_no, a.fwd_data');
+	$this->db->select('a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, a.pronote_no, a.fwd_data,a.instl_no,a.instl_dt,a.a1_reason,a.a2_reason');
 	$this->db->where('a.ardb_id', $ardb_id);
-	$this->db->join('td_apex_self_dtls b', 'a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id AND a.pronote_no=b.pronote_no');
+	$this->db->join('td_apex_self_dtls b', 'a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id AND a.pronote_no=b.pronote_no  ');
 	$this->db->join('md_sector c', 'a.sector_code=c.sector_code');
 //        $this->db->group_by('a.memo_no, a.pronote_no');
 	$this->db->order_by('a.memo_date');
@@ -43,29 +43,73 @@ class Apex_self_Model extends CI_Model {
 //        return $data->result_array();
     }
 
-    function apex_edit($ardb_id, $memo_no, $pronote_no) {
+	function apex_self_dc_header($ardb_id, $memo_no,$disb_dt) {
+
+		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+		FLOOR(sum(a.inst_amt)) as tot_amt ,shg.instl_dt FROM td_apex_self shg ,td_apex_self_dis a
+		WHERE shg.ardb_id=a.ardb_id and a.inst_date=shg.instl_dt and shg.pronote_no=a.pronote_no  and  shg.ardb_id=' . $ardb_id .  ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")=' . $memo_no .  ' AND shg.instl_dt="' . $disb_dt .  '" GROUP BY shg.memo_no, shg.memo_no,shg.instl_dt ORDER by shg.memo_no';
+	
+		$data = $this->db->query($sql);
+	
+	// 	echo $this->db->last_query();exit;
+	// die();
+		return $data->result();
+	
+		}
+
+    function apex_edit($ardb_id, $memo_no, $pronote_no,$disb_dt) {
 	$where = $pronote_no != '' || $pronote_no > 0 ? 'AND replace(replace(replace(a.pronote_no, " ", ""), "/", ""), "-", "")="' . $pronote_no . '"' : "";
-	$sql = 'SELECT b.*,a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.fwd_data, di.inst_sl_no, di.inst_date, di.inst_amt, '
-		. '(b.sanc_amt - (SELECT sum(d.inst_amt) FROM td_apex_self_dis d WHERE b.lso_no=d.lso_no AND a.ardb_id=d.ardb_id GROUP BY a.memo_no)) as remaining_sanc_amt '
-		. 'FROM td_apex_self a '
-		. 'JOIN td_apex_self_dtls b ON a.pronote_no=b.pronote_no AND a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id '
-		. 'JOIN td_apex_self_dis di ON a.memo_no=di.memo_no AND b.lso_no=di.lso_no AND b.pronote_no=di.pronote_no '
-		. 'JOIN md_block c ON b.block_id=c.block_code '
-		. 'JOIN md_purpose p ON b.purpose_code=p.purpose_code '
-		. 'WHERE a.ardb_id=' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" ' . $where;
+	// $sql = 'SELECT b.ardb_id,b.entry_date,b.memo_no,b.pronote_no,b.lso_no,b.file_no,b.block_id,b.name_of_borr,
+	// b.moratorium,b.loan,FLOOR(b.repay_per_tot) as repay_per_tot,b.purpose_code,b.roi,FLOOR(b.pro_cost) as pro_cost ,FLOOR(b.own_cont) as own_cont,FLOOR(b.corp_fund) as corp_fund,FLOOR(b.sanc_amt) as sanc_amt,
+	// b.lnd_off_sec,b.cult_area,b.val_of_hypo,b.gros_inc_gen,b.reg_m_bond_dt,b.reg_m_bond_no,b.in_out	,
+	// a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.fwd_data, di.inst_sl_no, di.inst_date, FLOOR(di.inst_amt) as inst_amt, '
+	// 	. '(FLOOR(b.sanc_amt) - (SELECT FLOOR( sum(d.inst_amt)) FROM td_apex_self_dis d WHERE b.lso_no=d.lso_no AND a.ardb_id=d.ardb_id GROUP BY a.memo_no)) as remaining_sanc_amt '
+	// 	. 'FROM td_apex_self a '
+	// 	. 'JOIN td_apex_self_dtls b ON a.pronote_no=b.pronote_no AND a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id '
+	// 	. 'JOIN td_apex_self_dis di ON a.memo_no=di.memo_no AND b.lso_no=di.lso_no AND b.pronote_no=di.pronote_no '
+	// 	. 'JOIN md_block c ON b.block_id=c.block_code '
+	// 	. 'JOIN md_purpose p ON b.purpose_code=p.purpose_code '
+	// 	. 'WHERE a.ardb_id=' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" ' . $where;
+
+$sql = "SELECT distinct  b.ardb_id,b.entry_date,b.memo_no,b.pronote_no,b.lso_no,b.file_no,b.block_id,b.name_of_borr, b.moratorium,b.loan,b.loan_id,
+FLOOR(b.repay_per_tot) as repay_per_tot,b.purpose_code,b.roi,FLOOR(b.pro_cost) as pro_cost ,FLOOR(b.own_cont) as own_cont,FLOOR(b.corp_fund) as corp_fund,
+FLOOR(b.sanc_amt) as sanc_amt, b.lnd_off_sec,b.cult_area,b.val_of_hypo,b.gros_inc_gen,b.reg_m_bond_dt,b.reg_m_bond_no,b.in_out , 
+a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.fwd_data, di.inst_sl_no, di.inst_date, FLOOR(di.inst_amt) as inst_amt,
+(FLOOR(b.sanc_amt) - (SELECT FLOOR( sum(d.inst_amt)) 
+FROM td_apex_self_dis d 
+WHERE b.lso_no=d.lso_no 
+AND a.ardb_id=d.ardb_id 
+GROUP BY a.memo_no)) as remaining_sanc_amt 
+FROM td_apex_self a , td_apex_self_dtls b ,td_apex_self_dis di,md_purpose p ,md_block c 
+where a.pronote_no=b.pronote_no 
+AND a.memo_no=b.memo_no 
+AND a.ardb_id=b.ardb_id   
+and a.memo_no=di.memo_no 
+AND b.lso_no=di.lso_no 
+AND b.pronote_no=di.pronote_no 
+and  b.block_id=c.block_code  
+and b.purpose_code=p.purpose_code
+and a.instl_dt=di.inst_date
+/*and a.instl_dt=b.instl_dt*/
+and a.instl_dt='$disb_dt'
+and  a.ardb_id=$ardb_id
+AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='$memo_no ' ";
 	$data = $this->db->query($sql);
-//	echo '<pre>' . $this->db->last_query();
-//	exit;
+	// echo '<pre>' . $this->db->last_query();
+	// exit;
 	return $data->result_array();
     }
 
-    function borrower_details($ardb_id, $memo_no, $pronote_no) {
+    function borrower_details($ardb_id, $memo_no, $pronote_no,$disb_dt) {
 	$where = $pronote_no != '' && $pronote_no > 0 ? 'AND replace(replace(replace(pronote_no, " ", ""), "/", ""), "-", "")="' . $pronote_no . '"' : "";
+	$where="And entry_date='$disb_dt'";
+	// echo $where1;
+	// exit;
 	$this->db->where('ardb_id= ' . $ardb_id . ' AND replace(replace(replace(memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" ' . $where);
 //        $this->db->where($where);
 	$query = $this->db->get('td_apex_self_borrower');
-//        echo $this->db->last_query();
-//        exit;
+    //    echo $this->db->last_query();
+    //    exit;
 	return $query->result();
     }
 
@@ -81,8 +125,8 @@ class Apex_self_Model extends CI_Model {
 
     function get_apex_details($ardb_id, $lso_no) {
 	$sql = 'SELECT a.ardb_id, a.block_id, c.block_name, a.name_of_borr, a.file_no, '
-		. 'a.moratorium, a.loan, a.repay_per_tot, a.purpose_code, p.purpose_name, a.roi, a.pro_cost, '
-		. 'a.own_cont, a.corp_fund, a.sanc_amt, a.lnd_off_sec, a.cult_area, a.val_of_hypo, a.gros_inc_gen, a.reg_m_bond_dt, a.reg_m_bond_no, '
+		. 'a.moratorium, a.loan, FLOOR(a.repay_per_tot) as repay_per_tot, a.purpose_code, p.purpose_name, a.roi,FLOOR( a.pro_cost) as pro_cost, '
+		. 'FLOOR(a.own_cont) as own_cont, FLOOR(a.corp_fund) as corp_fund, FLOOR(a.sanc_amt) as sanc_amt , a.lnd_off_sec, a.cult_area,FLOOR( a.val_of_hypo) as val_of_hypo, a.gros_inc_gen, a.reg_m_bond_dt, a.reg_m_bond_no, '
 		. '(a.sanc_amt - (SELECT SUM(b.inst_amt) FROM td_apex_self_dis b WHERE b.ardb_id=a.ardb_id AND b.lso_no=a.lso_no GROUP BY a.lso_no)) as remaining_sanc_amt '
 		. 'FROM td_apex_self_api a '
 		. 'JOIN md_block c ON a.block_id=c.block_code '
@@ -161,20 +205,41 @@ class Apex_self_Model extends CI_Model {
 	    $this->db->update('td_apex_self_borrower', $borrower_input);
 	} else {
 	    // TD_APEX_SHG
-	    $shg_input = array(
-		'ardb_id' => $data['ardb_id'],
-		'memo_no' => $data['memo_no'],
-		'memo_date' => $data['memo_date'],
-		'pronote_no' => $data['pronote_no'],
-		'lso_no' => '',
-		'sector_code' => $data['sector_code'],
-		'created_by' => $user_id,
-		'modified_by' => $user_id
-	    );
-	    $this->db->insert('td_apex_self', $shg_input);
+	    // $shg_input = array(
+		// 'ardb_id' => $data['ardb_id'],
+		// 'memo_no' => $data['memo_no'],
+		// 'memo_date' => $data['memo_date'],
+		// 'pronote_no' => $data['pronote_no'],
+		// 'lso_no' => '',
+		// 'sector_code' => $data['sector_code'],
+		// 'instl_no' => $data['inst_sl_no'][$i],
+	    // 'inst_date' => $data['inst_date'][$i]
+		// 'created_by' => $user_id,
+		// 'modified_by' => $user_id
+	    // );
+	    // $this->db->insert('td_apex_self', $shg_input);
 
 	    // td_apex_shg_dtls
 	    for ($i = 0; $i < count($data['lso_no']); $i++) {
+			
+				// echo $this->db->last_query();
+				// exit;
+
+				$shg_input = array(
+					'ardb_id' => $data['ardb_id'],
+					'memo_no' => $data['memo_no'],
+					'memo_date' => $data['memo_date'],
+					'pronote_no' => $data['pronote_no'],
+					'lso_no' => '',
+					'sector_code' => $data['sector_code'],
+					'instl_no' => $data['inst_sl_no'][$i],
+					'instl_dt' => $data['inst_date'][$i],
+					'created_by' => $user_id,
+					'modified_by' => $user_id
+					);
+					// print_r( $shg_input);
+					// exit;
+					$this->db->insert('td_apex_self', $shg_input);
 		$dtls_input = array(
 		    'ardb_id' => $data['ardb_id'],
 		    'entry_date' => date('Y-m-d'),
@@ -202,6 +267,7 @@ class Apex_self_Model extends CI_Model {
 		);
 		$this->db->insert('td_apex_self_dtls', $dtls_input);
 
+		
 		//td_apex_shg_dis
 		$dis_input = array(
 		    'ardb_id' => $data['ardb_id'],
@@ -214,6 +280,7 @@ class Apex_self_Model extends CI_Model {
 		    'inst_amt' => $data['inst_amt'][$i]
 		);
 		$this->db->insert('td_apex_self_dis', $dis_input);
+		
 	    }
 
 	    // td_apex_shg_borrower
@@ -248,12 +315,16 @@ class Apex_self_Model extends CI_Model {
 //        exit;
     }
 
-    function approve_view($ardb_id, $memo_no) {
+  //  function approve_view($ardb_id, $memo_no,$disb_dt) {
+	function approve_view($ardb_id, $memo_no) {
+		// echo $disb_dt;
+		// die();
 //	var_dump($memo_no);
 //	exit;
 	$where = $memo_no != '' || $memo_no > 0 ? 'AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '"' : "";
+	// $where = $instl_dt != '' || $instl_dt > 0 ? 'AND replace(replace(replace(a.instl_dt, " ", ""), "/", ""), "-", "")="' . $instl_dt . '"' : "";
 	$fwd_data = $_SESSION['user_type'] == 'P' ? 'a.approve_1' : ($_SESSION['user_type'] == 'V' ? 'a.approve_2' : 'a.fwd_data');
-	$this->db->select('a.ardb_id, a.memo_no, a.memo_date, sum(IF(' . $fwd_data . ' = "Y", "1", "0")) as status, b.sector_name');
+	$this->db->select('a.ardb_id, a.memo_no, a.memo_date, sum(IF(' . $fwd_data . ' = "Y", "1", "0")) as status, b.sector_name,a.instl_no,a.instl_dt');
 	$this->db->where('a.ardb_id=' . $ardb_id . ' ' . $where);
 	if ($_SESSION['user_type'] == 'P') {
 	    $this->db->where('a.fwd_data', 'Y');
@@ -263,12 +334,12 @@ class Apex_self_Model extends CI_Model {
 	$this->db->join('md_sector b', 'a.sector_code=b.sector_code');
 	$this->db->group_by('a.memo_no, a.memo_date, b.sector_name');
 	$query = $this->db->get('td_apex_self a');
-//	echo $this->db->last_query();
-//	exit;
+	// echo $this->db->last_query();
+	// exit;
 	return $query->result();
     }
 
-    function forward_data($ardb_id, $memo_no) {
+    function forward_data($ardb_id, $memo_no,$instl_dt,$a1_reason) {
 	$user_type = $_SESSION['user_type'];
 	$input = array();
 	if ($user_type == 'U') {
@@ -281,27 +352,30 @@ class Apex_self_Model extends CI_Model {
 	    $input = array(
 		'approve_1' => 'Y',
 		'app1_by' => $_SESSION['login']->user_id,
-		'app1_at' => date('Y-m-d h:i:s')
+		'app1_at' => date('Y-m-d h:i:s'),
+		'a1_reason' =>$a1_reason
 	    );
 	} elseif ($user_type == 'V') {
 	    $input = array(
 		'approve_2' => 'Y',
 		'app2_by' => $_SESSION['login']->user_id,
-		'app2_at' => date('Y-m-d h:i:s')
+		'app2_at' => date('Y-m-d h:i:s'),
+		'a2_reason' =>$a1_reason
 	    );
 	}
 
 	$this->db->where(array(
 	    'ardb_id' => $ardb_id,
-	    'replace(replace(replace(memo_no, " ", ""), "/", ""), "-", "")=' => $memo_no
+	    'replace(replace(replace(memo_no, " ", ""), "/", ""), "-", "")=' => $memo_no,
+		'instl_dt'=>$instl_dt
 	));
 	$this->db->update('td_apex_self', $input);
-//        echo $this->db->last_query();
-//        exit;
+       echo $this->db->last_query();
+       exit;
 	return true;
     }
 
-    function reject_data($ardb_id, $memo_no) {
+    function reject_data($ardb_id, $memo_no,$instl_dt,$a1_reason) {
 	$user_type = $_SESSION['user_type'];
 	$input = array();
 	if ($user_type == 'P') {
@@ -311,7 +385,8 @@ class Apex_self_Model extends CI_Model {
 		'fwd_by' => '',
 		'approve_1' => 'N',
 		'app1_by' => '',
-		'app1_at' => ''
+		'app1_at' => '',
+		'a1_reason'  =>$a1_reason
 	    );
 	} elseif ($user_type == 'V') {
 	    $input = array(
@@ -323,7 +398,8 @@ class Apex_self_Model extends CI_Model {
 		'app1_at' => '',
 		'approve_2' => 'N',
 		'app2_by' => '',
-		'app2_at' => ''
+		'app2_at' => '',
+		'a2_reason'  =>$a1_reason
 	    );
 	}
 
@@ -332,7 +408,7 @@ class Apex_self_Model extends CI_Model {
 	    'replace(replace(replace(memo_no, " ", ""), "/", ""), "-", "")=' => $memo_no
 	));
 	$this->db->update('td_apex_self', $input);
-	//echo $this->db->last_query();exit;
+	// echo $this->db->last_query();exit;
 	return true;
     }
 

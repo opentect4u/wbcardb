@@ -28,6 +28,20 @@ class Apex_shg_Model extends CI_Model {
 	return $query->result();
     }
 
+	function apex_self_dc_header($ardb_id, $memo_no) {
+
+		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+		FLOOR(sum(a.inst_amt)) as tot_amt FROM td_apex_self shg ,td_apex_self_dis a
+		WHERE shg.ardb_id=a.ardb_id and shg.pronote_no=a.pronote_no and shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+	
+		$data = $this->db->query($sql);
+	
+	// 	echo $this->db->last_query();exit;
+	// die();
+		return $data->result();
+	
+		}
+
     function get_shg_details($ardb_id) {
 	$this->db->select('a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, a.pronote_no, a.ho_fwd_data as fwd_data');
 	$this->db->where(array(
@@ -416,18 +430,46 @@ class Apex_shg_Model extends CI_Model {
 	return true;
     }
 
+
+	function apex_shg_dc_header($ardb_id, $memo_no) {
+
+		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+		FLOOR(sum(a.inst_amt)) as tot_amt FROM td_apex_shg shg ,td_apex_shg_dis a
+		WHERE shg.ardb_id=a.ardb_id and shg.pronote_no=a.pronote_no and shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+	
+		$data = $this->db->query($sql);
+	
+	// 	echo $this->db->last_query();exit;
+	// die();
+		return $data->result();
+	
+		}
+
     function get_csv_details($ardb_id, $memo_no) {
 	$this->load->dbutil();
-	$sql = 'SELECT a.ardb_id, a.sector_code, a.memo_no, DATE_FORMAT(STR_TO_DATE(a.memo_date,"%Y-%m-%d"), "%d/%m/%Y")memo_date, a.pronote_no, a.lso_no, replace(c.group, " ", "-") as _group, c.file_no, c.block_id, replace(c.name_of_group, " ", "-") as name_of_group, c.tot_member, '
-		. 'c.moratorium_period, c.repayment_no, c.repay_per_tot, c.roi, c.purpose_code, c.pro_cost, c.own_cont, c.corp_fund, '
-		. 'c.sanc_amt, c.tot_depo_rais, DATE_FORMAT(STR_TO_DATE(c.inter_ag_bo_dt,"%Y-%m-%d"), "%d/%m/%Y")inter_ag_bo_dt, c.inter_ag_bo_no, b.tot_memb, b.tot_borrower, b.tot_male, b.tot_female, '
-		. 'b.tot_sc, b.tot_st, b.tot_obca, b.tot_obcb, b.tot_gen, b.tot_other, b.tot_count, b.tot_big, b.tot_marginal, b.tot_landless, '
-		. 'b.tot_hig, d.inst_sl_no, DATE_FORMAT(STR_TO_DATE(d.inst_date,"%Y-%m-%d"), "%d/%m/%Y")inst_date, d.inst_amt '
-		. 'FROM td_apex_shg a '
-		. 'JOIN td_apex_shg_borrower b ON a.ardb_id=b.ardb_id AND a.memo_no=b.memo_no AND a.pronote_no=b.pronote_no '
-		. 'JOIN td_apex_shg_dtls c ON a.ardb_id=c.ardb_id AND a.memo_no=c.memo_no AND a.pronote_no=c.pronote_no '
-		. 'JOIN td_apex_shg_dis d ON a.ardb_id=d.ardb_id AND a.memo_no=d.memo_no AND a.pronote_no=d.pronote_no '
-		. 'where a.ardb_id= ' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '"';
+	// $sql = 'SELECT a.ardb_id, a.sector_code, a.memo_no, DATE_FORMAT(STR_TO_DATE(a.memo_date,"%Y-%m-%d"), "%d/%m/%Y")memo_date, a.pronote_no, c.lso_no, replace(c.group, " ", "-") as _group, c.file_no, c.block_id, replace(c.name_of_group, " ", "-") as name_of_group, c.tot_member, '
+	// 	. 'c.moratorium_period, c.repayment_no, c.repay_per_tot, c.roi, c.purpose_code, c.pro_cost, c.own_cont, c.corp_fund, '
+	// 	. 'c.sanc_amt, c.tot_depo_rais, DATE_FORMAT(STR_TO_DATE(c.inter_ag_bo_dt,"%Y-%m-%d"), "%d/%m/%Y")inter_ag_bo_dt, c.inter_ag_bo_no, b.tot_memb, b.tot_borrower, b.tot_male, b.tot_female, '
+	// 	. 'b.tot_sc, b.tot_st, b.tot_obca, b.tot_obcb, b.tot_gen, b.tot_other, b.tot_count, b.tot_big, b.tot_marginal, b.tot_landless, '
+	// 	. 'b.tot_hig, d.inst_sl_no, DATE_FORMAT(STR_TO_DATE(d.inst_date,"%Y-%m-%d"), "%d/%m/%Y")inst_date, d.inst_amt '
+	// 	. 'FROM td_apex_shg a '
+	// 	. 'JOIN td_apex_shg_borrower b ON a.ardb_id=b.ardb_id AND a.memo_no=b.memo_no AND a.pronote_no=b.pronote_no '
+	// 	. 'JOIN td_apex_shg_dtls c ON a.ardb_id=c.ardb_id AND a.memo_no=c.memo_no AND a.pronote_no=c.pronote_no '
+	// 	. 'JOIN td_apex_shg_dis d ON a.ardb_id=d.ardb_id AND a.memo_no=d.memo_no AND a.pronote_no=d.pronote_no '
+	// 	. 'where a.ardb_id= ' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY c.lso_no';
+
+	$sql = 'SELECT a.ardb_id, a.sector_code, a.memo_no, DATE_FORMAT(STR_TO_DATE(a.memo_date,"%Y-%m-%d"), "%d/%m/%Y")memo_date, a.pronote_no, c.lso_no, replace(c.group, " ", "-") as _group, c.file_no, c.block_id, replace(c.name_of_group, " ", "-") as name_of_group, c.tot_member, '
+	. 'c.moratorium_period, c.repayment_no, c.repay_per_tot, c.roi, c.purpose_code, c.pro_cost, c.own_cont, c.corp_fund, '
+	. 'c.sanc_amt, c.tot_depo_rais, IF(c.inter_ag_bo_dt="00/00/0000","",c.inter_ag_bo_dt) as inter_ag_bo_dt, c.inter_ag_bo_no, b.tot_memb, b.tot_borrower, b.tot_male, b.tot_female, '
+	. 'b.tot_sc, b.tot_st, b.tot_obca, b.tot_obcb, b.tot_gen, b.tot_other, b.tot_count, b.tot_big, b.tot_marginal, b.tot_landless, '
+	. 'b.tot_hig, d.inst_sl_no, DATE_FORMAT(STR_TO_DATE(d.inst_date,"%Y-%m-%d"), "%d/%m/%Y")inst_date, d.inst_amt '
+	. 'FROM td_apex_shg a '
+	. 'JOIN td_apex_shg_borrower b ON a.ardb_id=b.ardb_id AND a.memo_no=b.memo_no AND a.pronote_no=b.pronote_no '
+	. 'JOIN td_apex_shg_dtls c ON a.ardb_id=c.ardb_id AND a.memo_no=c.memo_no AND a.pronote_no=c.pronote_no '
+	. 'JOIN td_apex_shg_dis d ON a.ardb_id=d.ardb_id AND a.memo_no=d.memo_no AND a.pronote_no=d.pronote_no '
+	. 'where a.ardb_id= ' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY c.lso_no';
+
+		
 //        $sql = 'SELECT shg.ardb_id, shg.memo_no, shg.sector_code, shg.pronote_no, DATE_FORMAT(STR_TO_DATE(shg.pronote_date,"%Y-%m-%d"), "%d/%m/%Y")pronote_date, '
 //                . 'shg.purpose_code, IF(shg.gender_id=1, "M", "F") as gender, shg.roi, shg.moratorium_period, shg.repayment_no, dt.shg_name, dt.tot_memb as tot_memb_in_shg, dt.shg_addr, dt.block_code, DATE_FORMAT(STR_TO_DATE(dt.bod_sanc_dt,"%Y-%m-%d"), "%d/%m/%Y")bod_sanc_dt, '
 //                . 'DATE_FORMAT(STR_TO_DATE(dt.due_dt,"%Y-%m-%d"), "%d/%m/%Y")due_dt, dt.brrwr_sl_no, dt.project_cost, dt.sanc_amt, dt.tot_own_amt, dt.disb_amt, DATE_FORMAT(STR_TO_DATE(dt.intr_aggr_dt,"%Y-%m-%d"), "%d/%m/%Y")intr_aggr_dt, dt.total_Intr_ag_bond, '
@@ -439,6 +481,7 @@ class Apex_shg_Model extends CI_Model {
 //                . 'WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" '
 //                . ' ORDER BY shg.entry_date, shg.memo_no, shg.pronote_no ';
 	$query = $this->db->query($sql);
+	// echo $this->db->last_query();exit;
 	$delimiter = "|";
 	$newline = "\r\n";
 	$enclosure = '';

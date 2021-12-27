@@ -40,7 +40,7 @@ class Dc_Model extends CI_Model {
 
     function get_shg_details($ardb_id) {
 
-	$this->db->select('shg.entry_date as memo_date, shg.memo_no, shg.letter_no, shg.letter_date, shg.pronote_no, shg.pronote_date, p.purpose_name as purpose, shg.moratorium_period, shg.repayment_no, COUNT(sl_no) as upload, shg.fwd_data');
+	$this->db->select('shg.entry_date as memo_date, shg.memo_no, shg.letter_no, shg.letter_date, shg.pronote_no, shg.pronote_date, p.purpose_name as purpose, shg.moratorium_period, shg.repayment_no, COUNT(sl_no) as upload, shg.fwd_data,shg.a1_reason,shg.a2_reason');
 
 	$this->db->where(array('shg.ardb_id' => $ardb_id));
 
@@ -792,7 +792,13 @@ class Dc_Model extends CI_Model {
 
     function get_approve_shg_details($ardb_id, $memo_no) {
 
-	$sql = 'SELECT `shg`.`pronote_no`, `shg`.`pronote_date`, `p`.`purpose_name`, `shg`.`moratorium_period`, `shg`.`repayment_no`, `dt`.`shg_name`, `dt`.`tot_memb`, `dt`.`shg_addr`, `b`.`block_name`, `dt`.`roi`, `dt`.`bod_sanc_dt`, `dt`.`due_dt`, `dt`.`brrwr_sl_no`, `dt`.`project_cost`, `dt`.`sanc_amt`, `dt`.`tot_own_amt`, `dt`.`corp_fnd`, `dt`.`disb_amt`, `dt`.`intr_aggr_dt`, `dt`.`total_Intr_ag_bond` FROM td_dc_shg_dtls dt JOIN td_dc_shg shg on dt.ardb_id=shg.ardb_id AND dt.memo_no=shg.memo_no AND dt.pronote_no=shg.pronote_no JOIN `md_purpose` `p` ON `shg`.`purpose_code`=`p`.`purpose_code` JOIN `md_block` `b` ON `dt`.`block_code`=`b`.`block_code` WHERE shg.ardb_id = "' . $ardb_id . '" AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "") = "' . $memo_no . '" ORDER BY dt.pronote_no, dt.sl_no';
+	$sql = 'SELECT `shg`.`pronote_no`, `shg`.`pronote_date`, `p`.`purpose_name`, `shg`.`moratorium_period`, `shg`.`repayment_no`, `dt`.`shg_name`, `dt`.`tot_memb`, `dt`.`shg_addr`, `b`.`block_name`, `dt`.`roi`, `dt`.`bod_sanc_dt`, `dt`.`due_dt`, `dt`.`brrwr_sl_no`, FLOOR(`dt`.`project_cost`) as project_cost,FLOOR( `dt`.`sanc_amt`)as sanc_amt ,FLOOR( `dt`.`tot_own_amt`)as tot_own_amt, FLOOR(`dt`.`corp_fnd`) as corp_fnd ,FLOOR( `dt`.`disb_amt`) disb_amt, `dt`.`intr_aggr_dt`, `dt`.`total_Intr_ag_bond` 
+	FROM td_dc_shg_dtls dt JOIN td_dc_shg shg on dt.ardb_id=shg.ardb_id
+	 AND dt.memo_no=shg.memo_no 
+	 AND dt.pronote_no=shg.pronote_no 
+	 JOIN `md_purpose` `p` ON `shg`.`purpose_code`=`p`.`purpose_code` 
+	 JOIN `md_block` `b` ON `dt`.`block_code`=`b`.`block_code`
+	 WHERE shg.ardb_id = "' . $ardb_id . '" AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "") = "' . $memo_no . '" ORDER BY dt.pronote_no, dt.sl_no';
 
 	$data = $this->db->query($sql);
 
@@ -806,7 +812,9 @@ class Dc_Model extends CI_Model {
 
     function get_shg_dc_header($ardb_id, $memo_no) {
 
-	$sql = 'SELECT DISTINCT shg.memo_no, COUNT(shg.pronote_no) as tot_pronote FROM td_dc_shg shg WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+	$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+	sum(a.disb_amt) as tot_amt FROM td_dc_shg shg ,td_dc_shg_dtls a
+	WHERE shg.ardb_id=a.ardb_id and shg.pronote_no=a.pronote_no and shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
 
 	$data = $this->db->query($sql);
 
@@ -832,7 +840,7 @@ class Dc_Model extends CI_Model {
 
     function get_total_shg($ardb_id, $memo_no) {
 
-	$sql = 'SELECT shg.memo_no, shg.pronote_date, shg.pronote_no, SUM(dt.tot_memb) as tot_memb, SUM(dt.project_cost) as tot_p_cost, sum(dt.sanc_amt) as tot_sanc_amt, SUM(dt.tot_own_amt) as tot_own_amt, sum(dt.disb_amt) as tot_disb_amt, dt.intr_aggr_dt, sum(dt.total_Intr_ag_bond) as tot_igb FROM td_dc_shg_dtls dt JOIN td_dc_shg shg ON dt.ardb_id=shg.ardb_id AND dt.memo_no=shg.memo_no AND dt.pronote_no=shg.pronote_no WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY dt.memo_no, dt.pronote_no, shg.pronote_date, dt.intr_aggr_dt';
+	$sql = 'SELECT shg.memo_no, shg.pronote_date, shg.pronote_no, SUM(dt.tot_memb) as tot_memb,FLOOR( SUM(dt.project_cost) )as tot_p_cost,FLOOR( sum(dt.sanc_amt)) as tot_sanc_amt,FLOOR( SUM(dt.tot_own_amt) )as tot_own_amt,FLOOR( sum(dt.disb_amt)) as tot_disb_amt, dt.intr_aggr_dt, sum(dt.total_Intr_ag_bond) as tot_igb FROM td_dc_shg_dtls dt JOIN td_dc_shg shg ON dt.ardb_id=shg.ardb_id AND dt.memo_no=shg.memo_no AND dt.pronote_no=shg.pronote_no WHERE shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY dt.memo_no, dt.pronote_no, shg.pronote_date, dt.intr_aggr_dt';
 
 	$data = $this->db->query($sql);
 
@@ -844,7 +852,7 @@ class Dc_Model extends CI_Model {
 
 
 
-    function forward_data($ardb_id, $memo_no) {
+    function forward_data($ardb_id, $memo_no,$a1_reason) {
 
 	$user_type = $_SESSION['user_type'];
 
@@ -870,7 +878,9 @@ class Dc_Model extends CI_Model {
 
 		'app1_by' => $_SESSION['login']->user_id,
 
-		'app1_at' => date('Y-m-d h:i:s')
+		'app1_at' => date('Y-m-d h:i:s'),
+
+		'a1_reason' =>$a1_reason
 
 	    );
 
@@ -882,7 +892,9 @@ class Dc_Model extends CI_Model {
 
 		'app2_by' => $_SESSION['login']->user_id,
 
-		'app2_at' => date('Y-m-d h:i:s')
+		'app2_at' => date('Y-m-d h:i:s'),
+
+		'a2_reason' =>$a1_reason
 
 	    );
 
@@ -908,7 +920,7 @@ class Dc_Model extends CI_Model {
 
 
 
-    function reject_data($ardb_id, $memo_no) {
+    function reject_data($ardb_id, $memo_no,$a1_reason) {
 
 	$user_type = $_SESSION['user_type'];
 
@@ -928,7 +940,9 @@ class Dc_Model extends CI_Model {
 
 		'app1_by' => '',
 
-		'app1_at' => ''
+		'app1_at' => '',
+
+		'a1_reason' =>$a1_reason
 
 	    );
 
@@ -952,7 +966,9 @@ class Dc_Model extends CI_Model {
 
 		'app2_by' => '',
 
-		'app2_at' => ''
+		'app2_at' => '',
+
+		'a2_reason' =>$a1_reason
 
 	    );
 
@@ -1048,7 +1064,7 @@ class Dc_Model extends CI_Model {
 
 	var_dump($data);
 
-	exit;
+	// exit;
 
 	$file_path = base_url() . 'shg_file/csv';
 

@@ -36,13 +36,21 @@ class Apex_self extends CI_Controller {
 	$this->load->view('common/footer');
     }
 
-    function entry($memo_no, $pronote_no) {
+    function entry($memo_no, $pronote_no,$disb_dt) {
 	$ardb_id = $_SESSION['br_id'];
+	// $disb_dt=$_GET['disb_dt'];
+	// print_r($disb_dt);
+	// exit;
 	$selected = array();
 	$apex_shg = array();
+
 	if ($memo_no > 0 && $pronote_no > 0 || $memo_no != '' && $pronote_no != '') {
-	    $apex_shg = $this->apex_self_model->apex_edit($ardb_id, $memo_no, $pronote_no);
-	    $borrower_details = $this->apex_self_model->borrower_details($ardb_id, $memo_no, $pronote_no);
+	    $apex_shg = $this->apex_self_model->apex_edit($ardb_id, $memo_no, $pronote_no,$disb_dt);
+		// print_r($apex_shg);
+		// exit;
+		// echo $this->db->last_query();
+		// exit;
+	    $borrower_details = $this->apex_self_model->borrower_details($ardb_id, $memo_no, $pronote_no,$disb_dt);
 	    foreach ($borrower_details as $dt) {
 		$selected = array(
 		    'id' => 1,
@@ -111,38 +119,65 @@ class Apex_self extends CI_Controller {
 
     function apex_self_approve_view() {
 	$ardb_id = $_SESSION['br_id'];
+	//$instl_dt = $_GET['instl_dt'];
 	$approve_details = $this->apex_self_model->approve_view($ardb_id, $memo_no = '');
-	// var_dump($approve_details);exit;
+	
 	$data['ardb_id'] = $ardb_id;
+	// $data['instl_dt'] = 
 	$data['approve_details'] = json_encode($approve_details);
 	$this->load->view('common/header');
 	$this->load->view("apex_self/approve_view", $data);
 	$this->load->view('common/footer');
     }
 
-    function approve_details($memo_no) {
-	$ardb_id = $_SESSION['br_id'];
-	$details = array();
-	$approve_details = $this->apex_self_model->approve_view($ardb_id, $memo_no);
-	$shg_details = $this->apex_self_model->apex_edit($ardb_id, $memo_no, $pronote_no = '');
-	$borrower_details = $this->apex_self_model->borrower_details($ardb_id, $memo_no, $pronote_no = '');
-	$data['ardb_id'] = $ardb_id;
-	$data['memo_no'] = $memo_no;
-	$data['details'] = json_encode($details);
-	$data['approve_details'] = json_encode($approve_details);
-	$data['shg_details'] = json_encode($shg_details);
-//        $data['memo_header'] = json_encode($memo_header);
-	$data['borrower_details'] = json_encode($borrower_details);
-//        $data['gt_details'] = json_encode($gt_details);
-	$this->load->view('common/header');
-	$this->load->view("apex_self/approve_details", $data);
-	$this->load->view('common/footer');
+    function approve_details() {
+		$ardb_id = $_SESSION['br_id'];
+		$memo_no=$this->uri->segment(3);
+		$disb_dt=$this->uri->segment(4);
+		
+		$details = array();
+		$approve_details = $this->apex_self_model->approve_view($ardb_id, $memo_no,$disb_dt);
+		// echo $this->db->last_query();
+		// die();
+		$shg_details = $this->apex_self_model->apex_edit($ardb_id, $memo_no, $pronote_no = '',$disb_dt);
+		// echo $this->db->last_query();
+		// die();
+		//  echo $disb_dt;
+		//  exit;
+		$borrower_details = $this->apex_self_model->borrower_details($ardb_id, $memo_no, $pronote_no = '',$disb_dt);
+		$memo_header = $this->apex_self_model->apex_self_dc_header($ardb_id, $memo_no,$disb_dt);
+		// echo $this->db->last_query();
+		// die();
+		$data['ardb_id'] = $ardb_id;
+		$data['memo_no'] = $memo_no;
+		$data['instl_dt']=$disb_dt;
+		$instl_dt=$disb_dt;
+		$data['details'] = json_encode($details);
+		$data['approve_details'] = json_encode($approve_details);
+		$data['shg_details'] = json_encode($shg_details);
+		$data['memo_header'] = json_encode($memo_header);
+		$data['borrower_details'] = json_encode($borrower_details);
+		$this->load->view('common/header');
+		$this->load->view("apex_self/approve_details", $data);
+		$this->load->view('common/footer');
 	// echo '<pre>'; var_dump($details);exit;
     }
 
-    function forward_data($memo_no) {
+    //function forward_data($memo_no,$disb_dt) {
+	function forward_data() {
 	$ardb_id = $_SESSION['br_id'];
-	if ($this->apex_self_model->forward_data($ardb_id, $memo_no)) {
+	$a1_reason =  $this->input->post('reason');
+	 $qstr = $_GET['qstr'];
+	// die();
+	$memo_no=explode(",",$qstr)[0];
+	$instl_dt=explode(",",$qstr)[1];
+	$a1_reason=explode(",",$qstr)[2];
+    //  echo $instl_dt;
+	//  die();
+	$this->apex_self_model->forward_data($ardb_id, $memo_no,$instl_dt,$a1_reason);
+	// echo $this->db->last_query();
+	// exit;
+	if ($this->apex_self_model->forward_data($ardb_id, $memo_no,$instl_dt,$a1_reason)) {
 	    $this->session->set_flashdata('msg', '<b style:"color:red;">Forwaded Successfully!</b>');
 	    redirect('apex_self/apex_self_approve_view');
 	} else {
@@ -151,9 +186,16 @@ class Apex_self extends CI_Controller {
 	}
     }
 
-    function reject_data($memo_no) {
-	$ardb_id = $_SESSION['br_id'];
-	if ($this->apex_self_model->reject_data($ardb_id, $memo_no)) {
+    function reject_data() {
+	$ardb_id   = $_SESSION['br_id'];
+	$a1_reason = $this->input->post('reason');
+	$qstr = $_GET['qstr'];
+	$memo_no=explode(",",$qstr)[0];
+	$instl_dt=explode(",",$qstr)[1];
+	$a1_reason=explode(",",$qstr)[2];
+	// echo $a1_reason;
+	// die;
+	if ($this->apex_self_model->reject_data($ardb_id, $memo_no,$instl_dt,$a1_reason)) {
 	    $this->session->set_flashdata('msg', '<b style:"color:red;">Rejected Successfully!</b>');
 	    redirect('apex_self/apex_self_approve_view');
 	} else {

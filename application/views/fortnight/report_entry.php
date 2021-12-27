@@ -43,7 +43,7 @@ if ($id > 0) {
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group row">
-                                    <label class="col-sm-5 col-form-label">From Fin Year</label>
+                                    <label class="col-sm-5 col-form-label">Financial Year</label>
                                     <div class="col-sm-7">
                                         <input type="number" class="form-control" name="frm_fin_yr" id="frm_fin_yr" value="<?= $selected ? $selected->frm_fin_yr : CURRENT_YEAR ?>" required="" readonly/>
                                     </div>
@@ -51,7 +51,7 @@ if ($id > 0) {
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group row">
-                                    <label class="col-sm-5 col-form-label">To Fin Year</label>
+                                    <label class="col-sm-5 col-form-label">To</label>
                                     <div class="col-sm-7">
                                         <input type="number" class="form-control" name="to_fin_yr" id="to_fin_yr" value="<?= $selected ? $selected->to_fin_yr : NEXT_YEAR ?>" required="" readonly/>
                                     </div>
@@ -89,33 +89,33 @@ if ($id > 0) {
                                             </tr>
                                             <tr>
                                                 <th></th>
-                                                <th>OD</th>
-                                                <th>CR</th>
-                                                <th colspan="2">Total</th>
+                                                <th>OD( Rs in lacs )</th>
+                                                <th>CR( Rs in lacs )</th>
+                                                <th colspan="2">Total( Rs in lacs )</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Principal</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="dmd_prn_od" id="dmd_prn_od" value="0" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="dmd_prn_cr" id="dmd_prn_cr" value="0" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="dmd_prn_od" id="dmd_prn_od" value="0" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="dmd_prn_cr" id="dmd_prn_cr" value="0" required="" readonly /></div></td>
                                                 <td colspan="2"><div class="form-group"><input type="number" class="form-control" name="dmd_prn_tot" id="dmd_prn_tot" value="0" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Interest</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="dmd_int_od" id="dmd_int_od" value="0" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="dmd_int_cr" id="dmd_int_cr" value="0" required="" readonly /></div></td>
-                                                <td colspan="2"><div class="form-group"><input type="number" class="form-control" name="dmd_int_tot" id="dmd_int_tot" value="0" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="dmd_int_od" id="dmd_int_od" value="0" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="dmd_int_cr" id="dmd_int_cr" value="0" required="" readonly /></div></td>
+                                                <td colspan="2"><div class="form-group"><input type="decimal" class="form-control" name="dmd_int_tot" id="dmd_int_tot" value="0" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center" colspan="3">Total Demand</td>
-                                                <td colspan="2"><div class="form-group"><input type="number" class="form-control" name="tot_dmd" id="tot_dmd" value="0" required="" readonly/></div></td>
+                                                <td colspan="2"><div class="form-group"><input type="decimal" class="form-control" name="tot_dmd" id="tot_dmd" value="0" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center">Advance Principal Recovery</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pri_adv_rec" id="pri_adv_rec" value="0" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pri_adv_rec" id="pri_adv_rec" value="0" required="" readonly/></div></td>
                                                 <td class="text-center" colspan="2">Gross Total Demand</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="gross_tot_dmd" id="gross_tot_dmd" value="0" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="gross_tot_dmd" id="gross_tot_dmd" value="0" required="" readonly/></div></td>
                                             </tr>
                                         </tbody>
                                         <thead>
@@ -124,29 +124,29 @@ if ($id > 0) {
                                             </tr>
                                             <tr>
                                                 <th></th>
-                                                <th>OD</th>
-                                                <th>CR</th>
-                                                <th>ADV</th>
-                                                <th>Total</th>
+                                                <th>OD( Rs in lacs )</th>
+                                                <th>CR( Rs in lacs )</th>
+                                                <th>ADV( Rs in lacs )</th>
+                                                <th>Total( Rs in lacs )</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Principal</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="col_prn_od" id="col_prn_od" value="<?= $selected ? $selected->col_prn_od : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="col_prn_cr" id="col_prn_cr" value="<?= $selected ? $selected->col_prn_cr : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="col_prn_adv" id="col_prn_adv" value="<?= $selected ? $selected->col_prn_adv : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="col_prn_tot" id="col_prn_tot" value="<?= $selected ? $selected->col_prn_tot : '0' ?>" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="col_prn_od" id="col_prn_od" value="<?= $selected ? $selected->col_prn_od : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="col_prn_cr" id="col_prn_cr" value="<?= $selected ? $selected->col_prn_cr : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="col_prn_adv" id="col_prn_adv" value="<?= $selected ? $selected->col_prn_adv : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="col_prn_tot" id="col_prn_tot" value="<?= $selected ? $selected->col_prn_tot : '0' ?>" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Interest</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="col_int_od" id="col_int_od" value="<?= $selected ? $selected->col_int_od : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="col_int_od" id="col_int_od" value="<?= $selected ? $selected->col_int_od : '0' ?>" required="" /></div></td>
                                                 <td colspan="2"><div class="form-group"><input type="number" class="form-control" name="col_int_cr" id="col_int_cr" value="<?= $selected ? $selected->col_int_cr : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="col_int_tot" id="col_int_tot" value="<?= $selected ? $selected->col_int_tot : '0' ?>" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="col_int_tot" id="col_int_tot" value="<?= $selected ? $selected->col_int_tot : '0' ?>" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center" colspan="4">Total Collection</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_colc" id="tot_colc" value="<?= $selected ? $selected->tot_colc : '0' ?>" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="tot_colc" id="tot_colc" value="<?= $selected ? $selected->tot_colc : '0' ?>" required="" readonly/></div></td>
                                             </tr>
                                         </tbody>
                                         <thead>
@@ -155,29 +155,29 @@ if ($id > 0) {
                                             </tr>
                                             <tr>
                                                 <th></th>
-                                                <th>OD</th>
-                                                <th>CR</th>
-                                                <th>ADV</th>
-                                                <th>Total</th>
+                                                <th>OD( Rs in lacs )</th>
+                                                <th>CR( Rs in lacs )</th>
+                                                <th>ADV( Rs in lacs )</th>
+                                                <th>Total( Rs in lacs )</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Principal</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pro_pri_od" id="pro_pri_od" value="0" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pro_pri_cr" id="pro_pri_cr" value="0" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pro_pri_adv" id="pro_pri_adv" value="0" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pro_pri_tot" id="pro_pri_tot" value="0" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pro_pri_od" id="pro_pri_od" value="0" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pro_pri_cr" id="pro_pri_cr" value="0" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pro_pri_adv" id="pro_pri_adv" value="0" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pro_pri_tot" id="pro_pri_tot" value="0" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Interest</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pro_int_od" id="pro_int_od" value="0" required="" readonly /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pro_int_od" id="pro_int_od" value="0" required="" readonly /></div></td>
                                                 <td colspan="2"><div class="form-group"><input type="number" class="form-control" name="pro_int_cr" id="pro_int_cr" value="0" required="" readonly /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pro_int_tot" id="pro_int_tot" value="0" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pro_int_tot" id="pro_int_tot" value="0" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center" colspan="4">Total Collection</td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pro_tot_colc" id="pro_tot_colc" value="0" required="" readonly/></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pro_tot_colc" id="pro_tot_colc" value="0" required="" readonly/></div></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center text-uppercase" colspan="4"><b>% of Recovery (<?= CURRENT_YEAR . '-' . NEXT_YEAR ?>)</b></td>
@@ -362,14 +362,15 @@ if ($id > 0) {
                     var data = $.parseJSON(result);
                     if (data.length > 0) {
                         data = data[0];
-                        $('#pro_pri_od').val(data.pri_od);
-                        $('#pro_pri_cr').val(data.pri_cr);
-                        $('#pro_pri_adv').val(data.pri_adv);
-                        $('#pro_pri_tot').val(data.pri_tot);
-                        $('#pro_int_od').val(data.int_od);
-                        $('#pro_int_cr').val(data.int_cr);
-                        $('#pro_int_tot').val(data.int_tot);
-                        $('#pro_tot_colc').val(data.tot_colc);
+                        parseFloat( $('#pro_pri_od').val(data.pri_od)).toFixed(2);
+                        parseFloat($('#pro_pri_cr').val(data.pri_cr)).toFixed(2);
+                        parseFloat($('#pro_pri_adv').val(data.pri_adv)).toFixed(2);
+                        parseFloat($('#pro_pri_tot').val(data.pri_tot)).toFixed(2);
+                        parseFloat($('#pro_int_od').val(data.int_od)).toFixed(2);
+                        parseFloat($('#pro_int_cr').val(data.int_cr)).toFixed(2);
+                        parseFloat($('#pro_int_tot').val(data.int_tot)).toFixed(2);
+                        parseFloat($('#pro_tot_colc').val(data.tot_colc)).toFixed(2);
+                        
                     }
 //                    else{
 //                        $('#pro_pri_od').val(0);
@@ -386,7 +387,8 @@ if ($id > 0) {
             });
         }
         $('#pri_adv_rec').on('change', function () {
-            $('#gross_tot_dmd').val(parseInt($(this).val()) + parseInt($('#gross_tot_dmd').val()));
+            $(this).val(parseFloat($(this).val()).toFixed(2));
+            $('#gross_tot_dmd').val(parseFloat($(this).val()) + parseFloat($('#gross_tot_dmd').val()));
         });
     </script>
 
@@ -394,81 +396,88 @@ if ($id > 0) {
 ///////////
 
         $('#col_prn_od').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             if ($('#pro_pri_od').val() > 0 && flag > 0) {
                 let a = $('#pro_pri_od').val();
                 let b = $('#col_prn_od').val();
-                let c = parseInt(b) - parseInt(a);
-                $('#pro_pri_od').val(parseInt(c) + parseInt($('#pro_pri_od').val())).change();
+                let c = parseFloat(b) - parseFloat(a);
+                $('#pro_pri_od').val(parseFloat(c) + parseFloat($('#pro_pri_od').val())).change();
             } else {
-                $('#pro_pri_od').val(parseInt($(this).val()) + parseInt($('#pro_pri_od').val())).change();
+                $('#pro_pri_od').val(parseFloat($(this).val()) + parseFloat($('#pro_pri_od').val())).change();
             }
             col_prn_tot($(this).val());
         });
         $('#col_prn_cr').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             if ($('#pro_pri_cr').val() > 0 && flag > 0) {
                 let a = $('#pro_pri_cr').val();
                 let b = $('#col_prn_cr').val();
-                let c = parseInt(b) - parseInt(a);
-                $('#pro_pri_cr').val(parseInt(c) + parseInt($('#pro_pri_cr').val())).change();
+                let c = parseFloat(b) - parseFloat(a);
+                $('#pro_pri_cr').val(parseFloat(c) + parseFloat($('#pro_pri_cr').val())).change();
             } else {
-                $('#pro_pri_cr').val(parseInt($(this).val()) + parseInt($('#pro_pri_cr').val())).change();
+                $('#pro_pri_cr').val(parseFloat($(this).val()) + parseFloat($('#pro_pri_cr').val())).change();
             }
             col_prn_tot($(this).val());
         });
         $('#col_prn_adv').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             $('#pri_adv_rec').val($(this).val()).change();
             if ($('#pro_pri_adv').val() > 0 && flag > 0) {
                 let a = $('#pro_pri_adv').val();
                 let b = $('#col_prn_adv').val();
-                let c = parseInt(b) - parseInt(a);
-                $('#pro_pri_adv').val(parseInt(c) + parseInt($('#pro_pri_adv').val())).change();
+                let c = parseFloat(b) - parseFloat(a);
+                $('#pro_pri_adv').val(parseFloat(c) + parseFloat($('#pro_pri_adv').val())).change();
             } else {
-                $('#pro_pri_adv').val(parseInt($(this).val()) + parseInt($('#pro_pri_adv').val())).change();
+                $('#pro_pri_adv').val(parseFloat($(this).val()) + parseFloat($('#pro_pri_adv').val())).change();
             }
             col_prn_tot($(this).val());
             tot_colc($(this).val());
         });
         function col_prn_tot() {
-            var count = parseInt($('#col_prn_od').val()) + parseInt($('#col_prn_cr').val()) + parseInt($('#col_prn_adv').val());
+            var count = parseFloat($('#col_prn_od').val()) + parseFloat($('#col_prn_cr').val()) + parseFloat($('#col_prn_adv').val());
+            // count=count.toFixed(2);
             $('#col_prn_tot').val(count);
         }
 
 ////
 
         $('#col_int_od').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             if ($('#pro_int_od').val() > 0 && flag > 0) {
                 let a = $('#pro_int_od').val();
                 let b = $('#col_int_od').val();
-                let c = parseInt(b) - parseInt(a);
-                $('#pro_int_od').val(parseInt(c) + parseInt($('#pro_int_od').val())).change();
+                let c = parseFloat(b) - parseFloat(a);
+                $('#pro_int_od').val(parseFloat(c) + parseFloat($('#pro_int_od').val())).change();
             } else {
-                $('#pro_int_od').val(parseInt($(this).val()) + parseInt($('#pro_int_od').val())).change();
+                $('#pro_int_od').val(parseFloat($(this).val()) + parseFloat($('#pro_int_od').val())).change();
             }
             col_int_tot($(this).val());
         });
         $('#col_int_cr').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             if ($('#pro_int_cr').val() > 0 && flag > 0) {
                 let a = $('#pro_int_cr').val();
                 let b = $('#col_int_cr').val();
-                let c = parseInt(b) - parseInt(a);
-                $('#pro_int_cr').val(parseInt(c) + parseInt($('#pro_int_cr').val())).change();
+                let c = parseFloat(b) - parseFloat(a);
+                $('#pro_int_cr').val(parseFloat(c) + parseFloat($('#pro_int_cr').val())).change();
             } else {
-                $('#pro_int_cr').val(parseInt($(this).val()) + parseInt($('#pro_int_cr').val())).change();
+                $('#pro_int_cr').val(parseFloat($(this).val()) + parseFloat($('#pro_int_cr').val())).change();
             }
             col_int_tot($(this).val());
             tot_colc($(this).val());
             recov_per($(this).val());
         });
         function col_int_tot() {
-            var count = parseInt($('#col_int_od').val()) + parseInt($('#col_int_cr').val());
+            var count = parseFloat($('#col_int_od').val()) + parseFloat($('#col_int_cr').val());
             $('#col_int_tot').val(count);
         }
         function tot_colc() {
-            var count = parseInt($('#col_prn_tot').val()) + parseInt($('#col_int_tot').val());
+            var count = parseFloat($('#col_prn_tot').val()) + parseFloat($('#col_int_tot').val());
+            count=count.toFixed(2);
             $('#tot_colc').val(count);
         }
         function recov_per() {
-            var count = (parseInt($('#pro_tot_colc').val()) / parseInt($('#tot_dmd').val())) * 100;
+            var count = (parseFloat($('#pro_tot_colc').val()) / parseFloat($('#tot_dmd').val())) * 100;
             $('#recov_per').val(count.toFixed(2));
         }
 ///////
@@ -481,26 +490,28 @@ if ($id > 0) {
             col_per($(this).val());
         });
         function prv_yr_dmd_tot() {
-            var count = parseInt($('#prv_yr_dmd_prn').val()) + parseInt($('#prv_yr_dmd_int').val());
+            var count = parseFloat($('#prv_yr_dmd_prn').val()) + parseFloat($('#prv_yr_dmd_int').val());
             $('#prv_yr_dmd_tot').val(count);
         }
 
 /////////
 
         $('#prv_yr_col_prn').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             prv_yr_col_tot($(this).val());
         });
         $('#prv_yr_col_int').on('change', function () {
+            $(this).val(parseFloat($(this).val()).toFixed(2));
             prv_yr_col_tot($(this).val());
             col_per($(this).val());
         });
         function prv_yr_col_tot() {
-            var count = parseInt($('#prv_yr_col_prn').val()) + parseInt($('#prv_yr_col_int').val());
+            var count = parseFloat($('#prv_yr_col_prn').val()) + parseFloat($('#prv_yr_col_int').val());
             $('#prv_yr_col_tot').val(count);
         }
 
         function col_per() {
-            var count = parseInt($('#prv_yr_dmd_tot').val()) + parseInt($('#prv_yr_col_tot').val());
+            var count = parseFloat($('#prv_yr_dmd_tot').val()) + parseFloat($('#prv_yr_col_tot').val());
             $('#col_per').val(count / 100);
         }
     </script>
@@ -508,6 +519,7 @@ if ($id > 0) {
     <script>
         /////// PROGRASIVE PRINCIPAL
         $('#pro_pri_od').on('change', function () {
+            
             prog_pri_tot();
         });
         $('#pro_pri_cr').on('change', function () {
@@ -517,7 +529,7 @@ if ($id > 0) {
             prog_pri_tot();
         });
         function prog_pri_tot() {
-            var count = parseInt($('#pro_pri_od').val()) + parseInt($('#pro_pri_cr').val()) + parseInt($('#pro_pri_adv').val());
+            var count = parseFloat($('#pro_pri_od').val()) + parseFloat($('#pro_pri_cr').val()) + parseFloat($('#pro_pri_adv').val());
             $('#pro_pri_tot').val(count);
             count_pro_tot_colc();
         }
@@ -530,13 +542,13 @@ if ($id > 0) {
             prog_int_tot();
         });
         function prog_int_tot() {
-            var count = parseInt($('#pro_int_od').val()) + parseInt($('#pro_int_cr').val());
+            var count = parseFloat($('#pro_int_od').val()) + parseFloat($('#pro_int_cr').val());
             $('#pro_int_tot').val(count);
             count_pro_tot_colc();
         }
 
         function count_pro_tot_colc() {
-            var count = parseInt($('#pro_pri_tot').val()) + parseInt($('#pro_int_tot').val());
+            var count = parseFloat($('#pro_pri_tot').val()) + parseFloat($('#pro_int_tot').val());
             $('#pro_tot_colc').val(count);
         }
     </script>

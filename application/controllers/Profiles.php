@@ -39,6 +39,8 @@ class Profiles extends CI_Controller {
 
 			$password = password_hash($newPass, PASSWORD_DEFAULT);
             $msgPass = $this->Profile->editPassProcess($password);
+            // echo $this->db->last_query();
+            // exit;
             //Setting Messages
             $message    =   array( 
                     

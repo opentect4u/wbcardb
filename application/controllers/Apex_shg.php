@@ -42,8 +42,8 @@ class Apex_shg extends CI_Controller {
         $apex_shg = array();
         if ($memo_no > 0 && $memo_no != '' || $pronote_no > 0 && $pronote_no != '') {
             $apex_shg = $this->apex_shg_model->apex_edit($ardb_id, $memo_no, $pronote_no);
-//            var_dump($apex_shg);
-//            exit;
+        //    var_dump($apex_shg);
+        //    exit;
             $borrower_details = $this->apex_shg_model->borrower_details($ardb_id, $memo_no, $pronote_no);
             foreach ($borrower_details as $dt) {
                 $selected = array(
@@ -119,16 +119,21 @@ class Apex_shg extends CI_Controller {
 
     function approve_details($memo_no) {
         $ardb_id = $_SESSION['br_id'];
+        
         $details = array();
         $approve_details = $this->apex_shg_model->approve_view($ardb_id, $memo_no);
         $shg_details = $this->apex_shg_model->apex_edit($ardb_id, $memo_no, $pronote_no = '');
+        $memo_header = $this->apex_shg_model->apex_shg_dc_header($ardb_id, $memo_no);
+        // echo $this->db->last_query();
+        // die();
+        
         $borrower_details = $this->apex_shg_model->borrower_details($ardb_id, $memo_no, $pronote_no = '');
         $data['ardb_id'] = $ardb_id;
         $data['memo_no'] = $memo_no;
         $data['details'] = json_encode($details);
         $data['approve_details'] = json_encode($approve_details);
         $data['shg_details'] = json_encode($shg_details);
-//        $data['memo_header'] = json_encode($memo_header);
+      $data['memo_header'] = json_encode($memo_header);
         $data['borrower_details'] = json_encode($borrower_details);
 //        $data['gt_details'] = json_encode($gt_details);
         $this->load->view('common/header');
@@ -137,9 +142,30 @@ class Apex_shg extends CI_Controller {
         // echo '<pre>'; var_dump($details);exit;
     }
 
-    function forward_data($memo_no) {
+
+    function apex_self_dc_header($ardb_id, $memo_no) {
+
+		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
+		FLOOR(sum(a.inst_amt)) as tot_amt FROM td_apex_self shg ,td_apex_self_dis a
+		WHERE shg.ardb_id=a.ardb_id and shg.pronote_no=a.pronote_no and shg.ardb_id=' . $ardb_id . ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY shg.memo_no, shg.memo_no ORDER by shg.memo_no';
+	
+		$data = $this->db->query($sql);
+	
+	// 	echo $this->db->last_query();exit;
+	// die();
+		return $data->result();
+	
+		}
+    function forward_data() {
         $ardb_id = $_SESSION['br_id'];
-        if ($this->apex_shg_model->forward_data($ardb_id, $memo_no)) {
+        $a1_reason =  $this->input->post('reason');
+        $qstr = $_GET['qstr'];
+       
+       $memo_no=explode(",",$qstr)[0];
+       $a1_reason=explode(",",$qstr)[1];
+        if ($this->apex_shg_model->forward_data($ardb_id, $memo_no,$a1_reason)) {
+            // echo $this->db->last_query();
+            // exit;
             $this->session->set_flashdata('msg', '<b style:"color:red;">Forwaded Successfully!</b>');
             redirect('apex_shg/apex_approve_view');
         } else {
@@ -148,9 +174,17 @@ class Apex_shg extends CI_Controller {
         }
     }
 
-    function reject_data($memo_no) {
+    function reject_data() {
         $ardb_id = $_SESSION['br_id'];
-        if ($this->apex_shg_model->reject_data($ardb_id, $memo_no)) {
+        $a1_reason =  $this->input->post('reason');
+        $qstr = $_GET['qstr'];
+       
+       $memo_no=explode(",",$qstr)[0];
+       $a1_reason=explode(",",$qstr)[1];
+
+        //  echo $a1_reason;
+	    // die;
+        if ($this->apex_shg_model->reject_data($ardb_id, $memo_no,$a1_reason)) {
             $this->session->set_flashdata('msg', '<b style:"color:red;">Rejected Successfully!</b>');
             redirect('apex_shg/apex_approve_view');
         } else {

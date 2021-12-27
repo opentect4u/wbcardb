@@ -14,6 +14,7 @@ class Dc_self extends CI_Controller {
 
         //For Individual Functions
         $this->load->model('ho/dc_self_model');
+        $this->load->model('process');
         $this->load->helper('url');
         $this->load->library('zip');
         $this->load->helper('download');
@@ -116,10 +117,19 @@ class Dc_self extends CI_Controller {
 
     function dc_save() {
         // redirect('dc/dc_view');
+        // $_SESSION
+        $data1 = $this->Process->userInf($userId);
+        $user_id=$_SESSION['user_id'] = $data->user_id;
+        $psw=$_SESSION['password'] = $data->password;
+        $br= $_SESSION['br_id'] = $data->br_id;
+
         $data = $this->input->post();
         if ($this->dc_self_model->dc_save($data)) {
             $this->session->set_flashdata('msg', '<b style:"color:green;">Successfully added!</b>');
-            redirect('ho/dc_self');
+            if ($br==$data1->br_id) {
+                redirect('ho/dc_self');
+            }
+            // redirect('ho/dc_self');
         } else {
             $this->session->set_flashdata('msg', '<b style:"color:red;">Something Went Wrong!</b>');
             redirect('ho/dc_self');
@@ -343,8 +353,8 @@ class Dc_self extends CI_Controller {
         date_default_timezone_set('Asia/Kolkata');
         $timestamp = date('Y-m-d_his');
         $report_type = 'selfdc';
-        $file_name = $ardb_name . '_' . $report_type . '_' . $timestamp . '.csv';
-
+        // $file_name = $ardb_name . '_' . $report_type . '_' . $timestamp . '.csv';
+        $file_name = $report_type . '_' . $ardb_name . '_' . $timestamp . '.csv';
         // Create temporary file
         $local_file = fopen('php://temp', 'r+');
         fwrite($local_file, $data);

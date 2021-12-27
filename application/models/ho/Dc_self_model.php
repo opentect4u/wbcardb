@@ -393,7 +393,14 @@ class Dc_self_Model extends CI_Model {
     }
 
     function get_shg_dc_header($ardb_id, $memo_no) {
-        $sql = 'SELECT DISTINCT s.ardb_id, s.memo_no, se.sector_name, COUNT(s.pronote_no) as tot_pronote FROM td_dc_self s JOIN md_sector se ON s.sector_code=se.sector_code WHERE s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY s.ardb_id, s.memo_no, se.sector_code ORDER by s.memo_no';
+        // $sql = 'SELECT DISTINCT s.ardb_id, s.memo_no, se.sector_name, COUNT(s.pronote_no) as tot_pronote 
+        // FROM td_dc_self s JOIN md_sector se ON s.sector_code=se.sector_code WHERE s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY s.ardb_id, s.memo_no, se.sector_code ORDER by s.memo_no';
+
+        $sql = 'select DISTINCT s.memo_no, se.sector_name, COUNT(distinct s.pronote_no) as tot_pronote,sum(a.dis_total) as tot_amt
+	 FROM td_dc_self s , md_sector se ,td_dc_self_dtls a
+	 where s.sector_code=se.sector_code  
+	 and s.pronote_no=a.pronote_no  and s.ardb_id=a.ardb_id and s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY s.memo_no, s.memo_no, se.sector_name ORDER by s.memo_no';
+
         $data = $this->db->query($sql);
         // echo $this->db->last_query();exit;
         return $data->result();
@@ -501,7 +508,7 @@ class Dc_self_Model extends CI_Model {
         $this->load->dbutil();
         $sql = 'SELECT s.ardb_id, s.memo_no, s.sector_code, s.pronote_no, DATE_FORMAT(STR_TO_DATE(s.pronote_date,"%Y-%m-%d"), "%d/%m/%Y")pronote_date, s.purpose_code, '
                 . 'IF(s.gender_id="1", "M", "F") as gender, s.roi, s.moratorium_period, s.repayment_no, DATE_FORMAT(STR_TO_DATE(dt.bod_sanc_dt,"%Y-%m-%d"), "%d/%m/%Y")bod_sanc_dt, '
-                . 'DATE_FORMAT(STR_TO_DATE(dt.due_dt,"%Y-%m-%d"), "%d/%m/%Y")due_dt, dt.brrwr_sl_no, dt.project_cost, dt.sanc_block, dt.sanc_working, dt.sanc_total, '
+                . ' "" as due_dt, dt.brrwr_sl_no, dt.project_cost, dt.sanc_block, dt.sanc_working, dt.sanc_total, '
                 . 'dt.dis_block, dt.dis_working, dt.dis_total, dt.own_cont, dt.sub_received, dt.sub_receivable, '
                 . 'dt.tot_loan_amt, dt.lof_mort, dt.af_culti, dt.sec_land, dt.sec_oth, dt.sec_tot, '
                 . 'dt.igo_loan, dt.tot_mordg_bond, b.tot_memb, b.tot_borrower, b.tot_male, '

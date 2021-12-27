@@ -4,8 +4,10 @@ if ($br_id > 0) {
     $CI = & get_instance();
     $CI->load->model('notification_model');
     $dc_reject_status = $CI->notification_model->get_dc_reject_status($br_id);
+    $dc_fwrd_status   = $CI->notification_model->get_dc_fwrd_status($br_id);
 } else {
     $dc_reject_status = array('dc_shg' => 0, 'dc_self' => 0, 'apex_dc_shg' => 0, 'apex_dc_self' => 0);
+    $dc_fwrd_status = array('dc_shg' => 0, 'dc_self' => 0, 'apex_dc_shg' => 0, 'apex_dc_self' => 0);
 }
 //var_dump($dc_reject_status['dc_shg']);
 //exit;
@@ -72,7 +74,7 @@ if ($br_id > 0) {
                             </a>
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown" id="custom_notif">
                                 <p class="mb-0 font-weight-normal float-left dropdown-header" id="noti_leb">Notifications</p>
-                                <?php if ($dc_reject_status['dc_shg'] > 0) { ?>
+                                <?php if ($dc_reject_status['dc_shg'] > 0 ) { ?>
                                     <a href="<?= base_url() ?>index.php/dc/dc_view" class="dropdown-item preview-item">
                                         <div class="preview-thumbnail">
                                             <div class="preview-icon bg-danger">
@@ -81,6 +83,7 @@ if ($br_id > 0) {
                                         </div>
                                         <div class="preview-item-content">
                                             <h6 class="preview-subject font-weight-normal"><?= $dc_reject_status['dc_shg'] ?> Pronote<span class="text-small">(DC SHG)</span> Is Rejected</h6>
+                                            <!-- <h6 class="preview-subject font-weight-normal"><?= $dc_fwrd_status['dc_shg'] ?> Pronote<span class="text-small">(DC SHG)</span> Is Forworded</h6> -->
                                             <p class="font-weight-light small-text mb-0 text-muted">
                                                 Just now
                                             </p>
@@ -131,6 +134,67 @@ if ($br_id > 0) {
                                             </p>
                                         </div>
                                     </a>
+                                    <?php } if ($dc_fwrd_status['dc_shg'] > 0) {
+                                    ?>
+                                    <a href="<?= base_url() ?>index.php/dc/dc_view" class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-danger">
+                                                <i class="mdi mdi-information mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <h6 class="preview-subject font-weight-normal"><?=$dc_fwrd_status['dc_shg'] ?> Pronote<span class="text-small">(DC SHG)</span> Is Forworded</h6>
+                                            <p class="font-weight-light small-text mb-0 text-muted">
+                                                Just now
+                                            </p>
+                                        </div>
+                                    </a>
+                                    <?php } if ($dc_fwrd_status['dc_self'] > 0) {
+                                    ?>
+                                    <a href="<?= base_url() ?>index.php/dc_self" class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-danger">
+                                                <i class="mdi mdi-information mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <h6 class="preview-subject font-weight-normal"><?=$dc_fwrd_status['dc_self'] ?> Pronote<span class="text-small">(DC Others)</span> Is Forworded</h6>
+                                            <p class="font-weight-light small-text mb-0 text-muted">
+                                                Just now
+                                            </p>
+                                        </div>
+                                    </a>
+                                    <?php } if ($dc_fwrd_status['apex_dc_shg'] > 0) {
+                                    ?>
+                                    <a href="<?= base_url() ?>index.php/apex_shg/apex_view" class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-danger">
+                                                <i class="mdi mdi-information mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <h6 class="preview-subject font-weight-normal"><?=$dc_fwrd_status['apex_dc_shg'] ?> Pronote<span class="text-small">(APEX DC SHG)</span> Is Forworded</h6>
+                                            <p class="font-weight-light small-text mb-0 text-muted">
+                                                Just now
+                                            </p>
+                                        </div>
+                                    </a>
+                                    <?php } if ($dc_fwrd_status['apex_dc_self'] > 0) {
+                                    ?>
+                                    <a href="<?= base_url() ?>index.php/apex_self/apex_self_view" class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-danger">
+                                                <i class="mdi mdi-information mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <h6 class="preview-subject font-weight-normal"><?=$dc_fwrd_status['apex_dc_self'] ?> Pronote<span class="text-small">(APEX DC Others)</span> Is Forworded</h6>
+                                            <p class="font-weight-light small-text mb-0 text-muted">
+                                                Just now
+                                            </p>
+                                        </div>
+                                    </a>
+
                                 <?php } ?>
                             </div>
                         </li>
@@ -458,7 +522,7 @@ if ($br_id > 0) {
                                         <?php if ($_SESSION['user_type'] == "P" || $_SESSION['user_type'] == "V") { ?>
                                             <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('user'); ?>">Create User</a></li>
                                         <?php } ?>
-                                        <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles'); ?>">Chage Password</a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles'); ?>">Change Password</a></li>
                                         <!-- <li class="nav-item"><a class="nav-link" href="../../pages/forms/text_editor.html">Text editors</a></li>
                                         <li class="nav-item"><a class="nav-link" href="../../pages/forms/code_editor.html">Code editors</a></li> -->
                                     </ul>
@@ -756,7 +820,7 @@ if ($br_id > 0) {
                                             <?php if ($_SESSION['user_type'] == "P" || $_SESSION['user_type'] == "V" || $_SESSION['user_type'] == "A") { ?>
                                                 <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('ho/admins'); ?>">User Create</a></li>
                                                 <!--<li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/Admins/f_define_users');                                                                     ?>">No of Users</a></li>-->
-                                                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles'); ?>">Chage Password</a></li>
+                                                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles'); ?>">Change Password</a></li>
                                             <?php } ?>
 
                                         </ul>
@@ -774,7 +838,7 @@ if ($br_id > 0) {
                                     <div class="collapse" id="editors">
                                         <ul class="nav flex-column sub-menu">
                                                 <!--<li class="nav-item"> <a class="nav-link" href="<?php //echo site_url('ho/Admins/f_define_users');                                                                     ?>">No of Users</a></li>-->
-                                            <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles'); ?>">Chage Password</a></li>
+                                            <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('profiles'); ?>">Change Password</a></li>
                                         </ul>
                                     </div>
                                 </li>

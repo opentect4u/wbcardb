@@ -34,7 +34,7 @@ $approve_details = json_decode($approve_details);
                                         </tr>
                                         <tr>
                                             <td>Total Amount of Requisition :-</td>
-                                            <td class="pull-left"></td>
+                                            <td class="pull-left"><?= $memo_header[0]->tot_amt ?></td>
                                         </tr>
                                         <tr>
                                             <td>Total No. of Pronote :-</td>
@@ -49,7 +49,7 @@ $approve_details = json_decode($approve_details);
                         </div>
                         <div class="row">
                             <div class="col-md-12 pt-5">
-                                <center><h4>Loan Requisition Cum Disbursement Certificate For Self Sanction Cases(Only for Selp Help Group/s)</h4></center>
+                                <center><h4>Loan Requisition Cum Disbursement Certificate For Self Sanction Cases(Other Than Self Help Group/s)</h4></center>
                             </div>
                         </div>
                         <div class="row">

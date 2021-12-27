@@ -88,7 +88,7 @@ if ($id > 0) {
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Rate of Interest (%)</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="rete_of_interest" id="rate_of_interest" value="<?= $selected ? $selected->roi : '0' ?>" required="">
+                                        <input type="decimal" class="form-control" name="rete_of_interest" id="rate_of_interest" value="<?= $selected ? $selected->roi : '0' ?>" oninput="validate(this)" required="">
                                     </div>
                                 </div>
                             </div>
@@ -158,26 +158,28 @@ if ($id > 0) {
                                     <tr>
                                         <th>BOD Sanction Date</th>
                                         <th>Due Date</th>
-                                        <th>Borrower<br> SL. No.</th>
-                                        <!-- <th>Rate of <br>Interest <br>(%)</th> -->
+                                        <th>Loan Id.</th>
+                                        <th>Cust Name.</th>
                                         <th>Project Cost</th>
                                         <th>Sanction Block</th>
                                         <th>Sanction Working</th>
-                                        <th>Sanction Total</th>
+                                        <th>Sanction Total<br>(Rs.)</th>
                                         <th>Disbursement Block</th>
                                         <th>Disbursement<br>Working</th>
-                                        <th>Disbursement<br>Total</th>
+                                        <th>Disbursement<br>Total<br>(Rs.)</th>
                                         <th>Total Own <br>Contribution <br>(Rs.)</th>
                                         <th>Subsidy<br>Received<br>(If Any)</th>
                                         <th>Subsidy<br>Receivable<br>(If Any)</th>
                                         <th>Total Loan<br>Amount<br>(Rs.)</th>
-                                        <th>Total Land<br>offered for<br>Mortgage</th>
+                                        <th>Total Land<br>offered for<br>Mortgage<br>(Acre)</th>
                                         <th>Total Area<br>for cultivation<br>(Acre)</th>
                                         <th>Security Land<br>Value<br>(Rs.)</th>
                                         <th>Security Other<br>Value<br>(Rs.)</th>
                                         <th>Security Total<br>Value<br>(Rs.)</th>
-                                        <th>Income<br>Generated<br>out of Loan</th>
+                                        <th>Income<br>Generated<br>out of Loan<br>(Rs.)</th>
                                         <th>Total<br>Mortgage<br>Bond</th>
+                                        <th>Mortgage<br>Bond No</th>
+                                        <th>Mortgage<br>Bond Date</th>
                                         <th><button type="button" class="btn btn-success" id="dynamic_add"><i class="fa fa-plus"></i></button></th>
                                     </tr>
                                 </thead>
@@ -187,26 +189,27 @@ if ($id > 0) {
                                         $i = 1;
                                         foreach ($dc_shg_dtls as $dt) {
                                             echo '<tr id="row_' . $i . '">';
-                                            echo '<td><div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' . $i . '" value="' . $dt->bod_sanc_dt . '" /></div>
+                                            echo '<td><div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' . $i . '" value="' . $dt->bod_sanc_dt . '" value="0" onchange="checkbod_dt(' . $i . ')"/></div>
                                     </td>
                                     <td>
                                       <div class="form-group"><input type="date" class="form-control required" name="due_date[]" id="due_date_' . $i . '" value="' . $dt->due_dt . '" readonly /></div>
                                     </td>
                                     <td>
                                       <div class="form-group"><input type="text" class="form-control width-th required" name="brrwr_sl_no[]" id="brrwr_sl_no_' . $i . '" value="' . $dt->brrwr_sl_no . '" /></div>
-                                    </td>';
+                                    </td>
+                                    <td><div class="form-group"><input type="text" class="form-control width-th " name="cust_name[]" id="cust_name_' . $i . '" value="' . $dt->cust_name . '" /></div></td>';
                                             // echo '<td><div class="form-group"><input type="text" class="form-control width-th required" name="rate_of_interest[]" id="rate_of_interest_' . $i . '" value="' . $dt->roi . '" /></div></td>';
                                             echo '<td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="project_cost[]" id="project_cost_' . $i . '" value="' . $dt->project_cost . '" /></div>
+                                      <div class="form-group"><input type="number" class="form-control width-th required" name="project_cost[]" id="project_cost_' . $i . '" value="' . $dt->project_cost . '" value="0" onchange="pro_cost(' . $i . ')"/></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_block[]" id="sanction_block_' . $i . '" value="' . $dt->sanc_block . '" value="0" onchange="count_sanc_tot(' . $i . ')" /></div>
+                                      <div class="form-group"><input type="number" class="form-control width-th required" name="sanction_block[]" id="sanction_block_' . $i . '" value="' . $dt->sanc_block . '" value="0" onchange="count_sanc_tot(' . $i . ')" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_working[]" id="sanction_working_' . $i . '" value="' . $dt->sanc_working . '" value="0" onchange="count_sanc_tot(' . $i . ')" /></div>
+                                      <div class="form-group"><input type="number" class="form-control width-th required" name="sanction_working[]" id="sanction_working_' . $i . '" value="' . $dt->sanc_working . '" value="0" onchange="count_sanc_tot(' . $i . ')" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_total[]" id="sanction_total_' . $i . '" value="' . $dt->sanc_total . '" onchange="check_amt(' . $i . ')" /></div>
+                                      <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_total[]" id="sanction_total_' . $i . '" value="' . $dt->sanc_total . '" onchange="check_amt(' . $i . ')" readonly/></div>
                                     </td>
                                     <td>
                                       <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_block[]" id="disbursement_block_' . $i . '" value="' . $dt->dis_block . '" value="0" onchange="count_dis_tot(' . $i . ')" /></div>
@@ -215,34 +218,34 @@ if ($id > 0) {
                                       <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_working[]" id="disbursement_working_' . $i . '" value="' . $dt->dis_working . '" value="0" onchange="count_dis_tot(' . $i . ')" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_total[]" id="disbursement_total_' . $i . '" value="' . $dt->dis_total . '" /></div>
+                                      <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_total[]" id="disbursement_total_' . $i . '" value="' . $dt->dis_total . '" readonly/></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="own_contribution[]" id="own_contribution_' . $i . '" value="' . $dt->own_cont . '" /></div>
+                                      <div class="form-group"><input type="number" class="form-control width-th required" name="own_contribution[]" id="own_contribution_' . $i . '" value="' . $dt->own_cont . '" value="0" onchange="count_own_tot(' . $i . ')" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="subsidy_received[]" id="subsidy_received_' . $i . '" value="' . $dt->sub_received . '" /></div>
+                                      <div class="form-group"><input type="number" class="form-control width-th required" name="subsidy_received[]" id="subsidy_received_' . $i . '" value="' . $dt->sub_received . '" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="subsidy_receivable[]" id="subsidy_receivable_' . $i . '" value="' . $dt->sub_receivable . '" /></div>
+                                      <div class="form-group"><input type="number" class="form-control width-th required" name="subsidy_receivable[]" id="subsidy_receivable_' . $i . '" value="' . $dt->sub_receivable . '" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="total_loan_amount[]" id="total_loan_amount_' . $i . '" value="' . $dt->tot_loan_amt . '" /></div>
+                                      <div class="form-group"><input type="number" class="form-control width-th required" name="total_loan_amount[]" id="total_loan_amount_' . $i . '" value="' . $dt->tot_loan_amt . '" value="0" onchange="count_loan_amt(' . $i . ')"/></div>
                                     </td>
                                     <td>
                                       <div class="form-group"><input type="text" class="form-control width-th required" name="lof_mortgage[]" id="lof_mortgage_' . $i . '" value="' . $dt->lof_mort . '" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="af_cultivation[]" id="af_cultivation_' . $i . '" value="' . $dt->af_culti . '" /></div>
+                                      <div class="form-group"><input type="decimal" class="form-control width-th required" name="af_cultivation[]" id="af_cultivation_' . $i . '" value="' . $dt->af_culti . '" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="security_land[]" id="security_land_' . $i . '" value="' . $dt->sec_land . '" /></div>
+                                      <div class="form-group"><input type="text" class="form-control width-th required" name="security_land[]" id="security_land_' . $i . '" value="' . $dt->sec_land . '" value="0" onchange="count_securti_tot(' . $i . ')" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="security_other[]" id="security_other_' . $i . '" value="' . $dt->sec_oth . '" /></div>
+                                      <div class="form-group"><input type="text" class="form-control width-th required" name="security_other[]" id="security_other_' . $i . '" value="' . $dt->sec_oth . '"  value="0" onchange="count_securti_tot(' . $i . ')" /></div>
                                     </td>
                                     <td>
-                                      <div class="form-group"><input type="text" class="form-control width-th required" name="security_total[]" id="security_total_' . $i . '" value="' . $dt->sec_tot . '" /></div>
+                                      <div class="form-group"><input type="text" class="form-control width-th required" name="security_total[]" id="security_total_' . $i . '" value="' . $dt->sec_tot . '" readonly/></div>
                                     </td>
                                     <td>
                                       <div class="form-group"><input type="text" class="form-control width-th required" name="igo_loan[]" id="igo_loan_' . $i . '" value="' . $dt->igo_loan . '" /></div>
@@ -250,6 +253,12 @@ if ($id > 0) {
                                     <td>
                                       <div class="form-group"><input type="text" class="form-control width-th required" name="tg_bond[]" id="tg_bond_' . $i . '" value="' . $dt->tot_mordg_bond . '" /></div>
                                     </td>
+                                    <td>
+                                    <div class="form-group"><input type="text" class="form-control width-th " name="reg_m_bond_no[]" id="reg_m_bond_no_' . $i . '" value="' . $dt->reg_m_bond_no . '" /></div>
+                                  </td>
+                                  <td>
+                                  <div class="form-group"><input type="date" class="form-control width-th " name="reg_m_bond_dt[]" id="reg_m_bond_dt_' . $i . '" value="' . $dt->reg_m_bond_dt . '" /></div>
+                                </td>
                                     <td><button type="button" id="remove_' . $i . '" class="btn btn-danger" onclick="_delete(' . $i . ')"><i class="fa fa-remove"></i></button></td>';
                                             echo '</tr>';
                                             $i++;
@@ -258,7 +267,7 @@ if ($id > 0) {
                                         ?>
                                         <tr id="row_1">
                                             <td>
-                                                <div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_1" value="<?= date('Y-m-d') ?>" /></div>
+                                                <div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_1" value="<?= date('Y-m-d') ?>" onchange="checkbod_dt(1)"/></div>
                                             </td>
                                             <td>
                                                 <div class="form-group"><input type="date" class="form-control required" name="due_date[]" id="due_date_1" value="" readonly/></div>
@@ -266,62 +275,68 @@ if ($id > 0) {
                                             <td>
                                                 <div class="form-group"><input type="text" class="form-control width-th required" name="brrwr_sl_no[]" id="brrwr_sl_no_1" value="" /></div>
                                             </td>
-                                            <!-- <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="rate_of_interest[]" id="rate_of_interest_1" value="" /></div>
-                                            </td> -->
+                                            <td><div class="form-group"><input type="text" class="form-control width-th " name="cust_name[]" id="cust_name_1" value="" /></div></td>
+                                            
+                                           
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="project_cost[]" id="project_cost_1" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="project_cost[]" id="project_cost_1" value="0" onchange="pro_cost(1)" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_block[]" id="sanction_block_1" value="0" onchange="count_sanc_tot(1)" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="sanction_block[]" id="sanction_block_1" value="0" onchange="count_sanc_tot(1)" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_working[]" id="sanction_working_1" value="0" onchange="count_sanc_tot(1)" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="sanction_working[]" id="sanction_working_1" value="0" onchange="count_sanc_tot(1)" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_total[]" id="sanction_total_1" onchange="check_amt(1)" /></div>
+                                                <div class="form-group"><input type="text" class="form-control width-th required" name="sanction_total[]" id="sanction_total_1" onchange="check_amt(1)" readonly /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_block[]" id="disbursement_block_1" value="0" onchange="count_dis_tot(1)" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="disbursement_block[]" id="disbursement_block_1" value="0" onchange="count_dis_tot(1)" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_working[]" id="disbursement_working_1" value="0" onchange="count_dis_tot(1)" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="disbursement_working[]" id="disbursement_working_1" value="0" onchange="count_dis_tot(1)" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_total[]" id="disbursement_total_1" readonly /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="disbursement_total[]" id="disbursement_total_1" readonly /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="own_contribution[]" id="own_contribution_1" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="own_contribution[]" id="own_contribution_1" value="0" onchange="count_own_tot(1)"/></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="subsidy_received[]" id="subsidy_received_1" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="subsidy_received[]" id="subsidy_received_1" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="subsidy_receivable[]" id="subsidy_receivable_1" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="subsidy_receivable[]" id="subsidy_receivable_1" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="total_loan_amount[]" id="total_loan_amount_1" /></div>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="total_loan_amount[]" id="total_loan_amount_1"  value="0" onchange="count_loan_amt(1)" /></div>
                                             </td>
                                             <td>
                                                 <div class="form-group"><input type="text" class="form-control width-th required" name="lof_mortgage[]" id="lof_mortgage_1" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="af_cultivation[]" id="af_cultivation_1" /></div>
+                                                <div class="form-group"><input type="decimal" class="form-control width-th required" name="af_cultivation[]" id="af_cultivation_1" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="security_land[]" id="security_land_1" /></div>
+                                                <div class="form-group"><input type="text" class="form-control width-th required" name="security_land[]" id="security_land_1" value="0" onchange="count_securti_tot(1)"/></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="security_other[]" id="security_other_1" /></div>
+                                                <div class="form-group"><input type="text" class="form-control width-th required" name="security_other[]" id="security_other_1" value="0" onchange="count_securti_tot(1)" /></div>
                                             </td>
                                             <td>
-                                                <div class="form-group"><input type="text" class="form-control width-th required" name="security_total[]" id="security_total_1" /></div>
+                                                <div class="form-group"><input type="text" class="form-control width-th required" name="security_total[]" id="security_total_1" readonly/></div>
                                             </td>
                                             <td>
                                                 <div class="form-group"><input type="text" class="form-control width-th required" name="igo_loan[]" id="igo_loan_1" /></div>
                                             </td>
                                             <td>
                                                 <div class="form-group"><input type="text" class="form-control width-th required" name="tg_bond[]" id="tg_bond_1" /></div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group"><input type="text" class="form-control width-th " name="reg_m_bond_no[]" id="reg_m_bond_no_1" /></div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group"><input type="date" class="form-control width-th " name="reg_m_bond_dt[]" id="reg_m_bond_dt_1" /></div>
                                             </td>
                                             <td><button type="button" id="remove_1" class="btn btn-danger" onclick="_delete(1)"><i class="fa fa-remove"></i></button></td>
                                         </tr>
@@ -498,7 +513,7 @@ if ($id > 0) {
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <input type="submit" id="submit" class="btn btn-info" value="Save" <?= $disable_button ?>/>
+                                <input type="submit" id="submit" class="btn btn-info" value="Save" <?= $disable_button ?> onclick="myFunction()"/>
                             </div>
                         </div>
                     </div>
@@ -507,6 +522,15 @@ if ($id > 0) {
             </div>
         </div>
         <?= form_close(); ?>
+        <script>
+            $(document).ready(function(){
+                var sec_id = $("#sector_code").val();
+                if(sec_id > 0){
+                    $("#sector_code").change();
+                }
+                // alert(sec_id);
+            })
+        </script>
         <script>
             $("#sector_code").on('change', function () {
                 $.ajax({
@@ -526,6 +550,16 @@ if ($id > 0) {
                     }
                 });
             });
+        </script>
+
+<script>
+            $(document).ready(function(){
+                var gen_id = $("#gender_id").val();
+                
+                    $("#gender_id").change();
+                
+                // alert(sec_id);
+            })
         </script>
 
         <script>
@@ -551,28 +585,30 @@ if ($id > 0) {
                 if (x < count) {
                     x++;
                     $('#table').append('<tr id="row_' + x + '">'
-                            + '<td><div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' + x + '" value="<?= date('Y-m-d') ?>" /></div></td>'
+                            + '<td><div class="form-group"><input type="date" class="form-control required" name="sanction_date[]" id="sanction_date_' + x + '" value="<?= date('Y-m-d') ?>" onchange="checkbod_dt(' + x + ')"  /></div></td>'
                             + '<td><div class="form-group"><input type="date" class="form-control required" name="due_date[]" id="due_date_' + x + '" value="" readonly/></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control required" name="brrwr_sl_no[]" id="brrwr_sl_no_' + x + '" value="" /></div></td>'
-                            // + '<td><div class="form-group"><input type="text" class="form-control required" name="rate_of_interest[]" id="rate_of_interest_' + x + '" value="" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="project_cost[]" id="project_cost_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="sanction_block[]" id="sanction_block_' + x + '" value="0" onchange="count_sanc_tot(' + x + ')" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="sanction_working[]" id="sanction_working_' + x + '" value="0" onchange="count_sanc_tot(' + x + ')" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="sanction_total[]" id="sanction_total_' + x + '" onchange="check_amt(' + x + ')" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="disbursement_block[]" id="disbursement_block_' + x + '" value="0" onchange="count_dis_tot(' + x + ')" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="disbursement_working[]" id="disbursement_working_' + x + '" value="0" onchange="count_dis_tot(' + x + ')" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="disbursement_total[]" id="disbursement_total_' + x + '" readonly /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="own_contribution[]" id="own_contribution_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="subsidy_received[]" id="subsidy_received_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="subsidy_receivable[]" id="subsidy_receivable_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="total_loan_amount[]" id="total_loan_amount_' + x + '" /></div></td>'
+                            +'<td><div class="form-group"><input type="text" class="form-control " name="cust_name[]" id="cust_name_' + x + '" value="" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="project_cost[]" id="project_cost_' + x + '" value="0" onchange="pro_cost(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="sanction_block[]" id="sanction_block_' + x + '" value="0" onchange="count_sanc_tot(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="sanction_working[]" id="sanction_working_' + x + '" value="0" onchange="count_sanc_tot(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="sanction_total[]" id="sanction_total_' + x + '" onchange="check_amt(' + x + ')"readonly/></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="disbursement_block[]" id="disbursement_block_' + x + '" value="0" onchange="count_dis_tot(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="disbursement_working[]" id="disbursement_working_' + x + '" value="0" onchange="count_dis_tot(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="disbursement_total[]" id="disbursement_total_' + x + '" readonly /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="own_contribution[]" id="own_contribution_' + x + '" value="0" onchange="count_own_tot(' + x + ')"/></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="subsidy_received[]" id="subsidy_received_' + x + '" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="subsidy_receivable[]" id="subsidy_receivable_' + x + '" /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="total_loan_amount[]" id="total_loan_amount_' + x + '" value="0" onchange="count_loan_amt(' + x + ')"/></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control required" name="lof_mortgage[]" id="lof_mortgage_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="af_cultivation[]" id="af_cultivation_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="security_land[]" id="security_land_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="security_other[]" id="security_other_' + x + '" /></div></td>'
-                            + '<td><div class="form-group"><input type="text" class="form-control required" name="security_total[]" id="security_total_' + x + '" /></div></td>'
+                            + '<td><div class="form-group"><input type="decimal" class="form-control required" name="af_cultivation[]" id="af_cultivation_' + x + '" /></div></td>'
+                            + '<td><div class="form-group"><input type="text" class="form-control required" name="security_land[]" id="security_land_' + x + '" value="0" onchange="count_securti_tot(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="text" class="form-control required" name="security_other[]" id="security_other_' + x + '" value="0" onchange="count_securti_tot(' + x + ')" /></div></td>'
+                            + '<td><div class="form-group"><input type="text" class="form-control required" name="security_total[]" id="security_total_' + x + '" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control required" name="igo_loan[]" id="igo_loan_' + x + '" /></div></td>'
+                            + '<td><div class="form-group"><input type="text" class="form-control required" name="reg_m_bond_no[]" id="reg_m_bond_no_' + x + '" /></div></td>'
                             + '<td><div class="form-group"><input type="text" class="form-control required" name="tg_bond[]" id="tg_bond_' + x + '" /></div></td>'
+                            + '<td><div class="form-group"><input type="date" class="form-control required" name="reg_m_bond_dt[]" id="reg_m_bond_dt_' + x + '" /></div></td>'
                             + '<td><button type="button" id="remove_1" class="btn btn-danger" onclick="_delete(' + x + ')"><i class="fa fa-remove"></i></button></td>'
                             + '</tr>');
                 }
@@ -590,30 +626,148 @@ if ($id > 0) {
             function check_amt(id) {
 //                alert(id + ' sanction amt : ' + $('#sanc_amt').text() + ' Entry Amt : ' + $('#sanction_total_' + id).val());
                 if (parseInt($('#sanction_total_' + id).val()) > parseInt($('#sanc_amt').text())) {
-                    alert('Sanction Amount is Excided With Limit');
-                    $('#submit').attr('disabled', 'disabled');
+                    alert('Sanction Amount is Exceeded With Limit');
+                    $('#sanction_block_' + id).val(0);
+                    $('#sanction_working_' + id).val(0);
+                    $('#sanction_total_' + id).val(0);
+                    // $('#submit').attr('disabled','disabled');
+                    // $('#submit').attr('disabled', 'disabled');
+                     $('#submit').attr('type', 'buttom');
+                    
+                   return false;
                 } else {
-                    $('#submit').removeAttr('disabled');
+                    // $('#submit').removeAttr('disabled');
+                    $('#submit').attr('type', 'submit');
+                 
+                   return true;
                 }
             }
 
             $('#tot_sc').change(function () {
-                count_total($(this).val());
+                // alert($(this).val());
+                // alert($('#tot_borrower').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( $('#total').val())>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_sc").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+                }
+
             });
             $('#tot_st').change(function () {
-                count_total($(this).val());
+                var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_st").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
+
+               
+
             });
             $('#tot_obca').change(function () {
-                count_total($(this).val());
+                // count_total($(this).val());
+                var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_obca").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                
+                $('#submit').removeAttr('disabled');
+                }
+
+              
+
             });
             $('#tot_obcb').change(function () {
-                count_total($(this).val());
+               // count_total($(this).val());
+               var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_obcb").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+                }
+
+               
             });
             $('#tot_gen').change(function () {
-                count_total($(this).val());
+                //count_total($(this).val());
+                var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_gen").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+
+                }
+
+              
             });
             $('#tot_oth').change(function () {
                 count_total($(this).val());
+                var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_oth").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                    $('#total').val(count);
+                   
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+                $('#total').val(count);
+                $('#submit').removeAttr('disabled');
+                }
+
+              
             });
             function count_total(value) {
                 var total = $('#total').val();
@@ -628,16 +782,18 @@ if ($id > 0) {
                     $('#submit').removeAttr('disabled');
                 } else {
                     $('#submit').attr('disabled', 'disabled');
-                    alert('Data is greated than Total Members');
+                    alert('Data is greater  than Total Members');
                 }
             }
 
             $('#tot_men').change(function () {
                 // alert($(this).val());
                 check_total_gender();
+                document.getElementById("tot_men").focus();
             });
             $('#tot_wom').change(function () {
                 check_total_gender();
+                document.getElementById("tot_wom").focus();
             });
             function check_total_gender() {
                 var total_gender = parseInt($('#tot_men').val()) + parseInt($('#tot_wom').val());
@@ -646,34 +802,169 @@ if ($id > 0) {
                 } else {
                     $('#submit').attr('disabled', 'disabled');
                     alert('Total Gender is greated than total member');
+                    $('#tot_men').val(0) ;
+                     $('#tot_wom').val(0);
+
                 }
             }
 
             $('#tot_big').change(function () {
-                check_total_member();
+            
+             // check_total_member();
+             var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_big").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());                $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
+           
             });
+
             $('#tot_marginal').change(function () {
-                check_total_member();
+            
+                //check_total_member();
+                var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_marginal").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+               // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
+           
             });
+
             $('#tot_small').change(function () {
-                check_total_member();
+            
+                //check_total_member();
+                
+                var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_small").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+               // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
+           
+           
             });
+
             $('#tot_landless').change(function () {
-                check_total_member();
+                //check_total_member();
+                var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_landless").focus();
+                    //$(this).val(0);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+                    //$('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+               // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
             });
             $('#tot_lig').change(function () {
-                check_total_member();
+               // check_total_member();
+               var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_lig").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                   // $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
             });
             $('#tot_mig').change(function () {
-                check_total_member();
+                //check_total_member();
+                var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_mig").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    //$('#total').val(count);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
             });
             $('#tot_hig').change(function () {
-                check_total_member();
+                // check_total_member();
+                var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                if (parseInt($(this).val())> parseInt($('#tot_borrower').val()) ||parseInt( count)>parseInt($('#tot_borrower').val())) {
+                    alert('Data is greater  than Total Members');
+                    document.getElementById("tot_hig").focus();
+                    $(this).val(0);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    $('#total').val(count);
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                    $('#total').val(count);
+                    $('#submit').attr('disabled', 'disabled');
+                }else{
+                    var count = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+                // $('#total').val(count);
+               
+                $('#submit').removeAttr('disabled');
+                }
             });
+
+           
             function check_total_member() {
+                var sum_borrower = $('#tot_borrower').val() ;
                 var total_borrower = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
 
                 var total_group = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+               
+               if(total_borrower>sum_borrower){
+                alert('Value Should Not Be Greater Than the value of Total Borrower');
+               }
+            // alert(total_group);
+               
+
 
                 if (total_group <= $('#tot_memb').val() && total_borrower <= $('#tot_memb').val()) {
                     $('#submit').removeAttr('disabled');
@@ -685,10 +976,269 @@ if ($id > 0) {
         </script>
 
         <script>
+
+function checkbod_dt(id){
+    var sanc_dt = $('#sanction_date_'+ id).val();
+    //alert(sanc_dt);
+    var d = new Date();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
+
+	var output = d.getFullYear() + '-' +
+	(month<10 ? '0' : '') + month + '-' +
+	(day<10 ? '0' : '') + day;
+    if(new Date(output) < new Date(sanc_dt))
+		{
+		alert("Sanction Date Can Not Be Greater Than Current Date");
+        $('#sanction_date_'+ id).val(output);
+		// $('#submit').attr('type', 'buttom');
+		return false;
+		}else{
+		// $('#submit').attr('type', 'submit');
+        return true;
+		}
+}
+
+
+function count_loan_amt(id){
+    $('#total_loan_amount_' + id).val(parseInt($('#total_loan_amount_' + id).val()));
+
+}
             function count_sanc_tot(id) {
-                $('#sanction_total_' + id).val(parseInt($('#sanction_block_' + id).val()) + parseInt($('#sanction_working_' + id).val())).change();
+                /*var tot_sanc;*/
+                $('#sanction_total_' + id).val(parseInt($('#sanction_total_' + id).val()));
+                 $('#sanction_block_' + id).val(parseInt($('#sanction_block_' + id).val()));
+
+                var tot_proj_cost=$('#project_cost_' + id).val();
+                var sanction_total=$('#sanction_total_' + id).val(parseInt($('#sanction_block_' + id).val()) + parseInt($('#sanction_working_' + id).val())).change();
+
+                 var tot_sanc = parseInt( $('#sanction_total_' + id).val());
+                  var tot_own_cont= $('#own_contribution_' + id).val(parseInt($('#project_cost_' + id).val()) - parseInt($('#sanction_total_' + id).val()));
+        
+              //subsidy_received_1
+
+               if(parseInt($('#project_cost_' + id).val()) < parseInt($('#sanction_total_' + id).val())){
+               
+                $('#own_contribution_' + id).val(0);
+                alert('Sanction Amount Can Not Be greater than Project Cost Amount');
+                $('#sanction_total_' + id).val(0);
+                $('#sanction_block_' + id).val(0); 
+                $('#sanction_working_' + id).val(0);
+                $('#submit').attr('disabled', 'disabled');
+               }else{
+                $('#submit').removeAttr('disabled'); 
+               }
+              // $('#subsidy_received_' + id).val(parseInt($('#project_cost_' + id).val()) - parseInt($('#sanction_total_' + id).val()) + parseInt($('#own_contribution_' + id).val()));
+
             }
             function count_dis_tot(id) {
+                 $('#disbursement_block_' + id).val(parseInt($('#disbursement_block_' + id).val()));
+                 $('#disbursement_working_' + id).val(parseInt($('#disbursement_working_' + id).val()));
                 $('#disbursement_total_' + id).val(parseInt($('#disbursement_block_' + id).val()) + parseInt($('#disbursement_working_' + id).val()));
+                var tot_disb = parseFloat( $('#disbursement_total_' + id).val());
+                var tot_sanc = parseFloat( $('#sanction_total_' + id).val());
+                var proj_costamt= parseFloat( $('#project_cost_' + id).val());
+                // alert(tot_disb);
+                if(tot_disb>tot_sanc || tot_disb>proj_costamt ){
+                    $('#submit').attr('disabled', 'disabled');
+                    alert('Disbursed Amount Can Not Be Greater Than Sanction/Project Amount');
+                    $('#disbursement_total_' + id).val(0);
+                    $('#disbursement_block_' + id).val(0);
+                    $('#disbursement_working_' + id).val(0);
+                }else{
+                    $('#submit').removeAttr('disabled'); 
+                }
+                if(tot_disb>proj_costamt){
+                    $('#submit').attr('disabled', 'disabled');
+                    alert('Disbursed Amount Can Not Be Greater Than Sanction/Project Amount');
+                    $('#disbursement_total_' + id).val(0);
+                    $('#disbursement_block_' + id).val(0);
+                    $('#disbursement_working_' + id).val(0);
+
+                }else{
+                    $('#submit').removeAttr('disabled'); 
+                }
+            }
+
+            function count_securti_tot(id) {
+                $('#security_total_' + id).val(parseInt($('#security_land_' + id).val()) + parseInt($('#security_other_' + id).val()));
             }
         </script>
+
+        
+
+<script>
+      function pro_cost(id) {
+            $('#project_cost_' + id).val(parseInt($('#project_cost_' + id).val()));
+            // alert('hi');
+            // parseFloat($('#project_cost_' + id).val()).toFixed(2);
+            count_own_tot(id);
+//                var project_cost = $('#project_cost_' + x).val();
+//                $('#sanction_amount_' + x).val(project_cost);
+//                $('#disbursed_amount_' + x).val(project_cost);
+//                check_amt(id);
+	    }
+
+    function count_own_tot(id){
+        //alert('hi');
+        $('#own_contribution_' + id).val(parseInt($('#own_contribution_' + id).val()));
+        $('#subsidy_received_' + id).val(parseInt($('#project_cost_' + id).val()) - parseInt($('#sanction_total_' + id).val()) - parseInt($('#own_contribution_' + id).val()));   
+    }
+</script>
+
+        <script>
+       function myFunction() {
+          var  sum_borrow=parseInt($('#tot_borrower').val())
+        var total_group = parseInt($('#tot_lig').val()) + parseInt($('#tot_mig').val()) + parseInt($('#tot_hig').val());
+        // alert(total_group);
+        var total_borrower = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+        var tot_cast = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+         if(total_group==0){
+            // alert(total_group);
+            $('#submit').attr('disabled', 'disabled');
+                       alert('Income Group Value Must Be Greater Than 0');
+                   
+                   }else{
+                    $('#submit').removeAttr('disabled');    
+                       
+                   }
+
+                   if(tot_cast==0){
+            // alert(total_group);
+            $('#submit').attr('disabled', 'disabled');
+                       alert('Cast Value Must Be Greater Than 0');
+                   
+                   }else{
+                    $('#submit').removeAttr('disabled');    
+                       
+                   }
+
+
+                //    var total_borrower = parseInt($('#tot_big').val()) + parseInt($('#tot_marginal').val()) + parseInt($('#tot_small').val()) + parseInt($('#tot_landless').val());
+         if(total_borrower==0){
+            // alert(total_group);
+            
+                       alert('Borrower Classification Value Must Be Greater Than 0');
+                       $('#submit').attr('disabled', 'disabled');
+                   
+                   }else{
+                    $('#submit').removeAttr('disabled');    
+                       
+                   }
+                
+                   if(sum_borrow!=total_borrower|| sum_borrow!=tot_cast || sum_borrow!=total_group){
+            
+            
+                       alert(' Total Borrower  Not matched with other group');
+                       $('#submit').attr('disabled', 'disabled');
+                   }else{
+                    $('#submit').removeAttr('disabled');    
+                       
+
+}
+// if( sum_borrow!=total_group){
+//              alert(total_group);
+//             // && sum_borrow!=total_group && sum_borrow!=tot_cast
+           
+//                        alert(' Total Borrower  Not matched with Income Group');
+//                        $('#submit').attr('disabled', 'disabled');
+                   
+//                    }else{
+//                     $('#submit').removeAttr('disabled');    
+                       
+
+// }
+
+// if( sum_borrow!=tot_cast){
+//              alert(total_group);
+//             // && sum_borrow!=total_group && sum_borrow!=tot_cast
+           
+//                        alert(' Total Borrower  Not matched with Cast Total');
+//                        $('#submit').attr('disabled', 'disabled');
+//                        return false; 
+//                    }else{
+//                     $('#submit').removeAttr('disabled');    
+
+//               return true;      
+                       
+
+// }
+
+
+}
+
+    </script>
+    <script>
+$(document).ready(function(){
+    var count = parseInt($('#tot_sc').val()) + parseInt($('#tot_st').val()) + parseInt($('#tot_obca').val()) + parseInt($('#tot_obcb').val()) + parseInt($('#tot_gen').val()) + parseInt($('#tot_oth').val());
+        // alert(count);
+		 $('#total').val(count);
+$("#pronote_date").change(function(){
+    //alert('hi');
+
+	var pronote_date= $('#pronote_date').val();
+	var d = new Date();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
+
+	var output = d.getFullYear() + '-' +
+	(month<10 ? '0' : '') + month + '-' +
+	(day<10 ? '0' : '') + day;
+
+// console.log(trans_dt,output);
+		if(new Date(output) <new Date(pronote_date))
+		{
+		alert("Pronote Date Can Not Be Greater Than Current Date");
+        $('#pronote_date').val(output);
+		// $('#submit').attr('type', 'buttom');
+		return false;
+		}else{
+		// $('#submit').attr('type', 'submit');
+        return true;
+		}
+	})
+});
+</script>
+<script>
+$(document).ready(function(){
+$("#date").change(function(){
+    //alert('hi');
+
+	var memo_date= $('#date').val();
+	var d = new Date();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
+
+	var output = d.getFullYear() + '-' +
+	(month<10 ? '0' : '') + month + '-' +
+	(day<10 ? '0' : '') + day;
+    // alert("Memo Date is Greater Than Current Date");
+// console.log(trans_dt,output);
+		if(new Date(output) <new Date(memo_date))
+		{
+		alert("Memo Date is Greater Than Current Date");
+        $('#date').val(output);
+		// $('#submit').attr('type', 'buttom');
+		return false;
+		}else{
+		// $('#submit').attr('type', 'submit');
+        return true;
+		}
+	})
+});
+</script>
+<script>
+
+      var validate = function(e) {
+          var t = e.value;
+          e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+      }
+  </script>
+<!-- <script>
+        $('#rate_of_interest').on('change', function () {
+            // alert('hi');
+            $(this).val(parseFloat($(this).val()).toFixed(2));
+    
+            
+        });
+    </script> -->

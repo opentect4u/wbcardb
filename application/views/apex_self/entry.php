@@ -85,10 +85,11 @@ if ($id > 0) {
                                     <th>LSO No</th>
                                     <th>Branch Loan File No.</th>
                                     <th>Block</th>
+                                    <th>Loan Id</th>
                                     <th>Name of the Borrower</th>
                                     <th>Moratorium</th>
                                     <th>Loan</th>
-                                    <th>Total</th>
+                                    <th>Total Period</th>
                                     <th>Purpose</th>
                                     <th>Rate of Interest</th>
                                     <th>Project Cost</th>
@@ -113,6 +114,8 @@ if ($id > 0) {
 				if (sizeof($apex_shg) > 0) {
 				    $i = 1;
 				    foreach ($apex_shg as $shg) {
+                        // print_r($shg);
+                        // exit;
 					echo '<tr id="row_1">';
 					echo '<td>
                                         <div class="form-group"><input type="text" class="form-control" name="lso_no[]" id="lso_no_' . $i . '" value="' . $shg->lso_no . '" required="" onchange="get_result(' . $i . ');"></div>
@@ -123,6 +126,9 @@ if ($id > 0) {
                                     <td>
                                         <div class="form-group"><input type="text" class="form-control" name="block_name[]" id="block_name_' . $i . '" value="' . $shg->block_name . '" required="" readonly />
                                             <input type="hidden" name="block_id[]" id="block_id_' . $i . '" value="' . $shg->block_id . '"/></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group"><input type="text" class="form-control" name="loan_id[]" id="loan_id_' . $i . '" value="' . $shg->loan_id . '" required=""  /></div>
                                     </td>
                                     <td>
                                         <div class="form-group"><input type="text" class="form-control" name="name_of_borr[]" id="name_of_borr_' . $i . '" value="' . $shg->name_of_borr . '" required="" readonly /></div>
@@ -150,7 +156,7 @@ if ($id > 0) {
                                         <div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_' . $i . '" value="' . $shg->own_cont . '" required="" readonly /></div>
                                     </td>
                                     <td>
-                                        <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' . $i . '" value="' . $shg->corp_fund . '" required="" readonly /></div>
+                                        <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' . $i . '" value="' . $shg->corp_fund . '" required=""  /></div>
                                     </td>
                                     <td>
                                         <div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_' . $i . '" value="' . $shg->sanc_amt . '" required="" readonly /></div>
@@ -180,10 +186,10 @@ if ($id > 0) {
                                             <div class="form-group"><input type="text" class="form-control" name="gros_inc_gen[]" id="gros_inc_gen_' . $i . '" value="' . $shg->gros_inc_gen . '" required="" readonly /></div>
                                         </td>
                                         <td>
-                                            <div class="form-group"><input type="date" class="form-control" name="reg_m_bond_dt[]" id="reg_m_bond_dt_' . $i . '" value="' . $shg->reg_m_bond_dt . '" required="" readonly /></div>
+                                            <div class="form-group"><input type="date" class="form-control" name="reg_m_bond_dt[]" id="reg_m_bond_dt_' . $i . '" value="' . $shg->reg_m_bond_dt . '" required=""  /></div>
                                         </td>
                                         <td>
-                                            <div class="form-group"><input type="text" class="form-control" name="reg_m_bond_no[]" id="reg_m_bond_no_' . $i . '" value="' . $shg->reg_m_bond_no . '" required="" readonly /></div>
+                                            <div class="form-group"><input type="text" class="form-control" name="reg_m_bond_no[]" id="reg_m_bond_no_' . $i . '" value="' . $shg->reg_m_bond_no . '" required=""  /></div>
                                         </td>';
 					echo'<td><button type="button" id="remove_' . $i . '" class="btn btn-danger" onclick="_delete(' . $i . ')"><i class="fa fa-remove"></i></button></td>';
 					echo '</tr>';
@@ -200,6 +206,9 @@ if ($id > 0) {
     				    <td>
     					<div class="form-group"><input type="text" class="form-control" name="block_name[]" id="block_name_1" value="<?= $selected ? $selected->block_id : ''; ?>" required="" readonly />
     					    <input type="hidden" name="block_id[]" id="block_id_1" value=""/></div>
+    				    </td>
+                        <td>
+    					<div class="form-group"><input type="text" class="form-control" name="loan_id[]" id="loan_id_1" value="<?= $selected ? $selected->loan_id : ''; ?>" required=""  /></div>
     				    </td>
     				    <td>
     					<div class="form-group"><input type="text" class="form-control" name="name_of_borr[]" id="name_of_borr_1" value="<?= $selected ? $selected->name_of_borr : ''; ?>" required="" readonly /></div>
@@ -227,7 +236,7 @@ if ($id > 0) {
     					<div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_1" value="<?= $selected ? $selected->own_cont : ''; ?>" required="" readonly /></div>
     				    </td>
     				    <td>
-    					<div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_1" value="<?= $selected ? $selected->corp_fund : ''; ?>" required="" readonly /></div>
+    					<div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_1" value="<?= $selected ? $selected->corp_fund : ''; ?>" required=""  /></div>
     				    </td>
     				    <td>
     					<div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_1" value="<?= $selected ? $selected->sanc_amt : ''; ?>" required="" readonly /></div>
@@ -257,10 +266,10 @@ if ($id > 0) {
     					<div class="form-group"><input type="text" class="form-control" name="gros_inc_gen[]" id="gros_inc_gen_1" value="<?= $selected ? $selected->gros_inc_gen : ''; ?>" required="" readonly /></div>
     				    </td>
     				    <td>
-    					<div class="form-group"><input type="date" class="form-control" name="reg_m_bond_dt[]" id="reg_m_bond_dt_1" value="<?= $selected ? $selected->reg_m_bond_dt : ''; ?>" required="" readonly /></div>
+    					<div class="form-group"><input type="date" class="form-control" name="reg_m_bond_dt[]" id="reg_m_bond_dt_1" value="<?= $selected ? $selected->reg_m_bond_dt : ''; ?>" required=""  /></div>
     				    </td>
     				    <td>
-    					<div class="form-group"><input type="text" class="form-control" name="reg_m_bond_no[]" id="reg_m_bond_no_1" value="<?= $selected ? $selected->reg_m_bond_no : ''; ?>" required="" readonly /></div>
+    					<div class="form-group"><input type="text" class="form-control" name="reg_m_bond_no[]" id="reg_m_bond_no_1" value="<?= $selected ? $selected->reg_m_bond_no : ''; ?>" required=""  /></div>
     				    </td>
     				    <td><button type="button" id="remove_1" class="btn btn-danger" onclick="_delete(1)"><i class="fa fa-remove"></i></button></td>
     				</tr>
@@ -475,6 +484,7 @@ if ($id > 0) {
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="lso_no[]" id="lso_no_' + x + '" value="" required="" onchange="get_result(' + x + ');"></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="file_no[]" id="file_no_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="block_name[]" id="block_name_' + x + '" value="" required="" readonly /><input type="hidden" name="block_id[]" id="block_id_' + x + '" value=""/></div></td>'
+                + '<td><div class="form-group"><input type="text" class="form-control" name="loan_id[]" id="loan_id_' + x + '" value="" required=""  /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="name_of_borr[]" id="name_of_borr_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="moratorium[]" id="moratorium_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="loan[]" id="loan_' + x + '" value="" required="" readonly /></div></td>'
@@ -483,7 +493,7 @@ if ($id > 0) {
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="roi[]" id="roi_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="pro_cost[]" id="pro_cost_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_' + x + '" value="" required="" readonly /></div></td>'
-			    + '<td><div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' + x + '" value="" required="" readonly /></div></td>'
+			    + '<td><div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' + x + '" value="" required=""  /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" id="remaining_sanc_amt_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control required" name="inst_sl_no[]" id="inst_sl_no_' + x + '" value="" /></div></td>'
@@ -493,8 +503,8 @@ if ($id > 0) {
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="cult_area[]" id="cult_area_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="val_of_hypo[]" id="val_of_hypo_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="gros_inc_gen[]" id="gros_inc_gen_' + x + '" value="" required="" readonly /></div></td>'
-			    + '<td><div class="form-group"><input type="date" class="form-control" name="reg_m_bond_dt[]" id="reg_m_bond_dt_' + x + '" value="" required="" readonly /></div></td>'
-			    + '<td><div class="form-group"><input type="text" class="form-control" name="reg_m_bond_no[]" id="reg_m_bond_no_' + x + '" value="" required="" readonly /></div></td>'
+			    + '<td><div class="form-group"><input type="date" class="form-control" name="reg_m_bond_dt[]" id="reg_m_bond_dt_' + x + '" value="" required=""  /></div></td>'
+			    + '<td><div class="form-group"><input type="text" class="form-control" name="reg_m_bond_no[]" id="reg_m_bond_no_' + x + '" value="" required=""  /></div></td>'
 			    + '<td><button type="button" id="remove_' + x + '" class="btn btn-danger" onclick="_delete(' + x + ')"><i class="fa fa-remove"></i></button></td>'
 			    + '</tr>');
 		} else {

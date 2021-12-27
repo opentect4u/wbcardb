@@ -34,7 +34,10 @@ $approve_details = json_decode($approve_details);
                                     <table width="80%">
                                         <tr>
                                             <td><b>Memo No </b> :-</td>
+
                                             <td class="pull-left"><?= $approve_details[0]->memo_no ?></td>
+                                            </tr>
+                                            <tr>
                                             <td><b>Memo Date</b> :-</td>
                                             <td class="pull-left"><?= date('d/m/Y', strtotime(str_replace('-', '/', $approve_details[0]->memo_date))) ?></td>
                                         </tr>

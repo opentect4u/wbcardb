@@ -442,8 +442,11 @@ class Fortnight extends CI_Controller {
 
     function fort_con_report() {
         $ardb_id = $_POST['ardb_id'];
+        // echo $ardb_id;exit;
         $form = $_POST['form_date'];
         $to = $_POST['to_date'];
+
+
 //        var_dump(date('Y', strtotime($form)));
 //        exit;
         $dmd_pri_dtls = $this->fortnight_model->get_demand_prin_details_con($ardb_id, $form, $to);

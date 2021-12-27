@@ -1,12 +1,13 @@
 <?php
 $shg_details = json_decode($shg_details);
-//$memo_header = json_decode($memo_header);
+$memo_header = json_decode($memo_header);
 $borrower_details = json_decode($borrower_details);
 //$gt_details = json_decode($gt_details);
 //$details = json_decode($details);
 $approve_details = json_decode($approve_details);
-//echo '<pre>';
-//var_dump($borrower_details);
+// echo '<pre>';
+//var_dump($approve_details);
+//echo $approve_details[0]->memo_no;
 //exit;
 ?>
 <style type="text/css">
@@ -31,15 +32,35 @@ $approve_details = json_decode($approve_details);
                             <div class="col-md-7 pt-3">
                                 <div class="table-responsive">
                                     <table width="80%">
+                                    <tr>
+                                            <td><b>Disb Date </b> :-</td>
+                                            <td class="pull-left">
+										<?php if(isset($memo_header[0]->instl_dt)) echo $memo_header[0]->instl_dt ;?></td>
+                                            </tr>
                                         <tr>
                                             <td><b>Memo No </b> :-</td>
-                                            <td class="pull-left"><?= $approve_details[0]->memo_no ?></td>
+                                            
+
+                                            <td class="pull-left"> <?php if(isset($approve_details[0]->memo_no)) echo $approve_details[0]->memo_no ;?></td>
+                                            <tr>
                                             <td><b>Memo Date</b> :-</td>
                                             <td class="pull-left"><?= date('d/m/Y', strtotime(str_replace('-', '/', $approve_details[0]->memo_date))) ?></td>
                                         </tr>
                                         <tr>
                                             <td>Sector :-</td>
-                                            <td class="pull-left"><b><?= $approve_details[0]->sector_name ?></b></td>
+                                            <td class="pull-left"><b><?php if(isset( $approve_details[0]->sector_name)) echo  $approve_details[0]->sector_name ;?></b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Total Amount of Requisition :-</td>
+                                            <!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
+										<td class="pull-left"><?php if(isset( $memo_header[0]->tot_amt )) echo  $memo_header[0]->tot_amt  ;?>
+                                         </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total No. of Pronote :-</td>
+                                            <!-- <td class="pull-left"></td> -->
+                                            <td class="pull-left"><?php if(isset($memo_header[0]->tot_pronote )) echo $memo_header[0]->tot_pronote ?></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -61,9 +82,10 @@ $approve_details = json_decode($approve_details);
                                                 <th>Branch Loan File No.</th>
                                                 <th>Block</th>
                                                 <th>Name of the Borrower</th>
+                                                <th>Loan ID</th>
                                                 <th>Moratorium</th>
                                                 <th>Loan</th>
-                                                <th>Total</th>
+                                                <th>Total Period</th>
                                                 <th>Purpose</th>
                                                 <th>Rate of Interest</th>
                                                 <th>Project Cost</th>
@@ -118,6 +140,7 @@ $approve_details = json_decode($approve_details);
                                                 echo '<td>' . $dt->file_no . '</td>';
                                                 echo '<td>' . $dt->block_name . '</td>';
                                                 echo '<td>' . $dt->name_of_borr . '</td>';
+                                                echo '<td>' . $dt->loan_id . '</td>';
                                                 echo '<td>' . $dt->moratorium . '</td>';
                                                 echo '<td>' . $dt->loan . '</td>';
                                                 echo '<td>' . $dt->repay_per_tot . '</td>';
@@ -165,7 +188,7 @@ $approve_details = json_decode($approve_details);
 
                         <div class="row">
                             <div class="col-md-12 pt-5">
-                                <center><h4>Borrower Classification</h4></center>
+                                <center><h4>Borrower Classification </h4></center>
                             </div>
                         </div>
                         <div class="row">
@@ -241,6 +264,14 @@ $approve_details = json_decode($approve_details);
                                     <div class="col-md-2">
                                         <input type="button" id="submit" class="btn btn-info pull-left" value="Forward" onclick="submit()" />
                                     </div>
+                                    <?php if ($_SESSION['user_type'] != 'U') { ?>
+                                    <label for="reason" class="col-sm-1 col-form-label">Reason:</label>
+                                    <div class="col-sm-3">
+
+                                    <input type="text" style="width:350px" id=reason name="reason" class="form-control" value=""    />
+                                   
+                                    </div> 
+                                    <?php } ?>
                                 </div>
                             </div>
                         <?php } ?>
@@ -253,9 +284,14 @@ $approve_details = json_decode($approve_details);
 
     <script>
         function submit() {
-            window.location.href = "<?= site_url('/apex_self/forward_data/' . $memo_no); ?>";
+            var reason=$('#reason').val() ;
+            console.log(reason);
+          //  console.log('hi');
+            window.location.href = "<?= site_url('/apex_self/forward_data?qstr=' . $memo_no .',' .$instl_dt.','); ?>"+ reason;
         }
         function reject() {
-            window.location.href = "<?= site_url('/apex_self/reject_data/' . $memo_no); ?>";
+            var reason=$('#reason').val() ;
+            console.log(reason);
+            window.location.href = "<?= site_url('/apex_self/reject_data?qstr=' . $memo_no .',' .$instl_dt.','); ?>"+ reason;
         }
     </script>

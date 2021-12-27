@@ -25,7 +25,8 @@ class Apex_self extends CI_Controller {
 
     function apex_self_view() {
 	$selected = array(
-	    'ardb_id' => ''
+	    // 'ardb_id' => ''
+		'ardb_id' => $_SESSION['br_id']
 	);
 	$apex_details = array();
 	$ardb_list = $this->apex_self_model->get_ardb_list();
@@ -131,12 +132,13 @@ class Apex_self extends CI_Controller {
 	$approve_details = $this->apex_self_model->approve_view($ardb_id, $memo_no);
 	$shg_details = $this->apex_self_model->apex_edit($ardb_id, $memo_no, $pronote_no = '');
 	$borrower_details = $this->apex_self_model->borrower_details($ardb_id, $memo_no, $pronote_no = '');
+	$memo_header = $this->apex_self_model->apex_self_dc_header($ardb_id, $memo_no);
 	$data['ardb_id'] = $ardb_id;
 	$data['memo_no'] = $memo_no;
 	$data['details'] = json_encode($details);
 	$data['approve_details'] = json_encode($approve_details);
 	$data['shg_details'] = json_encode($shg_details);
-//        $data['memo_header'] = json_encode($memo_header);
+    $data['memo_header'] = json_encode($memo_header);
 	$data['borrower_details'] = json_encode($borrower_details);
 	$this->load->view('common/header');
 	$this->load->view("ho/apex_self/approve_details", $data);
@@ -196,7 +198,7 @@ class Apex_self extends CI_Controller {
 	} else {
 	    $this->session->set_flashdata('msg', 'Something Went Wrong!');
 	    redirect('ho/apex_self/apex_self_approve_view');
-	}
+	 }
     }
 
     function reject_data($ardb_id, $memo_no) {

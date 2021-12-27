@@ -40,49 +40,49 @@ $id = $selected ? $selected->id : '0';
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" colspan="3"><b>Target of Investment for the year</b> <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></th>
+                                                <th class="text-center" colspan="3"><b>Target of Lending  for the year</b> <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></th>
                                             </tr>
                                             <tr>
                                                 <th></th>
                                                 <th>No of Cases</th>
-                                                <th>Amount</th>
+                                                <th>Amount(RS In Lacs)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Farm</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="fm_no_case" id="fm_no_case" value="<?= $selected ? $selected->fm_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="fm_amt" id="fm_amt" value="<?= $selected ? $selected->fm_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="fm_amt" id="fm_amt" value="<?= $selected ? $selected->fm_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Non-Farm</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="nf_no_case" id="nf_no_case" value="<?= $selected ? $selected->nf_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="nf_amt" id="nf_amt" value="<?= $selected ? $selected->nf_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="nf_amt" id="nf_amt" value="<?= $selected ? $selected->nf_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>RH</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="rh_no_case" id="rh_no_case" value="<?= $selected ? $selected->rh_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="rh_amt" id="rh_amt" value="<?= $selected ? $selected->rh_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="rh_amt" id="rh_amt" value="<?= $selected ? $selected->rh_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>SHG/JLG</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="shg_no_case" id="shg_no_case" value="<?= $selected ? $selected->shg_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="shg_amt" id="shg_amt" value="<?= $selected ? $selected->shg_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="shg_amt" id="shg_amt" value="<?= $selected ? $selected->shg_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
-                                                <td>LD & Others</td>
+                                                <td>LD & Others(Out of Deposit)</td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="pl_no_case" id="pl_no_case" value="<?= $selected ? $selected->pl_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="pl_amt" id="pl_amt" value="<?= $selected ? $selected->pl_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="pl_amt" id="pl_amt" value="<?= $selected ? $selected->pl_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
-                                                <td>Total Investment for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
+                                                <td>Total Lending for the<br> Year <b><?= CURRENT_YEAR . '-' . NEXT_YEAR ?></b></td>
                                                 <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_no_case" id="tot_inv_of_curr_yr_no_case" value="<?= $selected ? $selected->tot_inv_of_curr_yr_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_curr_yr_amt" id="tot_inv_of_curr_yr_amt" value="<?= $selected ? $selected->tot_inv_of_curr_yr_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="tot_inv_of_curr_yr_amt" id="tot_inv_of_curr_yr_amt" value="<?= $selected ? $selected->tot_inv_of_curr_yr_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                             <tr>
                                                 <td>Total upto the end of the previous  <br>Year <b><?= PREVIOUS_YEAR . '-' . CURRENT_YEAR ?></b></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_pre_yr_no_case" id="tot_inv_of_pre_yr_no_case" value="<?= $selected ? $selected->tot_inv_of_pre_yr_no_case : '0' ?>" required="" /></div></td>
-                                                <td><div class="form-group"><input type="number" class="form-control" name="tot_inv_of_pre_yr_amt" id="tot_inv_of_pre_yr_amt" value="<?= $selected ? $selected->tot_inv_of_pre_yr_amt : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="number"  class="form-control" name="tot_inv_of_pre_yr_no_case" id="tot_inv_of_pre_yr_no_case" value="<?= $selected ? $selected->tot_inv_of_pre_yr_no_case : '0' ?>" required="" /></div></td>
+                                                <td><div class="form-group"><input type="decimal" class="form-control" name="tot_inv_of_pre_yr_amt" id="tot_inv_of_pre_yr_amt" value="<?= $selected ? $selected->tot_inv_of_pre_yr_amt : '0' ?>" required="" /></div></td>
                                             </tr>
                                         </tbody>
                                     </table>

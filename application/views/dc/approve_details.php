@@ -39,11 +39,13 @@ $approve_details = json_decode($approve_details);
                                         </tr>
                                         <tr>
                                             <td>Total Amount of Requisition :-</td>
-                                            <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
+                                            <!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
+                                            <td class="pull-left"><?= $memo_header[0]->tot_amt ?></td>
                                         </tr>
                                         <tr>
                                             <td>Total No. of Pronote :-</td>
-                                            <td class="pull-left"></td>
+                                            <!-- <td class="pull-left"></td> -->
+                                            <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -130,7 +132,13 @@ $approve_details = json_decode($approve_details);
 						echo '<td class="table_body">' . $dt->repayment_no . '</td>';
 						echo '<td class="table_body">' . $dt->roi . '</td>';
 						echo '<td class="table_body">' . $dt->bod_sanc_dt . '</td>';
-						echo '<td class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $dt->due_dt))) . '</td>';
+						// echo '<td class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $dt->due_dt))) . '</td>';
+                        if($dt->due_dt!='0000-00-00'){
+
+							echo '<td class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $dt->due_dt))) . '</td>';
+						}else{
+							echo '<td class="table_body"></td>';
+						}
 						echo '<td class="table_body">' . $dt->brrwr_sl_no . '</td>';
 						echo '<td class="table_body">' . $dt->project_cost . '</td>';
 						echo '<td class="table_body">' . $dt->sanc_amt . '</td>';
@@ -179,7 +187,7 @@ $approve_details = json_decode($approve_details);
                                                 <th class="table_thead" class="table_thead">Total Sanction Cost</th>
                                                 <th class="table_thead" class="table_thead">Total Own Contribution (Rs.)</th>
                                                 <th class="table_thead" class="table_thead">Total Amount Disbursed (Rs)</th>
-                                                <th class="table_thead" class="table_thead">Intersee Agreement Date</th>
+                                                <!-- <th class="table_thead" class="table_thead">Intersee Agreement Date</th> -->
                                                 <!-- <th class="table_thead" class="table_thead">Total Intersee Ag. Bond</th> -->
                                             </tr>
                                         </thead>
@@ -194,7 +202,7 @@ $approve_details = json_decode($approve_details);
 						echo '<td class="table_body" class="table_body">' . $gt->tot_sanc_amt . '</td>';
 						echo '<td class="table_body" class="table_body">' . $gt->tot_own_amt . '</td>';
 						echo '<td class="table_body" class="table_body">' . $gt->tot_disb_amt . '</td>';
-						echo '<td class="table_body" class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $gt->intr_aggr_dt))) . '</td>';
+						// echo '<td class="table_body" class="table_body">' . date("d/m/Y", strtotime(str_replace("-", "/", $gt->intr_aggr_dt))) . '</td>';
 						// echo '<td class="table_body" class="table_body">'.$gt->tot_igb.'</td>';
 						echo '</tr>';
 					    }
@@ -283,6 +291,14 @@ $approve_details = json_decode($approve_details);
     				<div class="col-md-2">
     				    <input type="button" id="submit" class="btn btn-info pull-left" value="Forward" onclick="submit()" />
     				</div>
+                    <?php if ($_SESSION['user_type'] != 'U') { ?>
+                                    <label for="reason" class="col-sm-1 col-form-label">Reason:</label>
+                                    <div class="col-sm-3">
+
+                                    <input type="text" style="width:350px" id=reason name="reason" class="form-control" value=" "    />
+                                   
+                                    </div> 
+                                    <?php } ?>
     			    </div>
     			</div>
 			<?php } ?>
@@ -295,10 +311,17 @@ $approve_details = json_decode($approve_details);
 
     <script>
 	function submit() {
-	    window.location.href = "<?= site_url('/dc/forward_data/' . $memo_no); ?>";
+
+        var reason=$('#reason').val() ;
+        console.log(reason);
+	    window.location.href = "<?= site_url('/dc/forward_data?qstr=' . $memo_no .','); ?>"+ reason;
+	    // window.location.href = "<?= site_url('/dc/forward_data/' . $memo_no); ?>";
 	}
 	function reject() {
-	    window.location.href = "<?= site_url('/dc/reject_data/' . $memo_no); ?>";
+        var reason=$('#reason').val() ;
+        console.log(reason);
+	    window.location.href = "<?= site_url('/dc/reject_data?qstr=' . $memo_no .','); ?>"+ reason;
+	   // window.location.href = "<?= site_url('/dc/reject_data/' . $memo_no); ?>";
 	}
 	function download() {
 	    window.location.href = "<?= site_url('/dc/download_zip/' . $memo_no); ?>";

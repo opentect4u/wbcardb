@@ -214,6 +214,7 @@ class Fortnight_Model extends CI_Model {
         );
         $this->db->where($where);
         $this->db->delete('td_investment');
+        // echo $this->db->last_query()
         return true;
     }
 
