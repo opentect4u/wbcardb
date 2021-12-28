@@ -596,6 +596,8 @@ class Dc extends CI_Controller {
         // 	}
 
         // }
+         
+        // var_dump($download_flag);exit;
 
         $data['ardb_id'] = $ardb_id;
 
@@ -612,6 +614,10 @@ class Dc extends CI_Controller {
         $data['borrower_details'] = json_encode($borrower_details);
 
         $data['gt_details'] = json_encode($gt_details);
+
+        $data['download_flag'] = $this->dc_model->chk_file($ardb_id, $memo_no);
+
+        // echo '<pre>'; var_dump($data);exit;
 
         $this->load->view('common/header');
 

@@ -300,7 +300,7 @@ $target_details = json_decode($target_details);
                                         </div>
                                     <?php }if ($_SESSION['user_type'] == 'V') { ?>
                                         <div class="col-md-2">
-                                            <button class="btn btn-primary" type="button" onclick="printDiv();">Print</button>
+                                            <button type="button" class="btn btn-success" onclick="printDiv();"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button>
                                         </div>
                                     <?php } ?>
                                 </div>

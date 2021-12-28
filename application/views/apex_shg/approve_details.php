@@ -27,197 +27,199 @@ $approve_details = json_decode($approve_details);
                 <h4 class="card-title">APEX DISBURSEMENT</h4> <hr>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-7 pt-3">
-                                <div class="table-responsive">
-                                    <table width="80%">
-                                        <tr>
-                                            <td><b>Memo No </b> :-</td>
-                                            <td class="pull-left"><?= $shg_details[0]->memo_no ?></td>
+                        <div id="divToPrint">
+                            <div class="row">
+                                <div class="col-md-7 mt-3">
+                                    <!-- <div class="table-responsive"> -->
+                                        <table width="80%" class="info_table">
+                                            <tr>
+                                                <td><b>Memo No </b> :-</td>
+                                                <td class="pull-left"><?= $shg_details[0]->memo_no ?></td>
+                                                </tr>
+                                                <tr>
+                                                <td><b>Memo Date</b> :-</td>
+                                                <td class="pull-left"><?= date('d/m/Y', strtotime(str_replace('-', '/', $shg_details[0]->memo_date))) ?></td>
                                             </tr>
                                             <tr>
-                                            <td><b>Memo Date</b> :-</td>
-                                            <td class="pull-left"><?= date('d/m/Y', strtotime(str_replace('-', '/', $shg_details[0]->memo_date))) ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Sector :-</td>
-                                            <td class="pull-left"><b>SHG</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total Amount of Requisition :-</td>
-                                            <!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
-                                            <td class="pull-left"><?= $memo_header[0]->tot_amt ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total No. of Pronote :-</td>
-                                            <!-- <td class="pull-left"></td> -->
-                                            <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 pt-5">
-                                <center><h4>Loan Requisition  Statement Cum-Disbursement Certificate</h4></center>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Pronote No</th>
-                                                <th>Group</th>
-                                                <th>LSO No</th>
-                                                <th>Block</th>
-                                                <th>Name of the Group</th>
-                                                <th>Branch Loan File No.</th>
-                                                <th>Total Member</th>
-                                                <th>Moratorium</th>
-                                                <th>Loan</th>
-                                                <th>Total</th>
-                                                <th>Purpose</th>
-                                                <th>Rate of Interest</th>
-                                                <th>Project Cost</th>
-                                                <th>Own Contribution</th>
-                                                <th>Corpus Fund</th>
-                                                <th>Amount Of Loan Sanction</th>
-                                                <th>Remaining Disbursement Amount</th>
-                                                <th>Installment</th>
-                                                <th>Disbursement Date</th>
-                                                <th>Disbursement Amount</th>
-                                                <th>Total Deposit Raised</th>
-                                                <th>Intersee AG Bond Date</th>
-                                                <th>Intersee AG Bond No</th>
+                                                <td>Sector :-</td>
+                                                <td class="pull-left"><b>SHG</b></td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-					    <?php
-					    $tot_proj_cost = 0;
-					    $tot_own_amt = 0;
-					    $tot_corp_fnd = 0;
-					    $amt_ln_snc = 0;
-					    $tot_dis_amt = 0;
-					    $tot_depo_res = 0;
-					    $tot_ag_bo = 0;
-					    foreach ($shg_details as $dt) {
-//                                                if ($pronote != $dt->pronote_no) {
-//                                                    $pronote = $dt->pronote_no;
-//                                                    $total_Intr_ag_bond += $dt->total_Intr_ag_bond;
-//                                                    $i++;
-//                                                    $total_pro = $i;
-//                                                }
-						$tot_corp_fnd += $dt->corp_fund;
-						$tot_proj_cost += $dt->pro_cost;
-						$tot_own_amt += $dt->own_cont;
-						$amt_ln_snc += $dt->sanc_amt;
-						$tot_dis_amt += $dt->inst_amt;
-						$tot_depo_res += $dt->tot_depo_rais;
-						$tot_ag_bo += $dt->inter_ag_bo_no;
-//                                                $pr_no = $dt->pronote_no;
-						echo '<tr>';
-						echo '<td>' . $dt->pronote_no . '</td>';
-						echo '<td>' . $dt->group . '</td>';
-						echo '<td>' . $dt->lso_no . '</td>';
-						echo '<td>' . $dt->block_name . '</td>';
-						echo '<td>' . $dt->name_of_group . '</td>';
-						echo '<td>' . $dt->file_no . '</td>';
-						echo '<td>' . $dt->tot_member . '</td>';
-						echo '<td>' . $dt->moratorium_period . '</td>';
-						echo '<td>' . $dt->repayment_no . '</td>';
-						echo '<td>' . $dt->repay_per_tot . '</td>';
-						echo '<td>' . $dt->purpose_name . '</td>';
-						echo '<td>' . $dt->roi . '</td>';
-						echo '<td>' . $dt->pro_cost . '</td>';
-						echo '<td>' . $dt->own_cont . '</td>';
-						echo '<td>' . $dt->corp_fund . '</td>';
-						echo '<td>' . $dt->sanc_amt . '</td>';
-						echo '<td>' . $dt->remaining_sanc_amt . '</td>';
-						echo '<td>' . $dt->inst_sl_no . '</td>';
-						echo '<td>' . $dt->inst_date . '</td>';
-						echo '<td>' . $dt->inst_amt . '</td>';
-						echo '<td>' . $dt->tot_depo_rais . '</td>';
-						echo '<td>' . $dt->inter_ag_bo_dt . '</td>';
-						echo '<td>' . $dt->inter_ag_bo_no . '</td>';
-						echo '</tr>';
-					    }
-					    // exit;
-					    echo '<tr>';
-					    echo '<td><b>Grand Total</b></td>';
-					    echo '<td colspan="11"></td>';
-					    echo '<td><b>' . $tot_proj_cost . '</b></td>';
-					    echo '<td><b>' . $tot_own_amt . '</b></td>';
-					    echo '<td><b>' . $tot_corp_fnd . '</b></td>';
-					    echo '<td><b>' . $amt_ln_snc . '</b></td>';
-					    echo '<td></td><td></td><td></td>';
-					    echo '<td><b>' . $tot_dis_amt . '</b></td>';
-					    echo '<td><b>' . $tot_depo_res . '</b></td>';
-					    echo '<td></td>';
-					    echo '<td><b>' . $tot_ag_bo . '</b></td>';
-					    echo '</tr>';
-					    ?>
-                                        </tbody>
-                                    </table>
+                                            <tr>
+                                                <td>Total Amount of Requisition :-</td>
+                                                <!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
+                                                <td class="pull-left"><?= $memo_header[0]->tot_amt ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total No. of Pronote :-</td>
+                                                <!-- <td class="pull-left"></td> -->
+                                                <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td>
+                                            </tr>
+                                        </table>
+                                    <!-- </div> -->
                                 </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-12 pt-5">
+                                    <center><h4>Loan Requisition  Statement Cum-Disbursement Certificate</h4></center>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pronote No</th>
+                                                    <th>Group</th>
+                                                    <th>LSO No</th>
+                                                    <th>Block</th>
+                                                    <th>Name of the Group</th>
+                                                    <th>Branch Loan File No.</th>
+                                                    <th>Total Member</th>
+                                                    <th>Moratorium</th>
+                                                    <th>Loan</th>
+                                                    <th>Total</th>
+                                                    <th>Purpose</th>
+                                                    <th>Rate of Interest</th>
+                                                    <th>Project Cost</th>
+                                                    <th>Own Contribution</th>
+                                                    <th>Corpus Fund</th>
+                                                    <th>Amount Of Loan Sanction</th>
+                                                    <th>Remaining Disbursement Amount</th>
+                                                    <th>Installment</th>
+                                                    <th>Disbursement Date</th>
+                                                    <th>Disbursement Amount</th>
+                                                    <th>Total Deposit Raised</th>
+                                                    <th>Intersee AG Bond Date</th>
+                                                    <th>Intersee AG Bond No</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                            <?php
+                            $tot_proj_cost = 0;
+                            $tot_own_amt = 0;
+                            $tot_corp_fnd = 0;
+                            $amt_ln_snc = 0;
+                            $tot_dis_amt = 0;
+                            $tot_depo_res = 0;
+                            $tot_ag_bo = 0;
+                            foreach ($shg_details as $dt) {
+    //                                                if ($pronote != $dt->pronote_no) {
+    //                                                    $pronote = $dt->pronote_no;
+    //                                                    $total_Intr_ag_bond += $dt->total_Intr_ag_bond;
+    //                                                    $i++;
+    //                                                    $total_pro = $i;
+    //                                                }
+                            $tot_corp_fnd += $dt->corp_fund;
+                            $tot_proj_cost += $dt->pro_cost;
+                            $tot_own_amt += $dt->own_cont;
+                            $amt_ln_snc += $dt->sanc_amt;
+                            $tot_dis_amt += $dt->inst_amt;
+                            $tot_depo_res += $dt->tot_depo_rais;
+                            $tot_ag_bo += $dt->inter_ag_bo_no;
+    //                                                $pr_no = $dt->pronote_no;
+                            echo '<tr>';
+                            echo '<td>' . $dt->pronote_no . '</td>';
+                            echo '<td>' . $dt->group . '</td>';
+                            echo '<td>' . $dt->lso_no . '</td>';
+                            echo '<td>' . $dt->block_name . '</td>';
+                            echo '<td>' . $dt->name_of_group . '</td>';
+                            echo '<td>' . $dt->file_no . '</td>';
+                            echo '<td>' . $dt->tot_member . '</td>';
+                            echo '<td>' . $dt->moratorium_period . '</td>';
+                            echo '<td>' . $dt->repayment_no . '</td>';
+                            echo '<td>' . $dt->repay_per_tot . '</td>';
+                            echo '<td>' . $dt->purpose_name . '</td>';
+                            echo '<td>' . $dt->roi . '</td>';
+                            echo '<td>' . $dt->pro_cost . '</td>';
+                            echo '<td>' . $dt->own_cont . '</td>';
+                            echo '<td>' . $dt->corp_fund . '</td>';
+                            echo '<td>' . $dt->sanc_amt . '</td>';
+                            echo '<td>' . $dt->remaining_sanc_amt . '</td>';
+                            echo '<td>' . $dt->inst_sl_no . '</td>';
+                            echo '<td>' . $dt->inst_date . '</td>';
+                            echo '<td>' . $dt->inst_amt . '</td>';
+                            echo '<td>' . $dt->tot_depo_rais . '</td>';
+                            echo '<td>' . $dt->inter_ag_bo_dt . '</td>';
+                            echo '<td>' . $dt->inter_ag_bo_no . '</td>';
+                            echo '</tr>';
+                            }
+                            // exit;
+                            echo '<tr>';
+                            echo '<td><b>Grand Total</b></td>';
+                            echo '<td colspan="11"></td>';
+                            echo '<td><b>' . $tot_proj_cost . '</b></td>';
+                            echo '<td><b>' . $tot_own_amt . '</b></td>';
+                            echo '<td><b>' . $tot_corp_fnd . '</b></td>';
+                            echo '<td><b>' . $amt_ln_snc . '</b></td>';
+                            echo '<td></td><td></td><td></td>';
+                            echo '<td><b>' . $tot_dis_amt . '</b></td>';
+                            echo '<td><b>' . $tot_depo_res . '</b></td>';
+                            echo '<td></td>';
+                            echo '<td><b>' . $tot_ag_bo . '</b></td>';
+                            echo '</tr>';
+                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="row">
-                            <div class="col-md-12 pt-5">
-                                <center><h4>Borrower Classification</h4></center>
+                            <div class="row">
+                                <div class="col-md-12 pt-5">
+                                    <center><h4>Borrower Classification</h4></center>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="table_thead">Pronote No</th>
-                                                <th class="table_thead">Total Member</th>
-                                                <th class="table_thead">Total Borrower</th>
-                                                <th class="table_thead">Men</th>
-                                                <th class="table_thead">Women</th>
-                                                <th class="table_thead">SC</th>
-                                                <th class="table_thead">ST</th>
-                                                <th class="table_thead">OBC A</th>
-                                                <th class="table_thead">OBC B</th>
-                                                <th class="table_thead">Gen</th>
-                                                <th class="table_thead">Oth.</th>
-                                                <th class="table_thead">Total</th>
-                                                <th class="table_thead">Big</th>
-                                                <th class="table_thead">Marginal</th>
-                                                <th class="table_thead">Landless</th>
-                                                <th class="table_thead">HIG</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-					    <?php
-					    foreach ($borrower_details as $b) {
-						echo '<tr>';
-						echo '<td class="table_body">' . $b->pronote_no . '</td>';
-						echo '<td class="table_body">' . $b->tot_memb . '</td>';
-						echo '<td class="table_body">' . $b->tot_borrower . '</td>';
-						echo '<td class="table_body">' . $b->tot_male . '</td>';
-						echo '<td class="table_body">' . $b->tot_female . '</td>';
-						echo '<td class="table_body">' . $b->tot_sc . '</td>';
-						echo '<td class="table_body">' . $b->tot_st . '</td>';
-						echo '<td class="table_body">' . $b->tot_obca . '</td>';
-						echo '<td class="table_body">' . $b->tot_obcb . '</td>';
-						echo '<td class="table_body">' . $b->tot_gen . '</td>';
-						echo '<td class="table_body">' . $b->tot_other . '</td>';
-						echo '<td class="table_body">' . $b->tot_count . '</td>';
-						echo '<td class="table_body">' . $b->tot_big . '</td>';
-						echo '<td class="table_body">' . $b->tot_marginal . '</td>';
-						echo '<td class="table_body">' . $b->tot_landless . '</td>';
-						echo '<td class="table_body">' . $b->tot_hig . '</td>';
-						echo '</tr>';
-					    }
-					    ?>
-                                        </tbody>
-                                    </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="table_thead">Pronote No</th>
+                                                    <th class="table_thead">Total Member</th>
+                                                    <th class="table_thead">Total Borrower</th>
+                                                    <th class="table_thead">Men</th>
+                                                    <th class="table_thead">Women</th>
+                                                    <th class="table_thead">SC</th>
+                                                    <th class="table_thead">ST</th>
+                                                    <th class="table_thead">OBC A</th>
+                                                    <th class="table_thead">OBC B</th>
+                                                    <th class="table_thead">Gen</th>
+                                                    <th class="table_thead">Oth.</th>
+                                                    <th class="table_thead">Total</th>
+                                                    <th class="table_thead">Big</th>
+                                                    <th class="table_thead">Marginal</th>
+                                                    <th class="table_thead">Landless</th>
+                                                    <th class="table_thead">HIG</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                            <?php
+                            foreach ($borrower_details as $b) {
+                            echo '<tr>';
+                            echo '<td class="table_body">' . $b->pronote_no . '</td>';
+                            echo '<td class="table_body">' . $b->tot_memb . '</td>';
+                            echo '<td class="table_body">' . $b->tot_borrower . '</td>';
+                            echo '<td class="table_body">' . $b->tot_male . '</td>';
+                            echo '<td class="table_body">' . $b->tot_female . '</td>';
+                            echo '<td class="table_body">' . $b->tot_sc . '</td>';
+                            echo '<td class="table_body">' . $b->tot_st . '</td>';
+                            echo '<td class="table_body">' . $b->tot_obca . '</td>';
+                            echo '<td class="table_body">' . $b->tot_obcb . '</td>';
+                            echo '<td class="table_body">' . $b->tot_gen . '</td>';
+                            echo '<td class="table_body">' . $b->tot_other . '</td>';
+                            echo '<td class="table_body">' . $b->tot_count . '</td>';
+                            echo '<td class="table_body">' . $b->tot_big . '</td>';
+                            echo '<td class="table_body">' . $b->tot_marginal . '</td>';
+                            echo '<td class="table_body">' . $b->tot_landless . '</td>';
+                            echo '<td class="table_body">' . $b->tot_hig . '</td>';
+                            echo '</tr>';
+                            }
+                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -237,18 +239,23 @@ $approve_details = json_decode($approve_details);
     				    <input type="button" id="submit" class="btn btn-info pull-left" value="Forward" onclick="submit()" />
     				</div>
                     <?php if ($_SESSION['user_type'] != 'U') { ?>
-                                    <label for="reason" class="col-sm-1 col-form-label">Reason:</label>
-                                    <div class="col-sm-3">
+                        <label for="reason" class="col-1 col-form-label">Reason:</label>
+                        <div class="col-3">
 
-                                    <input type="text" style="width:350px" id=reason name="reason" class="form-control" value=" "    />
-                                   
-                                    </div> 
-                                    <?php } ?>
+                        <input type="text" style="width:350px" id=reason name="reason" class="form-control" value=" "    />
+                        
+                        </div> 
+                    <?php } ?>
     			    </div>
     			</div>
-			    <?php
-			}
-			?>
+			    <?php } ?>
+                <?php if($_SESSION['user_type'] == 'V') { ?>
+                    <div class="col-12">
+                        <center>
+                            <button type="button" class="btn btn-success mt-4" onclick="printDiv();"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button>
+                        </center>
+                    </div>
+                <?php } ?>
                     </div>
                 </div>
             </div>
@@ -269,4 +276,38 @@ $approve_details = json_decode($approve_details);
 	    // window.location.href = "<?= site_url('/apex_shg/reject_data/' . $memo_no); ?>"+ reason;
         window.location.href = "<?= site_url('/apex_shg/reject_data?qstr=' . $memo_no .','); ?>"+ reason;
 	}
+    </script>
+
+    <script>
+        function printDiv() {
+
+            var divToPrint = document.getElementById('divToPrint');
+
+            var WindowObject = window.open('', 'Print-Window');
+            WindowObject.document.open();
+            WindowObject.document.writeln('<!DOCTYPE html>');
+            WindowObject.document.writeln('<html><head><title></title><style type="text/css">');
+
+
+            WindowObject.document.writeln('@media print { .center { text-align: center;}' +
+                    '                                         .inline { display: inline; }' +
+                    '                                         .underline { text-decoration: underline; }' +
+                    '                                         .left { margin-left: 315px;} ' +
+                    '                                         .right { margin-right: 375px; display: inline; }' +
+                    '                                          table { border-collapse: collapse; font-size: 10px;}' +
+                    '                                          th, td { border: 1px solid black; border-collapse: collapse; padding: 6px;}' +
+                    '                                           th, td { }' +
+                    '                                         .border { border: 1px solid black; } ' +
+                    '                                         .bottom { bottom: 5px; width: 100%; position: fixed; }' +
+                    '                                          input.down_btn { display: none; } table.info_table td { border: none; } table.info_table { width: 30% !important; }' +
+                    '                                   } </style>');
+            WindowObject.document.writeln('</head><body onload="window.print()">');
+            WindowObject.document.writeln(divToPrint.innerHTML);
+            WindowObject.document.writeln('</body></html>');
+            WindowObject.document.close();
+            setTimeout(function () {
+                WindowObject.close();
+            }, 10);
+
+        }
     </script>

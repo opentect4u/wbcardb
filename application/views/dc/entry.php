@@ -146,7 +146,7 @@ if ($id > 0) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-13">
+                    <div class="col-md-12">
                         <div class="table-responsive margin-topp-remove">
                             <table id="table" class="table m">
                                 <thead>
@@ -164,9 +164,7 @@ if ($id > 0) {
                                         <th>Corpus Fund</th>
                                         <th>Amount <br>Disbursed <br>(Rs)</th>
                                         <th>Intersee <br>Agreement Date</th>
-                                        <th>Bond No</th>
-                                        <th>
-
+                                        <!-- <th>Bond No</th> -->
                                         <th><button type="button" class="btn btn-success" id="dynamic_add"><i class="fa fa-plus"></i></button></th>
                                     </tr>
                                 </thead>

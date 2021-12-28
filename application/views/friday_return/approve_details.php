@@ -35,6 +35,7 @@ $friday_details = json_decode($friday_details);
                                         <th colspan="7">Deposit Mobilised</th>
                                         <th colspan="7">Deployment of Fund</th>
                                         <th rowspan="2">Total/Shortfall</th>
+                                        <th rowspan="2">Total Deployment of Fund</th>
                                     </tr>
 
                                     <tr>
@@ -52,7 +53,6 @@ $friday_details = json_decode($friday_details);
                                         <th>Loan Against Deposit</th>
                                         <th>Remitted to WBSCARDB(SLR)</th>
                                         <th>Others</th>
-                                        <th>Total Deployment of Fund</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,7 +105,16 @@ $friday_details = json_decode($friday_details);
                                         <div class="col-md-2">
                                             <input type="button" id="submit" class="btn btn-info pull-left" value="Forward" onclick="forward()" />
                                         </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-success pull-right" onclick="printDiv();"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button>
+                                        </div>
                                     </div>
+                                </div>
+                            <?php }elseif($_SESSION['user_type'] == 'V'){ ?>
+                                <div class="col-12 mt-4">
+                                    <center>
+                                        <button type="button" class="btn btn-success" onclick="printDiv();"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button>
+                                    </center>
                                 </div>
                             <?php } ?>
                         </div>
@@ -123,5 +132,39 @@ $friday_details = json_decode($friday_details);
         }
         function reject() {
             window.location.href = "<?= site_url('/friday_return/reject/' . $friday_details[0]->ardb_id . '?dt=' . $friday_details[0]->week_dt); ?>";
+        }
+    </script>
+
+    <script>
+        function printDiv() {
+
+            var divToPrint = document.getElementById('divToPrint');
+
+            var WindowObject = window.open('', 'Print-Window');
+            WindowObject.document.open();
+            WindowObject.document.writeln('<!DOCTYPE html>');
+            WindowObject.document.writeln('<html><head><title></title><style type="text/css">');
+
+
+            WindowObject.document.writeln('@media print { .center { text-align: center;}' +
+                    '                                         .inline { display: inline; }' +
+                    '                                         .underline { text-decoration: underline; }' +
+                    '                                         .left { margin-left: 315px;} ' +
+                    '                                         .right { margin-right: 375px; display: inline; }' +
+                    '                                          table { border-collapse: collapse; font-size: 10px;}' +
+                    '                                          th, td { border: 1px solid black; border-collapse: collapse; padding: 6px;}' +
+                    '                                           th, td { }' +
+                    '                                         .border { border: 1px solid black; } ' +
+                    '                                         .bottom { bottom: 5px; width: 100%; position: fixed; }' +
+                    '                                          input.down_btn { display: none; } table.info_table td { border: none; } table.info_table { width: 30% !important; }' +
+                    '                                   } </style>');
+            WindowObject.document.writeln('</head><body onload="window.print()">');
+            WindowObject.document.writeln(divToPrint.innerHTML);
+            WindowObject.document.writeln('</body></html>');
+            WindowObject.document.close();
+            setTimeout(function () {
+                WindowObject.close();
+            }, 10);
+
         }
     </script>

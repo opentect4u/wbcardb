@@ -716,6 +716,21 @@ class Dc_self_Model extends CI_Model {
 
     }
 
+	function chk_file($ardb_id, $memo_no) {
+		$memo = $memo_no != '' ? 'AND ="' . $memo_no . '"' : '';
+		$this->db->select('sl_no, ardb_id');
+		$this->db->where(array(
+			'ardb_id' => $ardb_id,
+			'replace(replace(replace(memo_no, " ", ""), "/", ""), "-", "")=' => $memo_no
+		));
+		$query = $this->db->get('td_dc_self_upload');
+		if($query->num_rows() > 0) {
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
 
 
     function get_approve_shg_details($ardb_id, $memo_no) {

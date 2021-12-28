@@ -47,7 +47,7 @@ class Apex_self_Model extends CI_Model {
 
 		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
 		FLOOR(sum(a.inst_amt)) as tot_amt ,shg.instl_dt FROM td_apex_self shg ,td_apex_self_dis a
-		WHERE shg.ardb_id=a.ardb_id and a.inst_date=shg.instl_dt and shg.pronote_no=a.pronote_no  and  shg.ardb_id=' . $ardb_id .  ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")=' . $memo_no .  ' AND shg.instl_dt="' . $disb_dt .  '" GROUP BY shg.memo_no, shg.memo_no,shg.instl_dt ORDER by shg.memo_no';
+		WHERE shg.ardb_id=a.ardb_id and a.inst_date=shg.instl_dt and shg.pronote_no=a.pronote_no  and  shg.ardb_id=' . $ardb_id .  ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no .  '" AND shg.instl_dt="' . $disb_dt .  '" GROUP BY shg.memo_no, shg.memo_no,shg.instl_dt ORDER by shg.memo_no';
 	
 		$data = $this->db->query($sql);
 	
@@ -93,7 +93,7 @@ and a.instl_dt=di.inst_date
 /*and a.instl_dt=b.instl_dt*/
 and a.instl_dt='$disb_dt'
 and  a.ardb_id=$ardb_id
-AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='$memo_no ' ";
+AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='" . $memo_no . "'";
 	$data = $this->db->query($sql);
 	// echo '<pre>' . $this->db->last_query();
 	// exit;

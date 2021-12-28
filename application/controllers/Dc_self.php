@@ -557,6 +557,8 @@ class Dc_self extends CI_Controller {
 
         $data['gt_details'] = json_encode($gt_details);
 
+        $data['download_flag'] = $this->dc_self_model->chk_file($ardb_id, $memo_no);
+
         $this->load->view('common/header');
 
         $this->load->view("dc_self/approve_details", $data);
