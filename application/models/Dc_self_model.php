@@ -268,6 +268,10 @@ class Dc_self_Model extends CI_Model {
 
 		    'dis_total' => $data['disbursement_total'][$i],
 
+		    'ibsd' => $data['ibsd'][$i],
+
+		    'net_amount' => $data['net_amount'][$i],
+
 		    'own_cont' => $data['own_contribution'][$i],
 
 		    'sub_received' => $data['subsidy_received'][$i],
@@ -338,6 +342,8 @@ class Dc_self_Model extends CI_Model {
 
 		    'brrwr_sl_no' => $data['brrwr_sl_no'][$i],
 
+			'cust_name' => $data['cust_name'][$i],
+
 		    'roi' => $data['rete_of_interest'],
 
 		    'project_cost' => $data['project_cost'][$i],
@@ -353,6 +359,10 @@ class Dc_self_Model extends CI_Model {
 		    'dis_working' => $data['disbursement_working'][$i],
 
 		    'dis_total' => $data['disbursement_total'][$i],
+
+		    'ibsd' => $data['ibsd'][$i],
+
+		    'net_amount' => $data['net_amount'][$i],
 
 		    'own_cont' => $data['own_contribution'][$i],
 
@@ -741,7 +751,7 @@ class Dc_self_Model extends CI_Model {
 
 		. 'FLOOR(dt.sanc_block) as sanc_block_id, FLOOR(dt.sanc_working) as sanc_working, FLOOR(dt.sanc_total) as sanc_total, FLOOR(dt.dis_block) as dis_block_id, FLOOR(dt.dis_working) as dis_working, '
 
-		. 'FLOOR(dt.dis_total)as dis_total ,FLOOR( dt.own_cont) as own_cont , FLOOR(dt.sub_received) as sub_received,FLOOR( dt.sub_receivable)sub_receivable, FLOOR(dt.tot_loan_amt) as tot_loan_amt, dt.lof_mort, dt.af_culti, FLOOR(dt.sec_land)as sec_land, FLOOR(dt.sec_oth)as sec_oth , FLOOR( dt.sec_tot) as sec_tot,FLOOR( dt.igo_loan) as igo_loan, FLOOR( dt.tot_mordg_bond)as tot_mordg_bond '
+		. 'FLOOR(dt.dis_total)as dis_total, FLOOR(dt.ibsd) AS ibsd, FLOOR(dt.net_amount) AS net_amount, FLOOR( dt.own_cont) as own_cont , FLOOR(dt.sub_received) as sub_received,FLOOR( dt.sub_receivable)sub_receivable, FLOOR(dt.tot_loan_amt) as tot_loan_amt, dt.lof_mort, dt.af_culti, FLOOR(dt.sec_land)as sec_land, FLOOR(dt.sec_oth)as sec_oth , FLOOR( dt.sec_tot) as sec_tot,FLOOR( dt.igo_loan) as igo_loan, FLOOR( dt.tot_mordg_bond)as tot_mordg_bond '
 
 		. 'FROM td_dc_self s '
 
@@ -765,7 +775,7 @@ class Dc_self_Model extends CI_Model {
 
     function get_shg_dc_header($ardb_id, $memo_no) {
 
-	$sql = 'select DISTINCT s.memo_no, se.sector_name, COUNT(distinct s.pronote_no) as tot_pronote,sum(a.dis_total) as tot_amt
+	$sql = 'select DISTINCT s.memo_no, se.sector_name, COUNT(distinct s.pronote_no) as tot_pronote,sum(a.dis_total) as tot_amt, FLOOR(SUM(a.net_amount)) AS net_amount
 	 FROM td_dc_self s , md_sector se ,td_dc_self_dtls a
 	 where s.sector_code=se.sector_code  
 	 and s.pronote_no=a.pronote_no  and s.ardb_id=a.ardb_id and s.ardb_id=' . $ardb_id . ' AND replace(replace(replace(s.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" GROUP BY s.memo_no, s.memo_no, se.sector_name ORDER by s.memo_no';

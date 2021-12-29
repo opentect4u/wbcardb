@@ -94,12 +94,13 @@ if ($id > 0) {
                                     <th>Rate of Interest</th>
                                     <th>Project Cost</th>
                                     <th>Own Contribution</th>
-                                    <th>Corpus Fund</th>
                                     <th>Amount Of Loan Sanction</th>
                                     <th>Remaining Disbursement Amount</th>
                                     <th>Installment</th>
                                     <th>Disbursement Date</th>
                                     <th>Disbursement Amount</th>
+                                    <th>Corpus Fund</th>
+                                    <th>Net Amount</th>
                                     <th>Land Offered as Security<br><i><small>(in acres)</small></i></th>
                                     <th>Cultivated Area<br><i><small>(in acres)</small></i></th>
                                     <th>Value of Hypothecation</th>
@@ -156,9 +157,6 @@ if ($id > 0) {
                                         <div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_' . $i . '" value="' . $shg->own_cont . '" required="" readonly /></div>
                                     </td>
                                     <td>
-                                        <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' . $i . '" value="' . $shg->corp_fund . '" required=""  /></div>
-                                    </td>
-                                    <td>
                                         <div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_' . $i . '" value="' . $shg->sanc_amt . '" required="" readonly /></div>
                                     </td>
                                     <td>
@@ -171,7 +169,13 @@ if ($id > 0) {
                                         <div class="form-group"><input type="date" class="form-control required" name="inst_date[]" id="inst_date_' . $i . '" value="' . $shg->inst_date . '" /></div>
                                     </td>
                                     <td>
-                                        <div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_' . $i . '" value="' . $shg->inst_amt . '" /></div>
+                                        <div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_' . $i . '" value="' . $shg->inst_amt . '" onchange="get_net_amt('. $i .')" /></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' . $i . '" value="' . $shg->corp_fund . '" required="" onchange="get_net_amt('. $i .')" /></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group"><input type="text" class="form-control" name="net_amount[]" id="net_amount_' . $i . '" value="' . $shg->net_amount . '" required="" readonly /></div>
                                     </td>
                                         <td>
                                             <div class="form-group"><input type="text" class="form-control" name="lnd_off_sec[]" id="lnd_off_sec_' . $i . '" value="' . $shg->lnd_off_sec . '" required="" readonly /></div>
@@ -236,9 +240,6 @@ if ($id > 0) {
     					<div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_1" value="<?= $selected ? $selected->own_cont : ''; ?>" required="" readonly /></div>
     				    </td>
     				    <td>
-    					<div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_1" value="<?= $selected ? $selected->corp_fund : ''; ?>" required=""  /></div>
-    				    </td>
-    				    <td>
     					<div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_1" value="<?= $selected ? $selected->sanc_amt : ''; ?>" required="" readonly /></div>
     				    </td>
     				    <td>
@@ -251,8 +252,16 @@ if ($id > 0) {
     					<div class="form-group"><input type="date" class="form-control required" name="inst_date[]" id="inst_date_1" value="<?= date('Y-m-d') ?>" /></div>
     				    </td>
     				    <td>
-    					<div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_1" /></div>
+    					<div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_1" onchange="get_net_amt(1)" /></div>
     				    </td>
+    				    <td>
+    					<div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_1" value="<?= $selected ? $selected->corp_fund : '0'; ?>" required="" onchange="get_net_amt(1)" /></div>
+    				    </td>
+
+                        <td>
+    					<div class="form-group"><input type="text" class="form-control" name="net_amount[]" id="net_amount_1" value="<?= $selected ? $selected->net_amount : ''; ?>" required="" readonly /></div>
+    				    </td>
+                        
     				    <td>
     					<div class="form-group"><input type="text" class="form-control" name="lnd_off_sec[]" id="lnd_off_sec_1" value="<?= $selected ? $selected->lnd_off_sec : ''; ?>" required="" readonly /></div>
     				    </td>
@@ -493,12 +502,13 @@ if ($id > 0) {
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="roi[]" id="roi_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="pro_cost[]" id="pro_cost_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="own_cont[]" id="own_cont_' + x + '" value="" required="" readonly /></div></td>'
-			    + '<td><div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' + x + '" value="" required=""  /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="sanc_amt[]" id="sanc_amt_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" id="remaining_sanc_amt_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control required" name="inst_sl_no[]" id="inst_sl_no_' + x + '" value="" /></div></td>'
 			    + '<td><div class="form-group"><input type="date" class="form-control required" name="inst_date[]" id="inst_date_' + x + '" value="<?= date('Y-m-d') ?>" /></div></td>'
-			    + '<td><div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_' + x + '" /></div></td>'
+			    + '<td><div class="form-group"><input type="text" class="form-control required" name="inst_amt[]" id="inst_amt_' + x + '" onchange="get_net_amt('+ x +')" /></div></td>'
+			    + '<td><div class="form-group"><input type="text" class="form-control" name="corp_fund[]" id="corp_fund_' + x + '" value="0" required="" onchange="get_net_amt('+ x +')"  /></div></td>'
+			    + '<td><div class="form-group"><input type="text" class="form-control" name="net_amount[]" id="net_amount_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="lnd_off_sec[]" id="lnd_off_sec_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="cult_area[]" id="cult_area_' + x + '" value="" required="" readonly /></div></td>'
 			    + '<td><div class="form-group"><input type="text" class="form-control" name="val_of_hypo[]" id="val_of_hypo_' + x + '" value="" required="" readonly /></div></td>'
@@ -669,4 +679,21 @@ if ($id > 0) {
 		$('#submit').removeAttr('disabled');
 	    }
 	});
+    </script>
+
+    <script>
+        function get_net_amt(id) {
+            var dis = $('#inst_amt_'+id).val()
+            var corp_amt = $('#corp_fund_'+id).val();
+            if(parseInt(dis) < parseInt(corp_amt)){
+                alert('Corpus Fund must be lesser than Disburstment amount');
+                $('#corp_fund_'+id).val(0);
+                $('#net_amount_'+id).val(0);
+                $('#corp_fund_'+id).focus();
+                $('#submit').attr('disabled', 'disabled');
+            }else{
+                $('#net_amount_'+id).val(dis - corp_amt);
+                $('#submit').removeAttr('disabled');
+            }
+        }
     </script>

@@ -222,7 +222,7 @@ class Dc_self extends CI_Controller {
         $br= $_SESSION['br_id'];
 
         $data = $this->input->post();
-
+        
         if ($this->dc_self_model->dc_save($data)) {
 
             $this->session->set_flashdata('msg', '<b style:"color:green;">Successfully added!</b>');

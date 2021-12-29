@@ -167,6 +167,8 @@ if ($id > 0) {
                                         <th>Disbursement Block</th>
                                         <th>Disbursement<br>Working</th>
                                         <th>Disbursement<br>Total<br>(Rs.)</th>
+                                        <th>IBSD<br>(Rs.)</th>
+                                        <th>Net<br>Amount<br>(Rs.)</th>
                                         <th>Total Own <br>Contribution <br>(Rs.)</th>
                                         <th>Subsidy<br>Received<br>(If Any)</th>
                                         <th>Subsidy<br>Receivable<br>(If Any)</th>
@@ -219,6 +221,12 @@ if ($id > 0) {
                                     </td>
                                     <td>
                                       <div class="form-group"><input type="text" class="form-control width-th required" name="disbursement_total[]" id="disbursement_total_' . $i . '" value="' . $dt->dis_total . '" readonly/></div>
+                                    </td>
+                                    <td>
+                                      <div class="form-group"><input type="text" class="form-control width-th required" name="ibsd[]" id="ibsd_' . $i . '" value="' . $dt->ibsd . '" /></div>
+                                    </td>
+                                    <td>
+                                      <div class="form-group"><input type="text" class="form-control width-th required" name="net_amount[]" id="net_amount_' . $i . '" value="' . $dt->net_amount . '" readonly/></div>
                                     </td>
                                     <td>
                                       <div class="form-group"><input type="number" class="form-control width-th required" name="own_contribution[]" id="own_contribution_' . $i . '" value="' . $dt->own_cont . '" value="0" onchange="count_own_tot(' . $i . ')" /></div>
@@ -298,6 +306,12 @@ if ($id > 0) {
                                             </td>
                                             <td>
                                                 <div class="form-group"><input type="number" class="form-control width-th required" name="disbursement_total[]" id="disbursement_total_1" readonly /></div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="ibsd[]" id="ibsd_1" value="0" onchange="count_net_amt(1)" required /></div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group"><input type="number" class="form-control width-th required" name="net_amount[]" id="net_amount_1" readonly /></div>
                                             </td>
                                             <td>
                                                 <div class="form-group"><input type="number" class="form-control width-th required" name="own_contribution[]" id="own_contribution_1" value="0" onchange="count_own_tot(1)"/></div>
@@ -596,6 +610,8 @@ if ($id > 0) {
                             + '<td><div class="form-group"><input type="number" class="form-control required" name="disbursement_block[]" id="disbursement_block_' + x + '" value="0" onchange="count_dis_tot(' + x + ')" /></div></td>'
                             + '<td><div class="form-group"><input type="number" class="form-control required" name="disbursement_working[]" id="disbursement_working_' + x + '" value="0" onchange="count_dis_tot(' + x + ')" /></div></td>'
                             + '<td><div class="form-group"><input type="number" class="form-control required" name="disbursement_total[]" id="disbursement_total_' + x + '" readonly /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="ibsd[]" id="ibsd_' + x + '" value="0" onchange="count_net_amt(' + x + ')" required /></div></td>'
+                            + '<td><div class="form-group"><input type="number" class="form-control required" name="net_amount[]" id="net_amount_' + x + '" readonly /></div></td>'
                             + '<td><div class="form-group"><input type="number" class="form-control required" name="own_contribution[]" id="own_contribution_' + x + '" value="0" onchange="count_own_tot(' + x + ')"/></div></td>'
                             + '<td><div class="form-group"><input type="number" class="form-control required" name="subsidy_received[]" id="subsidy_received_' + x + '" /></div></td>'
                             + '<td><div class="form-group"><input type="number" class="form-control required" name="subsidy_receivable[]" id="subsidy_receivable_' + x + '" /></div></td>'
@@ -1038,6 +1054,7 @@ function count_loan_amt(id){
                 var tot_disb = parseFloat( $('#disbursement_total_' + id).val());
                 var tot_sanc = parseFloat( $('#sanction_total_' + id).val());
                 var proj_costamt= parseFloat( $('#project_cost_' + id).val());
+                var ibsd = $('#ibsd_'+id).val();
                 // alert(tot_disb);
                 if(tot_disb>tot_sanc || tot_disb>proj_costamt ){
                     $('#submit').attr('disabled', 'disabled');
@@ -1047,6 +1064,7 @@ function count_loan_amt(id){
                     $('#disbursement_working_' + id).val(0);
                 }else{
                     $('#submit').removeAttr('disabled'); 
+                    if(ibsd > 0) {$('#ibsd_'+id).change();}
                 }
                 if(tot_disb>proj_costamt){
                     $('#submit').attr('disabled', 'disabled');
@@ -1057,6 +1075,7 @@ function count_loan_amt(id){
 
                 }else{
                     $('#submit').removeAttr('disabled'); 
+                    if(ibsd > 0) {$('#ibsd_'+id).change();}
                 }
             }
 
@@ -1226,6 +1245,23 @@ $("#date").change(function(){
 		}
 	})
 });
+</script>
+<!-- Count Net Amount -->
+<script>
+    function count_net_amt(id) {
+        var tot_dis = $('#disbursement_total_'+id).val();
+        var ibsd = $('#ibsd_'+id).val();
+        if(tot_dis < ibsd){
+            $('#submit').attr('disabled', 'disabled');
+            $('#ibsd_'+id).val(0);
+            $('#ibsd_'+id).focus();
+            $('#net_amount_'+id).val(0);
+            alert('IBSD cannot be greated than Disbursement Total Amount');
+        }else{
+            $('#net_amount_'+id).val(tot_dis - ibsd);
+            $('#submit').removeAttr('disabled');
+        }
+    }
 </script>
 <script>
 

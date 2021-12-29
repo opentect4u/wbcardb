@@ -55,7 +55,7 @@ $approve_details = json_decode($approve_details);
                                             <tr>
                                                 <td>Total Amount of Requisition :-</td>
                                                 <!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
-                                            <td class="pull-left"><?php if(isset( $memo_header[0]->tot_amt )) echo  $memo_header[0]->tot_amt  ;?>
+                                            <td class="pull-left">&#X20B9; <?php if(isset( $memo_header[0]->tot_amt )) echo  $memo_header[0]->net_amount  ;?>
                                             </td>
                                             </tr>
                                             <tr>
@@ -91,12 +91,13 @@ $approve_details = json_decode($approve_details);
                                                     <th>Rate of Interest</th>
                                                     <th>Project Cost</th>
                                                     <th>Own Contribution</th>
-                                                    <th>Corpus Fund</th>
                                                     <th>Amount Of Loan Sanction</th>
                                                     <th>Remaining Disbursement Amount</th>
                                                     <th>Installment</th>
                                                     <th>Disbursement Date</th>
                                                     <th>Disbursement Amount</th>
+                                                    <th>Corpus Fund</th>
+                                                    <th>Net Amount</th>
                                                     <th>Land Offered as Security<br><i><small>(in acres)</small></i></th>
                                                     <th>Cultivated Area<br><i><small>(in acres)</small></i></th>
                                                     <th>Value of Hypothecation</th>
@@ -112,6 +113,7 @@ $approve_details = json_decode($approve_details);
                                                 $tot_corp_fnd = 0;
                                                 $amt_ln_snc = 0;
                                                 $tot_dis_amt = 0;
+                                                $tot_net_amt = 0;
                                                 $tot_lnd_sec = 0;
                                                 $tot_cult_arr = 0;
                                                 $tot_hypo_val = 0;
@@ -129,6 +131,7 @@ $approve_details = json_decode($approve_details);
                                                     $tot_own_amt += $dt->own_cont;
                                                     $amt_ln_snc += $dt->sanc_amt;
                                                     $tot_dis_amt += $dt->inst_amt;
+                                                    $tot_net_amt += $dt->net_amount;
                                                     $tot_lnd_sec += $dt->lnd_off_sec;
                                                     $tot_cult_arr += $dt->cult_area;
                                                     $tot_hypo_val += $dt->val_of_hypo;
@@ -149,12 +152,13 @@ $approve_details = json_decode($approve_details);
                                                     echo '<td>' . $dt->roi . '</td>';
                                                     echo '<td>' . $dt->pro_cost . '</td>';
                                                     echo '<td>' . $dt->own_cont . '</td>';
-                                                    echo '<td>' . $dt->corp_fund . '</td>';
                                                     echo '<td>' . $dt->sanc_amt . '</td>';
                                                     echo '<td>' . $dt->remaining_sanc_amt . '</td>';
                                                     echo '<td>' . $dt->inst_sl_no . '</td>';
                                                     echo '<td>' . $dt->inst_date . '</td>';
                                                     echo '<td>' . $dt->inst_amt . '</td>';
+                                                    echo '<td>' . $dt->corp_fund . '</td>';
+                                                    echo '<td>' . $dt->net_amount . '</td>';
                                                     echo '<td>' . $dt->lnd_off_sec . '</td>';
                                                     echo '<td>' . $dt->cult_area . '</td>';
                                                     echo '<td>' . $dt->val_of_hypo . '</td>';
@@ -166,13 +170,14 @@ $approve_details = json_decode($approve_details);
                                                 // exit;
                                                 echo '<tr>';
                                                 echo '<td><b>Grand Total</b></td>';
-                                                echo '<td colspan="9"></td>';
+                                                echo '<td colspan="10"></td>';
                                                 echo '<td><b>' . $tot_proj_cost . '</b></td>';
                                                 echo '<td><b>' . $tot_own_amt . '</b></td>';
-                                                echo '<td><b>' . $tot_corp_fnd . '</b></td>';
                                                 echo '<td><b>' . $amt_ln_snc . '</b></td>';
                                                 echo '<td></td><td></td><td></td>';
                                                 echo '<td><b>' . $tot_dis_amt . '</b></td>';
+                                                echo '<td><b>' . $tot_corp_fnd . '</b></td>';
+                                                echo '<td><b>' . $tot_net_amt . '</b></td>';
                                                 echo '<td><b>' . $tot_lnd_sec . '</b></td>';
                                                 echo '<td><b>' . $tot_cult_arr . '</b></td>';
                                                 echo '<td><b>' . $tot_hypo_val . '</b></td>';

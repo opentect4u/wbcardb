@@ -73,7 +73,7 @@ $approve_details = json_decode($approve_details);
 								<td>Total Amount of Requisition :-</td>
 
 								<!-- <td class="pull-left"><?= $memo_header[0]->tot_pronote ?></td> -->
-								<td class="pull-left"><?= $memo_header[0]->tot_amt ?></td
+								<td class="pull-left">&#X20B9; <?= $memo_header[0]->net_amount ?></td
 								
 							</tr>
 
@@ -155,6 +155,10 @@ $approve_details = json_decode($approve_details);
 
 								<th class="table_thead">Disbursement<br>Total</th>
 
+								<th class="table_thead">IBSD<br>(Rs.)</th>
+
+								<th class="table_thead">Net<br>Amount<br>(Rs.)</th>
+
 								<th class="table_thead">Total Own <br>Contribution <br>(Rs.)</th>
 
 								<th class="table_thead">Subsidy<br>Received<br>(If Any)</th>
@@ -201,6 +205,10 @@ $approve_details = json_decode($approve_details);
 
 								$tot_dis_total = 0;
 
+								$tot_ibsd = 0;
+
+								$tot_net_amt = 0;
+
 								$own_cont = 0;
 
 								$sub_received = 0;
@@ -242,6 +250,10 @@ $approve_details = json_decode($approve_details);
 								$tot_dis_working += $dt->dis_working;
 
 								$tot_dis_total += $dt->dis_total;
+
+								$tot_ibsd += $dt->ibsd;
+
+								$tot_net_amt += $dt->net_amount;
 
 								$own_cont += $dt->own_cont;
 
@@ -319,6 +331,10 @@ $approve_details = json_decode($approve_details);
 
 								echo '<td class="table_body">' . $dt->dis_total . '</td>';
 
+								echo '<td class="table_body">' . $dt->ibsd . '</td>';
+
+								echo '<td class="table_body">' . $dt->net_amount . '</td>';
+
 								echo '<td class="table_body">' . $dt->own_cont . '</td>';
 
 								echo '<td class="table_body">' . $dt->sub_received . '</td>';
@@ -357,7 +373,7 @@ $approve_details = json_decode($approve_details);
 
 								echo '<td class="table_body"><b></b></td>';
 
-								echo '<td class="table_body"></td><td class="table_body"></td><td class="table_body"></td><td class="table_body"></td><td class="table_body"></td><td class="table_body"></td>';
+								echo '<td class="table_body"></td><td class="table_body"></td><td class="table_body"></td><td class="table_body"></td><td class="table_body"></td><td class="table_body"></td><td class="table_body"></td>';
 
 								echo '<td class="table_body"><b>' . $tot_proj_cost . '</b></td>';
 
@@ -366,6 +382,8 @@ $approve_details = json_decode($approve_details);
 								echo '<td class="table_body"><b>' . $tot_dis_working . '</b></td>';
 
 								echo '<td class="table_body"><b>' . $tot_dis_total . '</b></td>';
+								echo '<td class="table_body"><b>' . $tot_ibsd . '</b></td>';
+								echo '<td class="table_body"><b>' . $tot_net_amt . '</b></td>';
 
 								echo '<td class="table_body"><b>' . $own_cont . '</b></td>';
 
@@ -388,6 +406,7 @@ $approve_details = json_decode($approve_details);
 								echo '<td class="table_body"><b>' . $igo_loan . '</b></td>';
 
 								echo '<td class="table_body"><b>' . $tot_mordg_bond . '</b></td>';
+								echo '<td class="table_body"></td><td class="table_body"></td>';
 
 								echo '</tr>';
 

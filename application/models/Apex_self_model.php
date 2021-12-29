@@ -33,8 +33,8 @@ class Apex_self_Model extends CI_Model {
 //        $this->db->group_by('a.memo_no, a.pronote_no');
 	$this->db->order_by('a.memo_date');
 	$query = $this->db->get('td_apex_self a');
-//        echo $this->db->last_query();
-//        exit;
+    //    echo $this->db->last_query();
+    //    exit;
 	return $query->result();
 //        $sql = 'SELECT a.ardb_id, a.sector_code, c.sector_name, a.memo_no, a.memo_date, b.pronote_no, b.lso_no, b.file_no, a.fwd_data '
 //                . 'FROM td_apex_shg a JOIN td_apex_shg_dtls b on a.memo_no=b.memo_no AND a.ardb_id=b.ardb_id JOIN md_sector c ON a.sector_code=c.sector_code '
@@ -46,8 +46,8 @@ class Apex_self_Model extends CI_Model {
 	function apex_self_dc_header($ardb_id, $memo_no,$disb_dt) {
 
 		$sql = 'SELECT DISTINCT shg.memo_no, COUNT(distinct shg.pronote_no) as tot_pronote,
-		FLOOR(sum(a.inst_amt)) as tot_amt ,shg.instl_dt FROM td_apex_self shg ,td_apex_self_dis a
-		WHERE shg.ardb_id=a.ardb_id and a.inst_date=shg.instl_dt and shg.pronote_no=a.pronote_no  and  shg.ardb_id=' . $ardb_id .  ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no .  '" AND shg.instl_dt="' . $disb_dt .  '" GROUP BY shg.memo_no, shg.memo_no,shg.instl_dt ORDER by shg.memo_no';
+		FLOOR(sum(a.inst_amt)) as tot_amt, FLOOR(SUM(b.net_amount)) AS net_amount ,shg.instl_dt FROM td_apex_self shg ,td_apex_self_dis a, td_apex_self_dtls b
+		WHERE shg.ardb_id=a.ardb_id and a.inst_date=shg.instl_dt and shg.pronote_no=a.pronote_no AND shg.ardb_id = b.ardb_id AND shg.pronote_no = b.pronote_no and  shg.ardb_id=' . $ardb_id .  ' AND replace(replace(replace(shg.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no .  '" AND shg.instl_dt="' . $disb_dt .  '" GROUP BY shg.memo_no, shg.memo_no,shg.instl_dt ORDER by shg.memo_no';
 	
 		$data = $this->db->query($sql);
 	
@@ -72,7 +72,7 @@ class Apex_self_Model extends CI_Model {
 	// 	. 'WHERE a.ardb_id=' . $ardb_id . ' AND replace(replace(replace(a.memo_no, " ", ""), "/", ""), "-", "")="' . $memo_no . '" ' . $where;
 
 $sql = "SELECT distinct  b.ardb_id,b.entry_date,b.memo_no,b.pronote_no,b.lso_no,b.file_no,b.block_id,b.name_of_borr, b.moratorium,b.loan,b.loan_id,
-FLOOR(b.repay_per_tot) as repay_per_tot,b.purpose_code,b.roi,FLOOR(b.pro_cost) as pro_cost ,FLOOR(b.own_cont) as own_cont,FLOOR(b.corp_fund) as corp_fund,
+FLOOR(b.repay_per_tot) as repay_per_tot,b.purpose_code,b.roi,FLOOR(b.pro_cost) as pro_cost ,FLOOR(b.own_cont) as own_cont,FLOOR(b.corp_fund) as corp_fund, FLOOR(b.net_amount) as net_amount,
 FLOOR(b.sanc_amt) as sanc_amt, b.lnd_off_sec,b.cult_area,b.val_of_hypo,b.gros_inc_gen,b.reg_m_bond_dt,b.reg_m_bond_no,b.in_out , 
 a.sector_code, a.memo_date,c.block_name,p.purpose_name,a.fwd_data, di.inst_sl_no, di.inst_date, FLOOR(di.inst_amt) as inst_amt,
 (FLOOR(b.sanc_amt) - (SELECT FLOOR( sum(d.inst_amt)) 
@@ -137,9 +137,9 @@ AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='" . $memo_n
     }
 
     function save($data) {
-//        echo '<pre>';
-//        var_dump($data);
-//        exit;
+    //    echo '<pre>';
+    //    var_dump($data);
+    //    exit;
 	$user_id = $_SESSION['login']->user_id;
 
 	if ($data['id'] > 0) {
@@ -155,17 +155,18 @@ AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='" . $memo_n
 	    $this->db->update('td_apex_self', $shg_input);
 	    for ($i = 0; $i < count($data['lso_no']); $i++) {
 		// td_apex_shg_dtls
-//                $dtls_input = array(
-//                    'group' => $data['group'][$i]
-//                );
-//                $this->db->where(array(
-//                    'ardb_id' => $data['ardb_id'],
-//                    'memo_no' => $data['memo_no'],
-//                    'pronote_no' => $data['pronote_no'][0],
-//                    'lso_no' => $data['lso_no'][$i],
-//                ));
-//                $this->db->update('td_apex_self_dtls', $dtls_input);
-//                
+		$dtls_input = array(
+			'loan_id' => $data['loan_id'][$i],
+			'corp_fund' => $data['corp_fund'][$i],
+		    'net_amount' => $data['net_amount'][$i]
+		);
+		$this->db->where(array(
+			'ardb_id' => $data['ardb_id'],
+			'memo_no' => $data['memo_no'],
+			'pronote_no' => $data['pronote_no'][0],
+			'lso_no' => $data['lso_no'][$i],
+		));
+		$this->db->update('td_apex_self_dtls', $dtls_input);
 		//td_apex_shg_dis
 		$dis_input = array(
 		    'inst_sl_no' => $data['inst_sl_no'][$i],
@@ -239,7 +240,7 @@ AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='" . $memo_n
 					);
 					// print_r( $shg_input);
 					// exit;
-					$this->db->insert('td_apex_self', $shg_input);
+				$this->db->insert('td_apex_self', $shg_input);
 		$dtls_input = array(
 		    'ardb_id' => $data['ardb_id'],
 		    'entry_date' => date('Y-m-d'),
@@ -248,6 +249,7 @@ AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='" . $memo_n
 		    'lso_no' => $data['lso_no'][$i],
 		    'file_no' => $data['file_no'][$i],
 		    'block_id' => $data['block_id'][$i],
+			'loan_id' => $data['loan_id'][$i],
 		    'name_of_borr' => $data['name_of_borr'][$i],
 		    'moratorium' => $data['moratorium'][$i],
 		    'loan' => $data['loan'][$i],
@@ -257,6 +259,7 @@ AND replace(replace(replace(a.memo_no, ' ', ''), '/', ''), '-', '')='" . $memo_n
 		    'pro_cost' => $data['pro_cost'][$i],
 		    'own_cont' => $data['own_cont'][$i],
 		    'corp_fund' => $data['corp_fund'][$i],
+		    'net_amount' => $data['net_amount'][$i],
 		    'sanc_amt' => $data['sanc_amt'][$i],
 		    'lnd_off_sec' => $data['lnd_off_sec'][$i],
 		    'cult_area' => $data['cult_area'][$i],
